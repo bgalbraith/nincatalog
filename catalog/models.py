@@ -9,7 +9,14 @@ class Artist(models.Model):
 
 
 class Category(models.Model):
-    category = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return self.category
+        return self.name
+
+
+class ItemFormat(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.name
