@@ -1,5 +1,23 @@
 body {
     background-color: black;
-    text-align: center;
     color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+#item-content table {
+    margin-bottom: 30px;
+    border-collapse: collapse;
+}
+
+#item-content th {
+    color: #9A9A9A;
+}
+
+#item-core-info th {
+    width: 75px;
+}
+
+#item-other-info th {
+    width: 150px;
 }
