@@ -14,7 +14,10 @@ class Category(models.Model):
     halo = models.PositiveSmallIntegerField(blank=True, null=True)
 
     def __unicode__(self):
-        return self.name
+        label = self.name
+        if self.halo is not None:
+            label = "%s (Halo %d)" % (label, self.halo)
+        return label
 
 
 class ItemFormat(models.Model):
