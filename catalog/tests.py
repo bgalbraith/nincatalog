@@ -17,5 +17,5 @@ class CatalogViewsTestCase(TestCase):
         self.assertTrue('category' in resp.context)
 
         category = resp.context['category']
-        self.assertEqual(category.pk, 1)
+        self.assertEqual(category.pk, 14)
         self.assertEqual(category.name, 'The Fragile')

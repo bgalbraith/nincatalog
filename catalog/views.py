@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
+from catalog.models import Category
 
 
 def index(request):
@@ -6,8 +8,9 @@ def index(request):
 
 
 def category(request, category_tag):
+    _category = get_object_or_404(Category, tag=category_tag)
     return render(request, 'catalog/category.html', {
-        "category": category_tag
+        "category": _category
     })
 
 
