@@ -10,6 +10,8 @@ class Artist(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
+    tag = models.CharField(max_length=200)
+    halo = models.PositiveSmallIntegerField(blank=True, null=True)
 
     def __unicode__(self):
         return self.name
