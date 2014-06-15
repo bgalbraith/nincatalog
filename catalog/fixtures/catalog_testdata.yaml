@@ -1,84 +1,118 @@
-- fields: {name: Down In It, tag: down-in-it, halo: 1}
-  model: catalog.category
+- model: catalog.category
   pk: 1
-- fields: {name: Pretty Hate Machine, tag: pretty-hate-machine, halo: 2}
-  model: catalog.category
+  fields: {name: Down In It, tag: down-in-it, halo: 1}
+- model: catalog.category
   pk: 2
-- fields: {name: Head Like a Hole, tag: head-like-a-hole, halo: 3}
-  model: catalog.category
+  fields: {name: Pretty Hate Machine, tag: pretty-hate-machine, halo: 2}
+- model: catalog.category
   pk: 3
-- fields: {name: Sin, tag: sin, halo: 4}
-  model: catalog.category
+  fields: {name: Head Like a Hole, tag: head-like-a-hole, halo: 3}
+- model: catalog.category
   pk: 4
-- fields: {name: Broken, tag: broken, halo: 5}
-  model: catalog.category
+  fields: {name: Sin, tag: sin, halo: 4}
+- model: catalog.category
   pk: 5
-- fields: {name: Fixed, tag: fixed, halo: 6}
-  model: catalog.category
+  fields: {name: Broken, tag: broken, halo: 5}
+- model: catalog.category
   pk: 6
-- fields: {name: March of the Pigs, tag: march-of-the-pigs, halo: 7}
-  model: catalog.category
+  fields: {name: Fixed, tag: fixed, halo: 6}
+- model: catalog.category
   pk: 7
-- fields: {name: The Downward Spiral, tag: the-downward-spiral, halo: 8}
-  model: catalog.category
+  fields: {name: March of the Pigs, tag: march-of-the-pigs, halo: 7}
+- model: catalog.category
   pk: 8
-- fields: {name: Closer, tag: closer, halo: 9}
-  model: catalog.category
+  fields: {name: The Downward Spiral, tag: the-downward-spiral, halo: 8}
+- model: catalog.category
   pk: 9
-- fields: {name: Further Down the Spiral, tag: further-down-the-spiral, halo: 10}
-  model: catalog.category
+  fields: {name: Closer, tag: closer, halo: 9}
+- model: catalog.category
   pk: 10
-- fields: {name: The Perfect Drug, tag: the-perfect-drug, halo: 11}
-  model: catalog.category
+  fields: {name: Further Down the Spiral, tag: further-down-the-spiral, halo: 10}
+- model: catalog.category
   pk: 11
-- fields: {name: Closure, tag: closure, halo: 12}
-  model: catalog.category
+  fields: {name: The Perfect Drug, tag: the-perfect-drug, halo: 11}
+- model: catalog.category
   pk: 12
-- fields: {name: The Day the World Went Away, tag: the-day-the-world-went-away, halo: 13}
-  model: catalog.category
+  fields: {name: Closure, tag: closure, halo: 12}
+- model: catalog.category
   pk: 13
-- fields: {name: The Fragile, tag: the-fragile, halo: 14}
-  model: catalog.category
+  fields: {name: The Day the World Went Away, tag: the-day-the-world-went-away, halo: 13}
+- model: catalog.category
   pk: 14
-- fields: {name: We're In This Together, tag: were-in-this-together, halo: 15}
-  model: catalog.category
+  fields: {name: The Fragile, tag: the-fragile, halo: 14}
+- model: catalog.category
   pk: 15
-- fields: {name: Things Falling Apart, tag: things-falling-apart, halo: 16}
-  model: catalog.category
+  fields: {name: We're In This Together, tag: were-in-this-together, halo: 15}
+- model: catalog.category
   pk: 16
-- fields: {name: And All That Could Have Been, tag: and-all-that-could-have-been, halo: 17}
-  model: catalog.category
+  fields: {name: Things Falling Apart, tag: things-falling-apart, halo: 16}
+- model: catalog.category
   pk: 17
-- fields: {name: The Hand That Feeds, tag: the-hand-that-feeds, halo: 18}
-  model: catalog.category
+  fields: {name: And All That Could Have Been, tag: and-all-that-could-have-been, halo: 17}
+- model: catalog.category
   pk: 18
-- fields: {name: With Teeth, tag: with-teeth, halo: 19}
-  model: catalog.category
+  fields: {name: The Hand That Feeds, tag: the-hand-that-feeds, halo: 18}
+- model: catalog.category
   pk: 19
-- fields: {name: Only, tag: only, halo: 20}
-  model: catalog.category
+  fields: {name: With Teeth, tag: with-teeth, halo: 19}
+- model: catalog.category
   pk: 20
-- fields: {name: Every Day Is Exactly the Same, tag: every-day-is-exactly-the-same, halo: 21}
-  model: catalog.category
+  fields: {name: Only, tag: only, halo: 20}
+- model: catalog.category
   pk: 21
-- fields: {name: Beside You In Time, tag: beside-you-in-time, halo: 22}
-  model: catalog.category
+  fields: {name: Every Day Is Exactly the Same, tag: every-day-is-exactly-the-same, halo: 21}
+- model: catalog.category
   pk: 22
-- fields: {name: Survivalism, tag: survivalism, halo: 23}
-  model: catalog.category
+  fields: {name: Beside You In Time, tag: beside-you-in-time, halo: 22}
+- model: catalog.category
   pk: 23
-- fields: {name: Year Zero, tag: year-zero, halo: 24}
-  model: catalog.category
+  fields: {name: Survivalism, tag: survivalism, halo: 23}
+- model: catalog.category
   pk: 24
-- fields: {name: Y34RZ3R0R3M1X3D, tag: y34rz3r0r3m1x3d, halo: 25}
-  model: catalog.category
+  fields: {name: Year Zero, tag: year-zero, halo: 24}
+- model: catalog.category
   pk: 25
-- fields: {name: Ghosts I-IV, tag: ghosts-i-iv, halo: 26}
-  model: catalog.category
+  fields: {name: Y34RZ3R0R3M1X3D, tag: y34rz3r0r3m1x3d, halo: 25}
+- model: catalog.category
   pk: 26
-- fields: {name: The Slip, tag: the-slip, halo: 27}
-  model: catalog.category
+  fields: {name: Ghosts I-IV, tag: ghosts-i-iv, halo: 26}
+- model: catalog.category
   pk: 27
-- fields: {name: Hesitation Marks, tag: hesitation-marks, halo: 28}
-  model: catalog.category
+  fields: {name: The Slip, tag: the-slip, halo: 27}
+- model: catalog.category
   pk: 28
+  fields: {name: Hesitation Marks, tag: hesitation-marks, halo: 28}
+
+- model: catalog.artist
+  pk: 1
+  fields: {name: Nine Inch Nails}
+
+- model: catalog.itemformat
+  pk: 1
+  fields: {name: CD}
+
+- model: catalog.country
+  pk: 1
+  fields: {name: United States, code: us}
+
+- model: catalog.musiclabel
+  pk: 1
+  fields: {name: nothing, url: 'http://en.wikipedia.org/wiki/Nothing_Records'}
+
+- model: catalog.item
+  pk: 1
+  fields:
+    category: 14
+    artist: 1
+    format: 1
+    country: 1
+    label: 1
+    name: The Fragile
+    year: 1999
+    notes: US double-CD
+    catalog_number: 694904732
+    upc: 6 06949 04732 0
+    packaging: 5 inch CD x2 in custom dual digipak with booklet
+    release_date: 1999-09-21
+    added_date: 1999-09-21
+    rarity: 5
