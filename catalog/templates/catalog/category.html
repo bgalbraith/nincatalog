@@ -1,7 +1,51 @@
 {% extends 'catalog/base.html' %}
+{% load staticfiles %}
 
-{% block title %}{{ category }}{% endblock %}
+{% block title %}nincatalog.com :: {{ category.name }}{% endblock %}
 
 {% block content %}
-<p>{{ category }}</p>
+    <div class="row">
+        <div id="category-header" class="col-xs-12">
+            <a href="{% url 'index' %}"><img src="{% static 'catalog/img/itemtop38.jpg' %}"></a>
+        </div>
+        <div id="category-listing" class="col-xs-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th>title</th>
+                        <th>notes</th>
+                        <th class="format">format</th>
+                        <th>cat number</th>
+                        <th class="year">year</th>
+                        <th class="icon">ctr</th>
+                        <th class="icon">sc</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>title</td>
+                        <td>notes</td>
+                        <td>format</td>
+                        <td>cat number</td>
+                        <td>year</td>
+                        <td>ctr</td>
+                        <td>sc</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>notes</td>
+                        <td>format</td>
+                        <td>cat number</td>
+                        <td>year</td>
+                        <td>ctr</td>
+                        <td>sc</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div id="category-footer" class="col-xs-12">
+            <a href="{% url 'index' %}"><img src="{% static 'catalog/img/bottom.jpg' %}"></a>
+        </div>
+    </div>
 {% endblock %}
