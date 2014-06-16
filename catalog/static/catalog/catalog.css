@@ -1,3 +1,7 @@
+/**********/
+/* Common */
+/**********/
+
 body {
     background: black url('img/bg.jpg') repeat-y center top;
     color: white;
@@ -5,17 +9,30 @@ body {
     font-size: 12px;
 }
 
-/*****************/
-/* Category Page */
-/*****************/
-
-#category-header {
+#header {
     height: 48px;
     padding-top: 10px;
     margin-bottom: 10px;
     text-align: right;
     background: url('img/topbar.jpg') repeat-x;
 }
+
+#header img.link {
+    width: 26px;
+    height: 26px;
+    vertical-align: bottom;
+}
+
+#footer {
+    height: 20px;
+    margin-top: 10px;
+    text-align: center;
+    background: url('img/bottombar.jpg') repeat-x;
+}
+
+/*****************/
+/* Category Page */
+/*****************/
 
 #category-listing table {
     width: 100%;
@@ -55,13 +72,6 @@ body {
 
 #category-listing .icon {
     width: 30px;
-}
-
-#category-footer {
-    height: 20px;
-    margin-top: 10px;
-    text-align: center;
-    background: url('img/bottombar.jpg') repeat-x;
 }
 
 /*************/

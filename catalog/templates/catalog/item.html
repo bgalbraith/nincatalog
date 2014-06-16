@@ -3,6 +3,7 @@
 {% block title %}{{ category }} :: {{ item }}{% endblock %}
 
 {% block content %}
+    {% include 'catalog/header.html' with group=group %}
     <div id="item-content">
         <div id="item-images">
             <p>images</p>
@@ -27,4 +28,5 @@
             <tr><th>rarity class</th><td>rarity</td></tr>
         </table>
     </div>
+    {% include 'catalog/footer.html' %}
 {% endblock %}

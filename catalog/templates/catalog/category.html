@@ -4,10 +4,8 @@
 {% block title %}nincatalog.com :: {{ category.name }}{% endblock %}
 
 {% block content %}
+    {% include "catalog/header.html" with group=group %}
     <div class="row">
-        <div id="category-header" class="col-xs-12">
-            <a href="{% url 'index' %}"><img src="{% static 'catalog/img/itemtop38.jpg' %}"></a>
-        </div>
         <div id="category-listing" class="col-xs-12">
             <table>
                 <thead>
@@ -44,8 +42,6 @@
                 </tbody>
             </table>
         </div>
-        <div id="category-footer" class="col-xs-12">
-            <a href="{% url 'index' %}"><img src="{% static 'catalog/img/bottom.jpg' %}"></a>
-        </div>
     </div>
+    {% include 'catalog/footer.html' %}
 {% endblock %}

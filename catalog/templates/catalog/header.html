@@ -1,0 +1,9 @@
+{% load staticfiles %}
+<div id="header" class="row">
+    <div class="col-xs-12">
+        {% for category in group %}
+        <a href="{% url 'index' %}"><img class="link" src="{% static 'catalog/img/halo-028-50.jpg' %}"></a>
+        {% endfor %}
+        <a href="{% url 'index' %}"><img src="{% static 'catalog/img/itemtop38.jpg' %}"></a>
+    </div>
+</div>

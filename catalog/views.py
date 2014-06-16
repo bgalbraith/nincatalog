@@ -10,8 +10,10 @@ def index(request):
 
 def category(request, category_tag):
     _category = get_object_or_404(Category, tag=category_tag)
+    _group = Category.objects.filter(halo__gt=0)
     return render(request, 'catalog/category.html', {
-        "category": _category
+        "category": _category,
+        "group": _group
     })
 
 
@@ -19,8 +21,10 @@ def item(request, category_tag, item_tag):
     _category = get_object_or_404(Category, tag=category_tag)
     _item = get_object_or_404(Item, pk=item_tag)
     if _category == _item.category:
+        _group = Category.objects.filter(halo__gt=0)
         return render(request, 'catalog/item.html', {
             "category": _category,
+            "group": _group,
             "item": _item
         })
     else:
