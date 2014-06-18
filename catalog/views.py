@@ -5,7 +5,10 @@ from catalog.models import Category, Item
 
 
 def index(request):
-    return render(request, 'catalog/index.html')
+    _group = Category.objects.filter(halo__gt=0)
+    return render(request, 'catalog/index.html', {
+        "group": _group
+    })
 
 
 def category(request, category_tag):
