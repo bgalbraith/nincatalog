@@ -2,7 +2,7 @@
 
 {% block content %}
     {% for category in group %}
-    <a href="{% url 'category' category.tag %}">
+    <a href="{% url 'category' category.tag %}" title="{{ category.name }}">
         <img src="{{ category.icon.url }}" alt="{{ category.name }}"/>
     </a>
     {% endfor %}
