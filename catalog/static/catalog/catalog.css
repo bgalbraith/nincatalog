@@ -34,6 +34,11 @@ body {
 /* Category Page */
 /*****************/
 
+#category-listing h6 {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
 #category-listing table {
     width: 100%;
 }
