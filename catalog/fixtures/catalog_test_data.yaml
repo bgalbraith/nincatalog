@@ -1,6 +1,10 @@
 - model: catalog.category
   pk: 1
-  fields: {name: The Fragile, tag: the-fragile, halo: 14}
+  fields:
+    name: The Fragile
+    tag: the-fragile
+    halo: 14
+    icon: categories/14-the-fragile
 
 - model: catalog.artist
   pk: 1
