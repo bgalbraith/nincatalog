@@ -12,6 +12,7 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     tag = models.CharField(max_length=200)
     halo = models.PositiveSmallIntegerField(blank=True, null=True)
+    icon = models.ImageField(upload_to='categories')
 
     def __unicode__(self):
         label = self.name
