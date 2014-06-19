@@ -52,11 +52,16 @@ body {
 
 #category-listing thead th {
     font-weight: normal;
+    padding: 1px;
 }
 
 #category-listing tbody {
     color: #660000;
     font-weight: normal;
+}
+
+#category-listing tbody td {
+    padding: 1px;
 }
 
 #category-listing tbody tr:nth-child(odd) {

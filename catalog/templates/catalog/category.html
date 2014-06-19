@@ -25,7 +25,7 @@
                     {% url 'item' category.tag item.pk as item_url %}
                     <tr>
                         <td><a href="{{ item_url }}">{{ item.name|lower }}</a></td>
-                        <td><a href="{{ item_url }}">{{ item.notes }}</a></td>
+                        <td><a href="{{ item_url }}">{{ item.notes_short }}</a></td>
                         <td><a href="{{ item_url }}">{{ item.format.name }}</a></td>
                         <td><a href="{{ item_url }}">{{ item.catalog_number }}</a></td>
                         <td class="year"><a href="{{ item_url }}">{{ item.year }}</a></td>

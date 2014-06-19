@@ -73,6 +73,7 @@ class Item(models.Model):
     name = models.CharField(max_length=200)
     year = models.IntegerField()
     notes = models.CharField(max_length=200)
+    notes_short = models.CharField(max_length=200)
     catalog_number = models.CharField(max_length=200)
     upc = models.CharField(max_length=200)
     packaging = models.CharField(max_length=200)
