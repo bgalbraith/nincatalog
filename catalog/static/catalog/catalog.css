@@ -104,4 +104,5 @@ body {
 
 #item-other-info th {
     width: 150px;
+    vertical-align: bottom;
 }

@@ -1,6 +1,6 @@
 {% extends 'catalog/base.html' %}
 
-{% block title %}{{ category }} :: {{ item }}{% endblock %}
+{% block title %}nincatalog.com :: {{ item }}{% endblock %}
 
 {% block content %}
     {% include 'catalog/header.html' with group=group %}
@@ -24,7 +24,7 @@
             <tr><th>release date</th><td>{{ item.release_date|date }}</td></tr>
             <tr><th>added to catalog</th><td>{{ item.added_date|date }}</td></tr>
             <tr><th>notes</th><td>{{ item.notes }}</td></tr>
-            <tr><th>rarity class</th><td>{{ item.rarity }}</td></tr>
+            <tr><th>rarity class</th><td><img src="{{ item.rarity.scale_icon.url }}" alt="{{ item.rarity.code }}"/></td></tr>
         </table>
     </div>
     {% include 'catalog/footer.html' %}
