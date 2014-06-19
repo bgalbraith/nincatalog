@@ -9,23 +9,22 @@
             <p>images</p>
         </div>
         <table id="item-core-info">
-            <tr><th>band</th><td>band</td></tr>
-            <tr><th>title</th><td>title</td></tr>
-            <tr><th>package</th><td>package</td></tr>
+            <tr><th>band</th><td>{{ item.artist.name|lower }}</td></tr>
+            <tr><th>title</th><td>{{ item.name|lower }}</td></tr>
+            <tr><th>package</th><td>{{ item.packaging }}</td></tr>
         </table>
         <table id="item-track-listing">
             <tr><th>track listing</th></tr>
         </table>
         <table id="item-other-info">
-            <tr><th>catalog number</th><td>catalog number</td></tr>
-            <tr><th>upc</th><td>upc</td></tr>
-            <tr><th>label</th><td>label</td></tr>
-            <tr><th>country</th><td>country</td></tr>
-            <tr><th>release date</th><td>release date</td></tr>
-            <tr><th>added to catalog</th><td>added to catalog</td></tr>
-            <tr><th>notes</th><td>notes</td></tr>
-            <tr><th>discogs ref</th><td>discogs ref</td></tr>
-            <tr><th>rarity class</th><td>rarity</td></tr>
+            <tr><th>catalog number</th><td>{{ item.catalog_number }}</td></tr>
+            <tr><th>upc</th><td>{{ item.upc }}</td></tr>
+            <tr><th>label</th><td>{{ item.label.name }}</td></tr>
+            <tr><th>country</th><td>{{ item.country.name }} <img src="{{ item.country.icon.url }}" alt="{{ item.country.name }}" /></td></tr>
+            <tr><th>release date</th><td>{{ item.release_date|date }}</td></tr>
+            <tr><th>added to catalog</th><td>{{ item.added_date|date }}</td></tr>
+            <tr><th>notes</th><td>{{ item.notes }}</td></tr>
+            <tr><th>rarity class</th><td>{{ item.rarity }}</td></tr>
         </table>
     </div>
     {% include 'catalog/footer.html' %}
