@@ -22,6 +22,10 @@
   pk: 1
   fields: {name: nothing, url: 'http://en.wikipedia.org/wiki/Nothing_Records'}
 
+- model: catalog.itemrarity
+  pk: 1
+  fields: {code: E, icon: rarity/scale-E-tn.jpg, scale_icon: rarity/scale-E.jpg}
+
 - model: catalog.item
   pk: 1
   fields:
@@ -30,6 +34,7 @@
     format: 1
     country: 1
     label: 1
+    rarity: 1
     name: The Fragile
     year: 1999
     notes: US double-CD
@@ -38,4 +43,3 @@
     packaging: 5 inch CD x2 in custom dual digipak with booklet
     release_date: 1999-09-21
     added_date: 1999-09-21
-    rarity: 5

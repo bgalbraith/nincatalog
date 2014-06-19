@@ -53,15 +53,22 @@ class Track(models.Model):
         return self.name
 
 
+class ItemRarity(models.Model):
+    code = models.CharField(max_length=1)
+    icon = models.ImageField(upload_to='rarity')
+    scale_icon = models.ImageField(upload_to='rarity')
+
+    def __unicode__(self):
+        return self.code
+
+
 class Item(models.Model):
-    RARITY_CHOICES = (
-        (0, 'S'), (1, 'A'), (2, 'B'), (3, 'C'), (4, 'D'), (5, 'E'), (6, 'N/A')
-    )
     category = models.ForeignKey(Category)
     artist = models.ForeignKey(Artist)
     format = models.ForeignKey(ItemFormat)
     country = models.ForeignKey(Country)
     label = models.ForeignKey(MusicLabel, null=True)
+    rarity = models.ForeignKey(ItemRarity)
 
     name = models.CharField(max_length=200)
     year = models.IntegerField()
@@ -71,7 +78,6 @@ class Item(models.Model):
     packaging = models.CharField(max_length=200)
     release_date = models.DateField(null=True, blank=True)
     added_date = models.DateField()
-    rarity = models.IntegerField(choices=RARITY_CHOICES)
 
     def __unicode__(self):
         return self.name

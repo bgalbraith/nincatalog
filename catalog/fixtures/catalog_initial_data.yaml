@@ -211,6 +211,29 @@
   pk: 1
   fields: {name: TVT, url: 'http://en.wikipedia.org/wiki/Tvt_records'}
 
+
+- model: catalog.itemrarity
+  pk: 1
+  fields: {code: S, icon: rarity/scale-1-tn.jpg, scale_icon: rarity/scale-1.jpg}
+- model: catalog.itemrarity
+  pk: 2
+  fields: {code: A, icon: rarity/scale-A-tn.jpg, scale_icon: rarity/scale-A.jpg}
+- model: catalog.itemrarity
+  pk: 3
+  fields: {code: B, icon: rarity/scale-B-tn.jpg, scale_icon: rarity/scale-B.jpg}
+- model: catalog.itemrarity
+  pk: 4
+  fields: {code: C, icon: rarity/scale-C-tn.jpg, scale_icon: rarity/scale-C.jpg}
+- model: catalog.itemrarity
+  pk: 5
+  fields: {code: D, icon: rarity/scale-D-tn.jpg, scale_icon: rarity/scale-D.jpg}
+- model: catalog.itemrarity
+  pk: 6
+  fields: {code: E, icon: rarity/scale-E-tn.jpg, scale_icon: rarity/scale-E.jpg}
+- model: catalog.itemrarity
+  pk: 7
+  fields: {code: NA, icon: rarity/scale-Z-tn.jpg, scale_icon: rarity/scale-Z.jpg}
+
 - model: catalog.item
   pk: 1
   fields:
@@ -219,6 +242,7 @@
     format: 1
     country: 1
     label: 1
+    rarity: 5
     name: Down In It
     year: 1989
     notes: US release with barcode.
@@ -227,4 +251,3 @@
     packaging: 5 inch CD in jewel case with front and back inserts, `printed in canada` on both inside of booklet and inside of back insert.
     release_date: 1989-09-15
     added_date: 1999-01-01
-    rarity: 4
