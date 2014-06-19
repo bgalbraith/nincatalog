@@ -67,6 +67,10 @@ body {
     background-color: #d7d7d7;
 }
 
+#category-listing tbody a {
+    color: #660000;
+}
+
 #category-listing .format {
     width: 70px;
 }
