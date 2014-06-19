@@ -15,31 +15,23 @@
                         <th>notes</th>
                         <th class="format">format</th>
                         <th>cat number</th>
-                        <th class="year">year</th>
+                        <th class="year">yr</th>
                         <th class="icon">ctr</th>
                         <th class="icon">sc</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for item in category.item_set.all %}
                     <tr>
-                        <td>title</td>
-                        <td>notes</td>
-                        <td>format</td>
-                        <td>cat number</td>
-                        <td>year</td>
-                        <td>ctr</td>
-                        <td>sc</td>
+                        <td>{{ item.name|lower }}</td>
+                        <td>{{ item.notes }}</td>
+                        <td>{{ item.format.name }}</td>
+                        <td>{{ item.catalog_number }}</td>
+                        <td class="year">{{ item.year }}</td>
+                        <td class="icon">{{ item.country.code }}</td>
+                        <td class="icon">{{ item.rarity }}</td>
                     </tr>
-                    <tr>
-                        <td>title</td>
-                        <td>notes</td>
-                        <td>format</td>
-                        <td>cat number</td>
-                        <td>year</td>
-                        <td>ctr</td>
-                        <td>sc</td>
-                    </tr>
-
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

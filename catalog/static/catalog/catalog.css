@@ -73,10 +73,12 @@ body {
 
 #category-listing .year {
     width: 40px;
+    text-align: center;
 }
 
 #category-listing .icon {
     width: 30px;
+    text-align: center;
 }
 
 /*************/
