@@ -21,6 +21,15 @@ class CatalogViewsTestCase(TestCase):
         self.assertEqual(category.pk, 1)
         self.assertEqual(category.name, 'The Fragile')
 
+    def test_category_view_item_list(self):
+        resp = self.client.get('/the-fragile/')
+        category = resp.context['category']
+        self.assertEqual(category.item_set.count(), 1)
+
+        item = category.item_set.first()
+        self.assertEqual(item.pk, 1)
+        self.assertEqual(item.name, "The Fragile")
+
     def test_item_view_invalid_category_invalid_item(self):
         resp = self.client.get('/strobe-light/2/')
         self.assertEqual(resp.status_code, 404)
