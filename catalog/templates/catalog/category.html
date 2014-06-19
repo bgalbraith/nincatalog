@@ -28,7 +28,7 @@
                         <td>{{ item.format.name }}</td>
                         <td>{{ item.catalog_number }}</td>
                         <td class="year">{{ item.year }}</td>
-                        <td class="icon">{{ item.country.code }}</td>
+                        <td class="icon"><img src="{{ item.country.icon.url }}" alt="{{ item.country.name }}"/></td>
                         <td class="icon">{{ item.rarity }}</td>
                     </tr>
                     {% endfor %}

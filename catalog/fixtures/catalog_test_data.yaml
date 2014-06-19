@@ -16,7 +16,7 @@
 
 - model: catalog.country
   pk: 1
-  fields: {name: United States, code: us}
+  fields: {name: United States, code: us, icon: countries/us.gif}
 
 - model: catalog.musiclabel
   pk: 1

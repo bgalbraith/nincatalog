@@ -31,6 +31,7 @@ class ItemFormat(models.Model):
 class Country(models.Model):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=2)
+    icon = models.ImageField(upload_to='countries')
 
     def __unicode__(self):
         return self.name
