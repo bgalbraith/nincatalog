@@ -19,7 +19,7 @@
     <table id="item-other-info">
       <tr><th>catalog number</th><td>{{ item.catalog_number }}</td></tr>
       <tr><th>upc</th><td>{{ item.upc }}</td></tr>
-      <tr><th>label</th><td>{{ item.label.name }}</td></tr>
+      <tr><th>label</th><td><a href="{{ item.label.url }}" title="{{ item.label.name }}" target="_blank">{{ item.label.name }}</a> {{ item.year }}</td></tr>
       <tr><th>country</th><td>{{ item.country.name }} <img src="{{ item.country.icon.url }}" alt="{{ item.country.name }}" /></td></tr>
       <tr><th>release date</th><td>{{ item.release_date|date }}</td></tr>
       <tr><th>added to catalog</th><td>{{ item.added_date|date }}</td></tr>

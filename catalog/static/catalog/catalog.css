@@ -123,6 +123,11 @@ body {
     color: #9A9A9A;
 }
 
+#item-content a {
+    color: #CFCFCF;
+    font-weight: bold;
+}
+
 #item-core-info th {
     width: 75px;
 }
