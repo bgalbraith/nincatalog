@@ -202,10 +202,16 @@
 - model: catalog.itemformat
   pk: 1
   fields: {name: CD}
+- model: catalog.itemformat
+  pk: 2
+  fields: {name: vinyl 12}
 
 - model: catalog.country
   pk: 1
   fields: {name: United States, code: us, icon: countries/us.gif}
+- model: catalog.country
+  pk: 2
+  fields: {name: United Kingdom, code: uk, icon: countries/uk.gif}
 
 - model: catalog.musiclabel
   pk: 1
@@ -252,3 +258,57 @@
     packaging: 5 inch CD in jewel case with front and back inserts, `printed in canada` on both inside of booklet and inside of back insert.
     release_date: 1989-09-15
     added_date: 1999-01-01
+- model: catalog.item
+  pk: 2
+  fields:
+    category: 1
+    artist: 1
+    format: 2
+    country: 1
+    label: 1
+    rarity: 5
+    name: Down In It
+    year: 1989
+    notes: US vinyl with upper right corner cut.
+    notes_short: US vinyl with cut corner.
+    catalog_number: TVT 2611
+    upc: 0 1658-12611-1 2
+    packaging: 12 inch vinyl record in cardsleeve. Upper right corner cut.
+    release_date: 1989-09-15
+    added_date: 1999-01-01
+- model: catalog.item
+  pk: 3
+  fields:
+    category: 1
+    artist: 1
+    format: 2
+    country: 2
+    label: 1
+    rarity: 4
+    name: Down In It
+    year: 1989
+    notes: "UK limited release, #1305"
+    notes_short: "UK limited release, #1305"
+    catalog_number: 12 IS 482 878 629-1
+    upc: 042287 862919
+    packaging: 12 inch vinyl record in cardsleeve with paper jacket and outside obi-style numbered wrap. Stencil missing.
+    release_date: 1990-01-01
+    added_date: 2006-03-07
+- model: catalog.item
+  pk: 4
+  fields:
+    category: 1
+    artist: 1
+    format: 1
+    country: 2
+    label: 1
+    rarity: 3
+    name: Down In It
+    year: 1989
+    notes: "UK limited release, #1383."
+    notes_short: "UK limited release, #1383."
+    catalog_number: CID 482 878 629-2
+    upc: 0 42287 86292 6
+    packaging: 5 inch CD in slimline jewelcase with insert, numbered sticker on front of case.
+    release_date: 1990-01-01
+    added_date: 2006-04-14
