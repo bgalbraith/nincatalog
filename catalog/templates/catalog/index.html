@@ -1,9 +1,11 @@
 {% extends 'catalog/base.html' %}
 
 {% block content %}
-  {% for category in group %}
-  <a href="{% url 'category' category.tag %}" title="{{ category.name }}">
-    <img src="{{ category.icon.url }}" alt="{{ category.name }}"/>
-  </a>
-  {% endfor %}
+    <div class="categories">
+    {% for category in group %}
+      <a href="{% url 'category' category.tag %}" title="{{ category.name }}">
+        <img src="{{ category.icon.url }}" alt="{{ category.name }}"/>
+      </a>
+    {% endfor %}
+    </div>
 {% endblock %}

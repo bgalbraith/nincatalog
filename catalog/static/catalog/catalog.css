@@ -17,9 +17,13 @@ body {
     background: url('img/topbar.jpg') repeat-x;
 }
 
+#header img {
+    padding: 1px;
+}
+
 #header img.link {
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
     vertical-align: bottom;
 }
 
@@ -28,6 +32,22 @@ body {
     margin-top: 10px;
     text-align: center;
     background: url('img/bottombar.jpg') repeat-x;
+}
+
+/**************/
+/* Index Page */
+/**************/
+
+.categories {
+    margin: 0 auto;
+    width: 860px;
+    text-align: left;
+}
+
+.categories img {
+    width: 80px;
+    height: 80px;
+    margin: 3px;
 }
 
 /*****************/
