@@ -4,38 +4,38 @@
 {% block title %}nincatalog.com :: {{ category.name }}{% endblock %}
 
 {% block content %}
-    {% include "catalog/header.html" with group=group %}
-    <div class="row">
-        <div id="category-listing" class="col-xs-12">
-            <h6>{{ category.name }}</h6>
-            <table>
-                <thead>
-                    <tr>
-                        <th>title</th>
-                        <th>notes</th>
-                        <th class="format">format</th>
-                        <th>cat number</th>
-                        <th class="year">yr</th>
-                        <th class="icon">ctr</th>
-                        <th class="icon">sc</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in category.item_set.all %}
-                    {% url 'item' category.tag item.pk as item_url %}
-                    <tr>
-                        <td><a href="{{ item_url }}">{{ item.name|lower }}</a></td>
-                        <td><a href="{{ item_url }}">{{ item.notes_short }}</a></td>
-                        <td><a href="{{ item_url }}">{{ item.format.name }}</a></td>
-                        <td><a href="{{ item_url }}">{{ item.catalog_number }}</a></td>
-                        <td class="year"><a href="{{ item_url }}">{{ item.year }}</a></td>
-                        <td class="icon"><a href="{{ item_url }}"><img src="{{ item.country.icon.url }}" alt="{{ item.country.name }}"/></a></td>
-                        <td class="icon"><a href="{{ item_url }}"><img src="{{ item.rarity.icon.url }}" alt="{{ item.rarity.code }}" /></a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+  {% include "catalog/header.html" with group=group %}
+  <div class="row">
+    <div id="category-listing" class="col-xs-12">
+      <h6>{{ category.name }}</h6>
+      <table>
+        <thead>
+          <tr>
+            <th>title</th>
+            <th>notes</th>
+            <th class="format">format</th>
+            <th>cat number</th>
+            <th class="year">yr</th>
+            <th class="icon">ctr</th>
+            <th class="icon">sc</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in category.item_set.all %}
+        {% url 'item' category.tag item.pk as item_url %}
+          <tr>
+            <td><a href="{{ item_url }}">{{ item.name|lower }}</a></td>
+            <td><a href="{{ item_url }}">{{ item.notes_short }}</a></td>
+            <td><a href="{{ item_url }}">{{ item.format.name }}</a></td>
+            <td><a href="{{ item_url }}">{{ item.catalog_number }}</a></td>
+            <td class="year"><a href="{{ item_url }}">{{ item.year }}</a></td>
+            <td class="icon"><a href="{{ item_url }}"><img src="{{ item.country.icon.url }}" alt="{{ item.country.name }}"/></a></td>
+            <td class="icon"><a href="{{ item_url }}"><img src="{{ item.rarity.icon.url }}" alt="{{ item.rarity.code }}" /></a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
     </div>
-    {% include 'catalog/footer.html' %}
+  </div>
+  {% include 'catalog/footer.html' %}
 {% endblock %}

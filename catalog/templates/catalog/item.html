@@ -3,29 +3,29 @@
 {% block title %}nincatalog.com :: {{ item }}{% endblock %}
 
 {% block content %}
-    {% include 'catalog/header.html' with group=group %}
-    <div id="item-content">
-        <div id="item-images">
-            <p>images</p>
-        </div>
-        <table id="item-core-info">
-            <tr><th>band</th><td>{{ item.artist.name|lower }}</td></tr>
-            <tr><th>title</th><td>{{ item.name|lower }}</td></tr>
-            <tr><th>package</th><td>{{ item.packaging }}</td></tr>
-        </table>
-        <table id="item-track-listing">
-            <tr><th>track listing</th></tr>
-        </table>
-        <table id="item-other-info">
-            <tr><th>catalog number</th><td>{{ item.catalog_number }}</td></tr>
-            <tr><th>upc</th><td>{{ item.upc }}</td></tr>
-            <tr><th>label</th><td>{{ item.label.name }}</td></tr>
-            <tr><th>country</th><td>{{ item.country.name }} <img src="{{ item.country.icon.url }}" alt="{{ item.country.name }}" /></td></tr>
-            <tr><th>release date</th><td>{{ item.release_date|date }}</td></tr>
-            <tr><th>added to catalog</th><td>{{ item.added_date|date }}</td></tr>
-            <tr><th>notes</th><td>{{ item.notes }}</td></tr>
-            <tr><th>rarity class</th><td><img src="{{ item.rarity.scale_icon.url }}" alt="{{ item.rarity.code }}"/></td></tr>
-        </table>
+  {% include 'catalog/header.html' with group=group %}
+  <div id="item-content">
+    <div id="item-images">
+      <p>images</p>
     </div>
-    {% include 'catalog/footer.html' %}
+    <table id="item-core-info">
+      <tr><th>band</th><td>{{ item.artist.name|lower }}</td></tr>
+      <tr><th>title</th><td>{{ item.name|lower }}</td></tr>
+      <tr><th>package</th><td>{{ item.packaging }}</td></tr>
+    </table>
+    <table id="item-track-listing">
+      <tr><th>track listing</th></tr>
+    </table>
+    <table id="item-other-info">
+      <tr><th>catalog number</th><td>{{ item.catalog_number }}</td></tr>
+      <tr><th>upc</th><td>{{ item.upc }}</td></tr>
+      <tr><th>label</th><td>{{ item.label.name }}</td></tr>
+      <tr><th>country</th><td>{{ item.country.name }} <img src="{{ item.country.icon.url }}" alt="{{ item.country.name }}" /></td></tr>
+      <tr><th>release date</th><td>{{ item.release_date|date }}</td></tr>
+      <tr><th>added to catalog</th><td>{{ item.added_date|date }}</td></tr>
+      <tr><th>notes</th><td>{{ item.notes }}</td></tr>
+      <tr><th>rarity class</th><td><img src="{{ item.rarity.scale_icon.url }}" alt="{{ item.rarity.code }}"/></td></tr>
+    </table>
+  </div>
+  {% include 'catalog/footer.html' %}
 {% endblock %}
