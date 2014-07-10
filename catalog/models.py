@@ -21,7 +21,7 @@ class Category(models.Model):
         return label
 
 
-class ItemFormat(models.Model):
+class MediaFormat(models.Model):
     name = models.CharField(max_length=200)
 
     def __unicode__(self):
@@ -65,7 +65,7 @@ class ItemRarity(models.Model):
 class Item(models.Model):
     category = models.ForeignKey(Category)
     artist = models.ForeignKey(Artist)
-    format = models.ForeignKey(ItemFormat)
+    format = models.ForeignKey(MediaFormat)
     country = models.ForeignKey(Country)
     label = models.ForeignKey(MusicLabel, null=True)
     rarity = models.ForeignKey(ItemRarity)

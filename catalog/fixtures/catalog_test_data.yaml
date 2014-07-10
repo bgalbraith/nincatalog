@@ -10,7 +10,7 @@
   pk: 1
   fields: {name: Nine Inch Nails}
 
-- model: catalog.itemformat
+- model: catalog.mediaformat
   pk: 1
   fields: {name: CD}
 
