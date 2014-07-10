@@ -19,12 +19,28 @@
     </table>
     <table id="item-other-info">
       <tr><th>catalog number</th><td>{{ item.catalog_number }}</td></tr>
+      {% if item.upc %}
       <tr><th>upc</th><td><a href="{{ item.upc|upc_url }}" target="_blank">{{ item.upc }}</a></td></tr>
-      <tr><th>label</th><td><a href="{{ item.label.url }}" title="{{ item.label.name }}" target="_blank">{{ item.label.name }}</a> {{ item.year }}</td></tr>
+      {% endif %}
+      <tr><th>label</th>
+        <td>
+        {% for label in item.music_labels.all %}
+          <a href="{{ label.url }}" title="{{ label.name }}" target="_blank">{{ label.name }}</a>
+          {% if not forloop.last %} / {% endif %}
+        {% endfor %}
+         {{ item.year }}</td>
+      </tr>
       <tr><th>country</th><td>{{ item.country.name }} <img src="{{ item.country.icon.url }}" alt="{{ item.country.name }}" /></td></tr>
+      {% if item.release_date %}
       <tr><th>release date</th><td>{{ item.release_date|date }}</td></tr>
+      {% endif %}
+      {% if item.added_date %}
       <tr><th>added to catalog</th><td>{{ item.added_date|date }}</td></tr>
+      {% endif %}
       <tr><th>notes</th><td>{{ item.notes }}</td></tr>
+      {% if item.discogs %}
+      <tr><th>discogs ref</th><td><a href="http://www.discogs.com/release/{{ item.discogs }}" target="_blank">{{ item.discogs }}</a></td></tr>
+      {% endif %}
       <tr><th>rarity class</th><td><img src="{{ item.rarity.scale_icon.url }}" alt="{{ item.rarity.code }}"/></td></tr>
     </table>
   </div>
