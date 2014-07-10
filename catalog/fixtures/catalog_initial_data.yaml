@@ -216,6 +216,9 @@
 - model: catalog.musiclabel
   pk: 1
   fields: {name: TVT, url: 'http://en.wikipedia.org/wiki/Tvt_records'}
+- model: catalog.musiclabel
+  pk: 2
+  fields: {name: Island, url: 'http://en.wikipedia.org/wiki/Island_Records'}
 
 
 - model: catalog.itemrarity
@@ -247,17 +250,20 @@
     artist: 1
     media: 1
     country: 1
-    label: 1
+    music_labels: [1]
     rarity: 5
     name: Down In It
     year: 1989
     notes: US release with barcode.
-    notes_short: US edition with barcode
+    description: US edition with barcode
     catalog_number: TVT 2611-2
     upc: 0 1658-12611-2 9
+    discogs: 4484503
     media_notes: 5 inch CD in jewel case with front and back inserts, `printed in canada` on both inside of booklet and inside of back insert.
+    is_promo: 0
+    is_authorized: 1
     release_date: 1989-09-15
-    added_date: 1999-01-01
+    rarity_date: 2009-12-09
 - model: catalog.item
   pk: 2
   fields:
@@ -265,17 +271,20 @@
     artist: 1
     media: 2
     country: 1
-    label: 1
+    music_labels: [1]
     rarity: 5
     name: Down In It
     year: 1989
     notes: US vinyl with upper right corner cut.
-    notes_short: US vinyl with cut corner.
+    description: US vinyl with cut corner.
     catalog_number: TVT 2611
     upc: 0 1658-12611-1 2
+    discogs: 203945
     media_notes: 12 inch vinyl record in cardsleeve. Upper right corner cut.
+    is_promo: 0
+    is_authorized: 1
     release_date: 1989-09-15
-    added_date: 1999-01-01
+    rarity_date: 2009-12-09
 - model: catalog.item
   pk: 3
   fields:
@@ -283,17 +292,21 @@
     artist: 1
     media: 2
     country: 2
-    label: 1
+    music_labels: [1,2]
     rarity: 4
     name: Down In It
     year: 1989
     notes: "UK limited release, #1305"
-    notes_short: "UK limited release, #1305"
+    description: "UK limited release, #1305"
     catalog_number: 12 IS 482 878 629-1
     upc: 042287 862919
+    discogs: 318243
     media_notes: 12 inch vinyl record in cardsleeve with paper jacket and outside obi-style numbered wrap. Stencil missing.
+    is_promo: 0
+    is_authorized: 1
     release_date: 1990-01-01
     added_date: 2006-03-07
+    rarity_date: 2009-12-09
 - model: catalog.item
   pk: 4
   fields:
@@ -301,14 +314,18 @@
     artist: 1
     media: 1
     country: 2
-    label: 1
+    music_labels: [1,2]
     rarity: 3
     name: Down In It
     year: 1989
     notes: "UK limited release, #1383."
-    notes_short: "UK limited release, #1383."
+    description: "UK limited release, #1383."
     catalog_number: CID 482 878 629-2
     upc: 0 42287 86292 6
+    discogs: 857141
     media_notes: 5 inch CD in slimline jewelcase with insert, numbered sticker on front of case.
+    is_promo: 0
+    is_authorized: 1
     release_date: 1990-01-01
     added_date: 2006-04-14
+    rarity_date: 2009-12-09

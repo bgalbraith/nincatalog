@@ -64,23 +64,25 @@ class ItemRarity(models.Model):
 
 
 class Item(models.Model):
-    category = models.ForeignKey(Category)
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
     artist = models.ForeignKey(Artist)
+    category = models.ForeignKey(Category)
     media = models.ForeignKey(Media)
     media_notes = models.CharField(max_length=200)
     country = models.ForeignKey(Country)
-    label = models.ForeignKey(MusicLabel, null=True)
-    rarity = models.ForeignKey(ItemRarity)
-
-    name = models.CharField(max_length=200)
+    music_labels = models.ManyToManyField(MusicLabel)
     year = models.IntegerField()
+    rarity = models.ForeignKey(ItemRarity)
+    rarity_date = models.DateField(null=True, blank=True)
     notes = models.CharField(max_length=200)
-    notes_short = models.CharField(max_length=200)
     catalog_number = models.CharField(max_length=200)
     upc = models.CharField(max_length=200)
-
+    discogs = models.IntegerField(null=True, blank=True)
+    is_promo = models.BooleanField()
+    is_authorized = models.BooleanField()
     release_date = models.DateField(null=True, blank=True)
-    added_date = models.DateField()
+    added_date = models.DateField(null=True, blank=True)
 
     def __unicode__(self):
-        return self.name
+        return "%s (%s %s)" % (self.name, self.country.code, self.media.format)
