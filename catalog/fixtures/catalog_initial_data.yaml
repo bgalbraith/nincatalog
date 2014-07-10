@@ -199,12 +199,12 @@
   pk: 1
   fields: {name: Nine Inch Nails}
 
-- model: catalog.itemformat
+- model: catalog.media
   pk: 1
-  fields: {name: CD}
-- model: catalog.itemformat
+  fields: {format: CD, package: CD-size slimline jewelcase}
+- model: catalog.media
   pk: 2
-  fields: {name: vinyl 12}
+  fields: {format: vinyl 12, package: 12-inch cardsleeve}
 
 - model: catalog.country
   pk: 1
@@ -245,7 +245,7 @@
   fields:
     category: 1
     artist: 1
-    format: 1
+    media: 1
     country: 1
     label: 1
     rarity: 5
@@ -255,7 +255,7 @@
     notes_short: US edition with barcode
     catalog_number: TVT 2611-2
     upc: 0 1658-12611-2 9
-    packaging: 5 inch CD in jewel case with front and back inserts, `printed in canada` on both inside of booklet and inside of back insert.
+    media_notes: 5 inch CD in jewel case with front and back inserts, `printed in canada` on both inside of booklet and inside of back insert.
     release_date: 1989-09-15
     added_date: 1999-01-01
 - model: catalog.item
@@ -263,7 +263,7 @@
   fields:
     category: 1
     artist: 1
-    format: 2
+    media: 2
     country: 1
     label: 1
     rarity: 5
@@ -273,7 +273,7 @@
     notes_short: US vinyl with cut corner.
     catalog_number: TVT 2611
     upc: 0 1658-12611-1 2
-    packaging: 12 inch vinyl record in cardsleeve. Upper right corner cut.
+    media_notes: 12 inch vinyl record in cardsleeve. Upper right corner cut.
     release_date: 1989-09-15
     added_date: 1999-01-01
 - model: catalog.item
@@ -281,7 +281,7 @@
   fields:
     category: 1
     artist: 1
-    format: 2
+    media: 2
     country: 2
     label: 1
     rarity: 4
@@ -291,7 +291,7 @@
     notes_short: "UK limited release, #1305"
     catalog_number: 12 IS 482 878 629-1
     upc: 042287 862919
-    packaging: 12 inch vinyl record in cardsleeve with paper jacket and outside obi-style numbered wrap. Stencil missing.
+    media_notes: 12 inch vinyl record in cardsleeve with paper jacket and outside obi-style numbered wrap. Stencil missing.
     release_date: 1990-01-01
     added_date: 2006-03-07
 - model: catalog.item
@@ -299,7 +299,7 @@
   fields:
     category: 1
     artist: 1
-    format: 1
+    media: 1
     country: 2
     label: 1
     rarity: 3
@@ -309,6 +309,6 @@
     notes_short: "UK limited release, #1383."
     catalog_number: CID 482 878 629-2
     upc: 0 42287 86292 6
-    packaging: 5 inch CD in slimline jewelcase with insert, numbered sticker on front of case.
+    media_notes: 5 inch CD in slimline jewelcase with insert, numbered sticker on front of case.
     release_date: 1990-01-01
     added_date: 2006-04-14

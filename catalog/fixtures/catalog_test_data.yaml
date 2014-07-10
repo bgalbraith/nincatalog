@@ -10,9 +10,9 @@
   pk: 1
   fields: {name: Nine Inch Nails}
 
-- model: catalog.mediaformat
+- model: catalog.media
   pk: 1
-  fields: {name: CD}
+  fields: {format: CD, package: CD-size digipak}
 
 - model: catalog.country
   pk: 1
@@ -31,7 +31,7 @@
   fields:
     category: 1
     artist: 1
-    format: 1
+    media: 1
     country: 1
     label: 1
     rarity: 1
@@ -41,6 +41,6 @@
     notes_short: US double-CD
     catalog_number: 694904732
     upc: 6 06949 04732 0
-    packaging: 5 inch CD x2 in custom dual digipak with booklet
+    media_notes: 5 inch CD x2 in custom dual digipak with booklet
     release_date: 1999-09-21
     added_date: 1999-09-21

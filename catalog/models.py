@@ -21,11 +21,12 @@ class Category(models.Model):
         return label
 
 
-class MediaFormat(models.Model):
-    name = models.CharField(max_length=200)
+class Media(models.Model):
+    format = models.CharField(max_length=200)
+    package = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return self.name
+        return self.format
 
 
 class Country(models.Model):
@@ -65,7 +66,8 @@ class ItemRarity(models.Model):
 class Item(models.Model):
     category = models.ForeignKey(Category)
     artist = models.ForeignKey(Artist)
-    format = models.ForeignKey(MediaFormat)
+    media = models.ForeignKey(Media)
+    media_notes = models.CharField(max_length=200)
     country = models.ForeignKey(Country)
     label = models.ForeignKey(MusicLabel, null=True)
     rarity = models.ForeignKey(ItemRarity)
@@ -76,7 +78,7 @@ class Item(models.Model):
     notes_short = models.CharField(max_length=200)
     catalog_number = models.CharField(max_length=200)
     upc = models.CharField(max_length=200)
-    packaging = models.CharField(max_length=200)
+
     release_date = models.DateField(null=True, blank=True)
     added_date = models.DateField()
 
