@@ -71,6 +71,7 @@ class Track(models.Model):
 
 class ItemRarity(models.Model):
     code = models.CharField(max_length=1)
+    description = models.CharField(max_length=200)
     icon = models.ImageField(upload_to='rarity')
     scale_icon = models.ImageField(upload_to='rarity')
 
