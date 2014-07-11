@@ -199,12 +199,19 @@
   pk: 1
   fields: {name: Nine Inch Nails}
 
-- model: catalog.media
+- model: catalog.mediaformat
   pk: 1
-  fields: {format: CD, package: CD-size slimline jewelcase}
-- model: catalog.media
+  fields: {name: CD}
+- model: catalog.mediaformat
   pk: 2
-  fields: {format: vinyl 12, package: 12-inch cardsleeve}
+  fields: {name: vinyl 12}
+
+- model: catalog.mediapackage
+  pk: 1
+  fields: {name: CD-size slimline jewelcase}
+- model: catalog.mediapackage
+  pk: 2
+  fields: {name: 12-inch cardsleeve}
 
 - model: catalog.country
   pk: 1
@@ -278,7 +285,8 @@
   fields:
     category: 1
     artist: 1
-    media: 1
+    media_format: 1
+    media_package: 1
     country: 1
     music_labels: [1]
     rarity: 5
@@ -300,7 +308,8 @@
   fields:
     category: 1
     artist: 1
-    media: 2
+    media_format: 2
+    media_package: 2
     country: 1
     music_labels: [1]
     rarity: 5
@@ -322,7 +331,8 @@
   fields:
     category: 1
     artist: 1
-    media: 2
+    media_format: 2
+    media_package: 2
     country: 2
     music_labels: [1,2]
     rarity: 4
@@ -345,7 +355,8 @@
   fields:
     category: 1
     artist: 1
-    media: 1
+    media_format: 1
+    media_package: 1
     country: 2
     music_labels: [1,2]
     rarity: 3

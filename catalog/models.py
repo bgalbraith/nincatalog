@@ -21,12 +21,18 @@ class Category(models.Model):
         return label
 
 
-class Media(models.Model):
-    format = models.CharField(max_length=200)
-    package = models.CharField(max_length=200)
+class MediaPackage(models.Model):
+    name = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return self.format
+        return self.name
+
+
+class MediaFormat(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Country(models.Model):
@@ -76,7 +82,8 @@ class Item(models.Model):
     description = models.CharField(max_length=200)
     artist = models.ForeignKey(Artist)
     category = models.ForeignKey(Category)
-    media = models.ForeignKey(Media)
+    media_format = models.ForeignKey(MediaFormat)
+    media_package = models.ForeignKey(MediaPackage)
     media_notes = models.CharField(max_length=200)
     country = models.ForeignKey(Country)
     music_labels = models.ManyToManyField(MusicLabel)
@@ -95,4 +102,5 @@ class Item(models.Model):
     old_key = models.CharField(max_length=8)
 
     def __unicode__(self):
-        return "%s (%s %s)" % (self.name, self.country.code, self.media.format)
+        return "%s (%s %s)" % (self.name, self.country.code,
+                               self.media_format.name)

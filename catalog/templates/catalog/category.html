@@ -26,7 +26,7 @@
           <tr>
             <td><a href="{{ item_url }}">{{ item.name|lower }}</a></td>
             <td><a href="{{ item_url }}">{{ item.description }}</a></td>
-            <td><a href="{{ item_url }}">{{ item.media.format }}</a></td>
+            <td><a href="{{ item_url }}">{{ item.media_format.name }}</a></td>
             <td><a href="{{ item_url }}">{{ item.catalog_number }}</a></td>
             <td class="year"><a href="{{ item_url }}">{{ item.year }}</a></td>
             <td class="icon"><a href="{{ item_url }}"><img src="{{ item.country.icon.url }}" alt="{{ item.country.name }}"/></a></td>

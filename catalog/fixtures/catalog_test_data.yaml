@@ -10,9 +10,13 @@
   pk: 1
   fields: {name: Nine Inch Nails}
 
-- model: catalog.media
+- model: catalog.mediaformat
   pk: 1
-  fields: {format: CD, package: CD-size digipak}
+  fields: {name: CD}
+
+- model: catalog.mediapackage
+  pk: 1
+  fields: {name: CD-size digipak}
 
 - model: catalog.country
   pk: 1
@@ -35,7 +39,8 @@
   fields:
     category: 1
     artist: 1
-    media: 1
+    media_format: 1
+    media_package: 1
     country: 1
     music_labels: [1]
     rarity: 1
