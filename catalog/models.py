@@ -46,6 +46,14 @@ class MusicLabel(models.Model):
         return self.name
 
 
+class Era(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Track(models.Model):
     related_tracks = models.ManyToManyField('self')
     name = models.CharField(max_length=200)
@@ -75,6 +83,7 @@ class Item(models.Model):
     year = models.IntegerField()
     rarity = models.ForeignKey(ItemRarity)
     rarity_date = models.DateField(null=True, blank=True)
+    era = models.ForeignKey(Era, null=True)
     notes = models.CharField(max_length=200)
     catalog_number = models.CharField(max_length=200)
     upc = models.CharField(max_length=200)
