@@ -22,6 +22,10 @@
   pk: 1
   fields: {name: nothing, url: 'http://en.wikipedia.org/wiki/Nothing_Records'}
 
+- model: catalog.era
+  pk: 1
+  fields: {name: the fragile era, description: "halo 13-17, 1999-2003"}
+
 - model: catalog.itemrarity
   pk: 1
   fields: {code: E, icon: rarity/scale-E-tn.jpg, scale_icon: rarity/scale-E.jpg}
@@ -37,6 +41,7 @@
     rarity: 1
     name: The Fragile
     year: 1999
+    era: 1
     notes: US double-CD
     description: US double-CD
     catalog_number: 694904732

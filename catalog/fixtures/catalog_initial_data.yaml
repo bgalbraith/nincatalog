@@ -220,6 +220,36 @@
   pk: 2
   fields: {name: Island, url: 'http://en.wikipedia.org/wiki/Island_Records'}
 
+- model: catalog.era
+  pk: 1
+  fields: {name: Pretty Hate Machine, description: "Halo 1-4, 1989-1991"}
+- model: catalog.era
+  pk: 2
+  fields: {name: Broken, description: "Halo 5-6, 1992-1993"}
+- model: catalog.era
+  pk: 3
+  fields: {name: The Downward Spiral, description: "Halo 7-10, 1994-1996"}
+- model: catalog.era
+  pk: 4
+  fields: {name: The Perfect Drug, description: "Halo 11-12, 1997-1998"}
+- model: catalog.era
+  pk: 5
+  fields: {name: The Fragile, description: "Halo 13-17, 1999-2003"}
+- model: catalog.era
+  pk: 6
+  fields: {name: With Teeth, description: "Halo 18-22, 2005-2007"}
+- model: catalog.era
+  pk: 7
+  fields: {name: Year Zero, description: "Halo 23-25, 2007-2008"}
+- model: catalog.era
+  pk: 8
+  fields: {name: Ghosts I-IV, description: "Halo 26, 2008"}
+- model: catalog.era
+  pk: 9
+  fields: {name: The Slip, description: "Halo 27, 2008-2012"}
+- model: catalog.era
+  pk: 10
+  fields: {name: Hesitation Marks, description: "Halo 28, 2013-"}
 
 - model: catalog.itemrarity
   pk: 1
@@ -254,6 +284,7 @@
     rarity: 5
     name: Down In It
     year: 1989
+    era: 1
     notes: US release with barcode.
     description: US edition with barcode
     catalog_number: TVT 2611-2
@@ -275,6 +306,7 @@
     rarity: 5
     name: Down In It
     year: 1989
+    era: 1
     notes: US vinyl with upper right corner cut.
     description: US vinyl with cut corner.
     catalog_number: TVT 2611
@@ -296,6 +328,7 @@
     rarity: 4
     name: Down In It
     year: 1989
+    era: 1
     notes: "UK limited release, #1305"
     description: "UK limited release, #1305"
     catalog_number: 12 IS 482 878 629-1
@@ -317,6 +350,7 @@
     music_labels: [1,2]
     rarity: 3
     name: Down In It
+    era: 1
     year: 1989
     notes: "UK limited release, #1383."
     description: "UK limited release, #1383."
