@@ -47,6 +47,7 @@ class Country(models.Model):
 class MusicLabel(models.Model):
     name = models.CharField(max_length=200)
     url = models.URLField()
+    icon = models.ImageField(upload_to='music_labels', null=True)
 
     def __unicode__(self):
         return self.name
