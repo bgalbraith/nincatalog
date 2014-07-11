@@ -92,6 +92,7 @@ class Item(models.Model):
     is_authorized = models.BooleanField()
     release_date = models.DateField(null=True, blank=True)
     added_date = models.DateField(null=True, blank=True)
+    old_key = models.CharField(max_length=8)
 
     def __unicode__(self):
         return "%s (%s %s)" % (self.name, self.country.code, self.media.format)
