@@ -108,4 +108,5 @@ class Item(models.Model):
                                self.media_format.name)
 
     class Meta:
-        ordering = ('year', 'name', 'media_format', 'description')
+        ordering = ('year', 'name', 'media_format', 'country',
+                    'catalog_number')
