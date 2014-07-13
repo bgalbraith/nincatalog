@@ -5,9 +5,11 @@ from catalog.models import Category, Item
 
 
 def index(request):
-    _group = Category.objects.filter(halo__gt=0)
+    _halo_group = Category.objects.filter(halo__isnull=False)
+    _other_group = Category.objects.filter(halo__isnull=True)
     return render(request, 'catalog/index.html', {
-        "group": _group
+        "halo_group": _halo_group,
+        "other_group": _other_group,
     })
 
 
