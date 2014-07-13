@@ -460,7 +460,7 @@
   fields:
     name: Printed Artwork
     tag: printed-artwork
-    icon: categories/unauthorized.jpg
+    icon: categories/printed-artwork.jpg
 - model: catalog.category
   pk: 31
   fields:
