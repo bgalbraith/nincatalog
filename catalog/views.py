@@ -24,7 +24,7 @@ def item(request, category_tag, item_tag):
     _category = get_object_or_404(Category, tag=category_tag)
     _item = get_object_or_404(Item, pk=item_tag)
     if _category == _item.category:
-        _group = Category.objects.filter(halo__gt=0)
+        _group = Category.objects.filter(halo__isnull=_category.halo is None)
         return render(request, 'catalog/item.html', {
             "category": _category,
             "group": _group,
