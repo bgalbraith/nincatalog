@@ -106,3 +106,6 @@ class Item(models.Model):
     def __unicode__(self):
         return "%s (%s %s)" % (self.name, self.country.code,
                                self.media_format.name)
+
+    class Meta:
+        ordering = ('year', 'name', 'media_format', 'description')
