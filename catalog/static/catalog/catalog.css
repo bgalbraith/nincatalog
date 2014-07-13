@@ -28,6 +28,10 @@ body {
     vertical-align: bottom;
 }
 
+#header img.selected {
+    border: 1px solid #d6d6d6;
+}
+
 #footer {
     height: 20px;
     margin-top: 10px;

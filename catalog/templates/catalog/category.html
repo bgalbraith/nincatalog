@@ -4,7 +4,7 @@
 {% block title %}nincatalog.com :: {{ category.name }}{% endblock %}
 
 {% block content %}
-  {% include "catalog/header.html" with group=group %}
+  {% include "catalog/header.html" with group=group selected=category %}
   <div class="row">
     <div id="category-listing" class="col-xs-12">
       <h6>{% if category.halo %}Official Full Releases / {% endif %}{{ category.name }}</h6>

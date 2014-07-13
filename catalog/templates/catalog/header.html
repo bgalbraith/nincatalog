@@ -3,7 +3,7 @@
   <div class="col-xs-12">
     {% for category in group %}
     <a href="{% url 'category' category.tag %}" title="{{ category.name }}">
-      <img class="link" src="{{ category.icon.url }}" alt="{{ category.name }}"/>
+      <img class="link{% if category == selected %} selected{% endif %}" src="{{ category.icon.url }}" alt="{{ category.name }}"/>
     </a>
     {% endfor %}
     <a href="{% url 'index' %}"><img src="{% static 'catalog/img/itemtop38.jpg' %}"></a>
