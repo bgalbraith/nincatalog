@@ -494,7 +494,7 @@
 - model: catalog.category
   pk: 36
   fields:
-    name: Films and Sountracks
+    name: Films and Soundtracks
     tag: films-and-soundtracks
     icon: categories/films-and-soundtracks.jpg
 - model: catalog.category
