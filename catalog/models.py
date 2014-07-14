@@ -110,3 +110,16 @@ class Item(models.Model):
     class Meta:
         ordering = ('year', 'name', 'media_format', 'country',
                     'catalog_number')
+
+
+class ItemImageType(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.name
+
+
+class ItemImage(models.Model):
+    image = models.ImageField(upload_to='item_images')
+    item = models.ForeignKey(Item)
+    type = models.ForeignKey(ItemImageType)
