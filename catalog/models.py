@@ -103,13 +103,13 @@ class Item(models.Model):
     added_date = models.DateField(null=True, blank=True)
     old_key = models.CharField(max_length=8)
 
-    def __unicode__(self):
-        return "%s (%s %s)" % (self.name, self.country.code,
-                               self.media_format.name)
-
     class Meta:
         ordering = ('year', 'name', 'media_format', 'country',
                     'catalog_number')
+
+    def __unicode__(self):
+        return "%s (%s %s)" % (self.name, self.country.code,
+                               self.media_format.name)
 
 
 class ItemImageType(models.Model):
@@ -123,3 +123,6 @@ class ItemImage(models.Model):
     image = models.ImageField(upload_to='item_images')
     item = models.ForeignKey(Item)
     type = models.ForeignKey(ItemImageType)
+
+    class Meta:
+        ordering = ('type',)
