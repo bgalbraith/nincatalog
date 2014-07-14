@@ -37,7 +37,7 @@
       {% if item.added_date %}
       <tr><th>added to catalog</th><td>{{ item.added_date|date }}</td></tr>
       {% endif %}
-      <tr><th>notes</th><td>{{ item.notes }}</td></tr>
+      <tr><th>notes</th><td>{{ item.notes|safe }}</td></tr>
       {% if item.discogs %}
       <tr><th>discogs ref</th><td><a href="http://www.discogs.com/release/{{ item.discogs }}" target="_blank">{{ item.discogs }}</a></td></tr>
       {% endif %}
