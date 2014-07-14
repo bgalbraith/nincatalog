@@ -3,7 +3,7 @@
 /**********/
 
 body {
-    background: black url('img/bg.jpg') repeat-y center top;
+    background: black url('/static/catalog/img/bg.jpg') repeat-y center top;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
@@ -14,7 +14,7 @@ body {
     padding-top: 10px;
     margin-bottom: 10px;
     text-align: right;
-    background: url('img/topbar.jpg') repeat-x;
+    background: url('/static/catalog/img/topbar.jpg') repeat-x;
 }
 
 #header img {
@@ -36,7 +36,7 @@ body {
     height: 20px;
     margin-top: 10px;
     text-align: center;
-    background: url('img/bottombar.jpg') repeat-x;
+    background: url('/static/catalog/img/bottombar.jpg') repeat-x;
 }
 
 /**************/
