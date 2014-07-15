@@ -2,8 +2,8 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
 
-from catalog.models import Category, Item, Country, MediaPackage, \
-    MediaFormat, MusicLabel
+from catalog.models import Artist, Category, Country, Era, Item, MediaFormat, \
+    MediaPackage, MusicLabel
 
 
 def index(request):
@@ -42,7 +42,9 @@ def report(request, report_tag):
     model = {'country': Country,
              'format': MediaFormat,
              'package': MediaPackage,
-             'label': MusicLabel}.get(report_tag, None)
+             'label': MusicLabel,
+             'artist': Artist,
+             'era': Era}.get(report_tag, None)
     if model is None:
         raise Http404
 
