@@ -4,6 +4,9 @@ from django.db import models
 class Artist(models.Model):
     name = models.CharField(max_length=200)
 
+    class Meta:
+        ordering = ('name',)
+
     def __unicode__(self):
         return self.name
 
@@ -24,12 +27,18 @@ class Category(models.Model):
 class MediaPackage(models.Model):
     name = models.CharField(max_length=200)
 
+    class Meta:
+        ordering = ('name',)
+
     def __unicode__(self):
         return self.name
 
 
 class MediaFormat(models.Model):
     name = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ('name',)
 
     def __unicode__(self):
         return self.name
@@ -40,6 +49,9 @@ class Country(models.Model):
     code = models.CharField(max_length=2)
     icon = models.ImageField(upload_to='countries')
 
+    class Meta:
+        ordering = ('name',)
+
     def __unicode__(self):
         return self.name
 
@@ -48,6 +60,9 @@ class MusicLabel(models.Model):
     name = models.CharField(max_length=200)
     url = models.URLField()
     icon = models.ImageField(upload_to='music_labels', null=True)
+
+    class Meta:
+        ordering = ('name',)
 
     def __unicode__(self):
         return self.name
