@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}nincatalog.com - items by {{ report }}{% endblock %}
+
+{% block content %}
+    {% include "catalog/header.html" with group=group selected=category %}
+    <div id="report">
+      <table>
+      {% for row in entries %}
+        <tr>
+        {% for entry in row %}
+          <td class="icon">{% if entry.icon %}<img src="{{ entry.icon.url }}" alt="{{ entry.name }}"/>{% else %}&nbsp;{% endif %}</td>
+          <td class="entry"><a href="">{{ entry.name }}</a></td>
+          <td class="count">{{ entry.n_items }}</td>
+          {% if not forloop.last %}<td class="spacer">&nbsp;</td>{% endif %}
+        {% endfor %}
+        </tr>
+      {% endfor %}
+      </table>
+    </div>
+    {% include 'catalog/footer.html' %}
+{% endblock %}

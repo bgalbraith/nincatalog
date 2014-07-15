@@ -29,7 +29,7 @@ body {
 }
 
 #header img.selected {
-    border: 1px solid #d6d6d6;
+    border: 1px solid #D6D6D6;
 }
 
 #footer {
@@ -90,11 +90,11 @@ body {
 }
 
 #category-listing tbody tr:nth-child(odd) {
-    background-color: #f6f6f6;
+    background-color: #F6F6F6;
 }
 
 #category-listing tbody tr:nth-child(even) {
-    background-color: #d7d7d7;
+    background-color: #D7D7D7;
 }
 
 #category-listing tbody a {
@@ -140,4 +140,50 @@ body {
 #item-other-info th {
     width: 150px;
     vertical-align: bottom;
+}
+
+/***************/
+/* Report Page */
+/***************/
+
+#report table {
+    margin: 0 auto;
+}
+
+#report table a {
+    color: #DADDEB;
+}
+
+#report tr {
+    height: 20px;
+}
+
+#report td {
+    color: #9A9A9A;
+    background-color: #000733;
+    border: 3px solid black;
+    padding: 2px;
+    vertical-align: middle;
+}
+
+#report td.icon {
+    background-color: #00000F;
+    text-align: right;
+}
+
+#report td.icon img {
+    height: 15px;
+}
+
+#report td.entry {
+}
+
+#report td.count {
+    width: 30px;
+    text-align: right;
+}
+
+#report td.spacer {
+    background-color: black;
+    width: 20px;
 }

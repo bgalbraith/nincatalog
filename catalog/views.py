@@ -1,7 +1,9 @@
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Count
 
-from catalog.models import Category, Item
+from catalog.models import Category, Item, Country, MediaPackage, \
+    MediaFormat, MusicLabel
 
 
 def index(request):
@@ -34,3 +36,24 @@ def item(request, category_tag, item_tag):
         })
     else:
         raise Http404
+
+
+def report(request, report_tag):
+    model = {'country': Country,
+             'format': MediaFormat,
+             'package': MediaPackage,
+             'label': MusicLabel}.get(report_tag, None)
+    if model is None:
+        raise Http404
+
+    _entries = model.objects.annotate(n_items=Count('item')).filter(n_items__gt=0)
+    col_length = len(_entries) / 3
+    if len(_entries) % 3 != 0:
+        col_length += 1
+    _entries = [_entries[i::col_length] for i in range(col_length)]
+    _group = Category.objects.filter(halo__isnull=True)
+    return render(request, 'catalog/report.html', {
+        "report": report_tag,
+        "entries": _entries,
+        "group": _group
+    })
