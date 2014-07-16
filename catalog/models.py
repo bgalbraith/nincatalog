@@ -141,3 +141,15 @@ class ItemImage(models.Model):
 
     class Meta:
         ordering = ('type',)
+
+
+class Report(models.Model):
+    name = models.CharField(max_length=200)
+    tag = models.CharField(max_length=200)
+    model = models.CharField(max_length=200)
+    icon = models.ImageField(upload_to='reports')
+    n_columns = models.PositiveSmallIntegerField(default=3)
+    column_width = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
