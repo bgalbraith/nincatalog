@@ -1,3 +1,21 @@
+# itemimagetype model
+- model: catalog.itemimagetype
+  pk: 1
+  fields:
+    name: Front
+- model: catalog.itemimagetype
+  pk: 2
+  fields:
+    name: Back
+- model: catalog.itemimagetype
+  pk: 3
+  fields:
+    name: Details
+- model: catalog.itemimagetype
+  pk: 4
+  fields:
+    name: Media
+
 # itemimage model
 - model: catalog.itemimage
   pk: 1

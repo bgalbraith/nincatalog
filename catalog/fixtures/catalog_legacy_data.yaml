@@ -510,6 +510,62 @@
     tag: how-to-destroy-angels
     icon: categories/htda.jpg
 
+# report model
+- model: catalog.report
+  pk: 1
+  fields:
+    name: Items By Country
+    tag: country
+    model: Country
+    icon: reports/country.jpg
+    n_columns: 3
+    column_width: 150
+- model: catalog.report
+  pk: 2
+  fields:
+    name: Items By Media Format
+    tag: format
+    model: MediaFormat
+    icon: reports/format.jpg
+    n_columns: 3
+    column_width: 150
+- model: catalog.report
+  pk: 3
+  fields:
+    name: Items By Media Package
+    tag: package
+    model: MediaPackage
+    icon: reports/package.jpg
+    n_columns: 2
+    column_width: 350
+- model: catalog.report
+  pk: 4
+  fields:
+    name: Items By Music Label
+    tag: label
+    model: MusicLabel
+    icon: reports/label.jpg
+    n_columns: 3
+    column_width: 180
+- model: catalog.report
+  pk: 5
+  fields:
+    name: Items By Artist
+    tag: artist
+    model: Artist
+    icon: reports/artist.jpg
+    n_columns: 3
+    column_width: 150
+- model: catalog.report
+  pk: 6
+  fields:
+    name: Items By Era
+    tag: era
+    model: Era
+    icon: reports/era.jpg
+    n_columns: 1
+    column_width: 150
+
 # mediapackage model
 - model: catalog.mediapackage
   pk: 1
@@ -33989,21 +34045,3 @@
     release_date: 2014-06-17
     added_date: 2014-06-25
     old_key: 01-90620
-
-# itemimagetype model
-- model: catalog.itemimagetype
-  pk: 1
-  fields:
-    name: Front
-- model: catalog.itemimagetype
-  pk: 2
-  fields:
-    name: Back
-- model: catalog.itemimagetype
-  pk: 3
-  fields:
-    name: Details
-- model: catalog.itemimagetype
-  pk: 4
-  fields:
-    name: Media
