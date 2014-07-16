@@ -555,7 +555,7 @@
     model: Artist
     icon: reports/artist.jpg
     n_columns: 3
-    column_width: 150
+    column_width: 260
 - model: catalog.report
   pk: 6
   fields:
@@ -564,7 +564,7 @@
     model: Era
     icon: reports/era.jpg
     n_columns: 1
-    column_width: 150
+    column_width: 180
 
 # mediapackage model
 - model: catalog.mediapackage
