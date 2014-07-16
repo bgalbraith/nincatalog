@@ -3,15 +3,17 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
 
 from catalog.models import Artist, Category, Country, Era, Item, MediaFormat, \
-    MediaPackage, MusicLabel
+    MediaPackage, MusicLabel, Report
 
 
 def index(request):
     _halo_group = Category.objects.filter(halo__isnull=False)
     _other_group = Category.objects.filter(halo__isnull=True)
+    _report_group = Report.objects.all()
     return render(request, 'catalog/index.html', {
         "halo_group": _halo_group,
         "other_group": _other_group,
+        "report_group": _report_group
     })
 
 

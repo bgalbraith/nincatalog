@@ -8,7 +8,13 @@
       </a>
     {% endfor %}
     </div>
-    <div class="categories">
+    <div class="categories reports">
+    {% for report in report_group %}
+      <a href="{% url 'report' report.tag %}" title="{{ report.name }}">
+        <img src="{{ report.icon.url }}" alt="{{ report.name }}"/>
+      </a>
+    {% endfor %}
+    <br>
     {% for category in other_group %}
       <a href="{% url 'category' category.tag %}" title="{{ category.name }}">
         <img src="{{ category.icon.url }}" alt="{{ category.name }}"/>

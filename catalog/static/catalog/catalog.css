@@ -55,6 +55,10 @@ body {
     margin: 3px;
 }
 
+.reports {
+    text-align: right;
+}
+
 /*****************/
 /* Category Page */
 /*****************/
