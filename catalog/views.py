@@ -41,23 +41,19 @@ def item(request, category_tag, item_tag):
 
 
 def report(request, report_tag):
-    model = {'country': Country,
-             'format': MediaFormat,
-             'package': MediaPackage,
-             'label': MusicLabel,
-             'artist': Artist,
-             'era': Era}.get(report_tag, None)
+    _report = get_object_or_404(Report, tag=report_tag)
+    model = globals().get(_report.model, None)
     if model is None:
         raise Http404
 
     _entries = model.objects.annotate(n_items=Count('item')).filter(n_items__gt=0)
-    col_length = len(_entries) / 3
-    if len(_entries) % 3 != 0:
+    col_length = len(_entries) / _report.n_columns
+    if len(_entries) % _report.n_columns != 0:
         col_length += 1
     _entries = [_entries[i::col_length] for i in range(col_length)]
     _group = Category.objects.filter(halo__isnull=True)
     return render(request, 'catalog/report.html', {
-        "report": report_tag,
+        "report": _report,
         "entries": _entries,
         "group": _group
     })
