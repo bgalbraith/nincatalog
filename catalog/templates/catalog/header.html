@@ -1,9 +1,14 @@
 {% load staticfiles %}
 <div id="header" class="row">
   <div class="col-xs-12">
-    {% for category in group %}
+    {% for category in group.categories %}
     <a href="{% url 'category' category.tag %}" title="{{ category.name }}">
       <img class="link{% if category == selected %} selected{% endif %}" src="{{ category.icon.url }}" alt="{{ category.name }}"/>
+    </a>
+    {% endfor %}
+    {% for report in group.reports %}
+    <a href="{% url 'report' report.tag %}" title="{{ report.name }}">
+      <img class="link{% if report == selected %} selected{% endif %}" src="{{ report.icon.url }}" alt="{{ report.name }}"/>
     </a>
     {% endfor %}
     <a href="{% url 'index' %}"><img src="{% static 'catalog/img/itemtop38.jpg' %}"></a>
