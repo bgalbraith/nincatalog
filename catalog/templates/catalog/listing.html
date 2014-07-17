@@ -8,29 +8,29 @@
   {% for category in listing.categories %}
   <div class="row">
     <div id="category-listing" class="col-xs-12">
-      <h6>{% if category.halo %}Official Full Releases / {% endif %}{{ category.name }}</h6>
+      <h6>{{ category.name }}</h6>
       <table>
         <thead>
           <tr>
-            {% if not category.halo %}<th>artist</th>{% endif %}
-            <th>title</th>
+            {% if not category.halo %}<th class="artist">artist</th>{% endif %}
+            <th class="title">title</th>
             <th>notes</th>
             <th class="format">format</th>
-            <th>cat number</th>
+            <th class="catalog-number">cat number</th>
             <th class="year">yr</th>
             <th class="icon">ctr</th>
             <th class="icon">sc</th>
           </tr>
         </thead>
         <tbody>
-        {% for item in category.item_set.all %}
+        {% for item in category.items %}
         {% url 'item' category.tag item.pk as item_url %}
           <tr>
-            {% if not category.halo %}<td><a href="{{ item_url }}">{{ item.artist.name|lower }}</a></td>{% endif %}
-            <td><a href="{{ item_url }}">{{ item.name|lower }}</a></td>
+            {% if not category.halo %}<td class="artist"><a href="{{ item_url }}">{{ item.artist.name|lower }}</a></td>{% endif %}
+            <td class="title"><a href="{{ item_url }}">{{ item.name|lower }}</a></td>
             <td><a href="{{ item_url }}">{{ item.description }}</a></td>
-            <td><a href="{{ item_url }}">{{ item.media_format.name }}</a></td>
-            <td><a href="{{ item_url }}">{{ item.catalog_number }}</a></td>
+            <td class="format"><a href="{{ item_url }}">{{ item.media_format.name }}</a></td>
+            <td class="catalog-number"><a href="{{ item_url }}">{{ item.catalog_number }}</a></td>
             <td class="year"><a href="{{ item_url }}">{{ item.year }}</a></td>
             <td class="icon"><a href="{{ item_url }}"><img src="{{ item.country.icon.url }}" alt="{{ item.country.name }}"/></a></td>
             <td class="icon"><a href="{{ item_url }}"><img src="{{ item.rarity.icon.url }}" alt="{{ item.rarity.code }}" /></a></td>

@@ -105,8 +105,20 @@ body {
     color: #660000;
 }
 
+#category-listing .artist {
+    width: 170px;
+}
+
+#category-listing .title {
+    width: 270px;
+}
+
 #category-listing .format {
     width: 70px;
+}
+
+#category-listing .catalog-number {
+    width: 200px;
 }
 
 #category-listing .year {
