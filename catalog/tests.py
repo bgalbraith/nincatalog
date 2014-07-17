@@ -15,18 +15,21 @@ class CatalogViewsTestCase(TestCase):
     def test_category_view_valid_category(self):
         resp = self.client.get('/the-fragile/')
         self.assertEqual(resp.status_code, 200)
-        self.assertTrue('category' in resp.context)
+        self.assertTrue('listing' in resp.context)
 
-        category = resp.context['category']
-        self.assertEqual(category.pk, 1)
-        self.assertEqual(category.name, 'The Fragile')
+        listing = resp.context['listing']
+        self.assertEqual(len(listing['categories']), 1)
+
+        category = listing['categories'][0]
+        self.assertEqual(category['name'], 'The Fragile')
 
     def test_category_view_item_list(self):
         resp = self.client.get('/the-fragile/')
-        category = resp.context['category']
-        self.assertEqual(category.item_set.count(), 1)
+        listing = resp.context['listing']
+        category = listing['categories'][0]
+        self.assertEqual(category['items'].count(), 1)
 
-        item = category.item_set.first()
+        item = category['items'].first()
         self.assertEqual(item.pk, 1)
         self.assertEqual(item.name, "The Fragile")
 

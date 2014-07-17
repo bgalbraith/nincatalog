@@ -24,11 +24,11 @@
 
 - model: catalog.musiclabel
   pk: 1
-  fields: {name: nothing, url: 'http://en.wikipedia.org/wiki/Nothing_Records'}
+  fields: {name: nothing, url: 'http://en.wikipedia.org/wiki/Nothing_Records', icon: music_labels/nothing.jpg}
 
 - model: catalog.era
   pk: 1
-  fields: {name: the fragile era, description: "halo 13-17, 1999-2003"}
+  fields: {name: the fragile era, description: "halo 13-17, 1999-2003", icon: eras/fragile-era.jpg}
 
 - model: catalog.itemrarity
   pk: 1
