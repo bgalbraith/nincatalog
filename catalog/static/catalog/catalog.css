@@ -124,7 +124,7 @@ body {
 /*************/
 
 #item-content table {
-    margin-bottom: 30px;
+    margin-top: 30px;
     border-collapse: collapse;
 }
 
@@ -144,6 +144,16 @@ body {
 #item-other-info th {
     width: 150px;
     vertical-align: bottom;
+}
+
+#item-label-icons {
+    float: right;
+    margin-top: -30px;
+}
+
+#item-label-icons img {
+    height: 30px;
+    margin-left: 5px;
 }
 
 /***************/

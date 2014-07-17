@@ -47,6 +47,11 @@
       <tr><td class="spacer" colspan="2">&nbsp;</td></tr>
       <tr><th>rarity class</th><td><img src="{{ item.rarity.scale_icon.url }}" alt="{{ item.rarity.code }}"/></td></tr>
     </table>
+    <div id="item-label-icons">
+        {% for label in item.music_labels.all %}
+          <a href="{{ label.url }}" title="{{ label.name }}" target="_blank"><img src="{{ label.icon.url }}" alt="{{ label.name }}"/></a>
+        {% endfor %}
+    </div>
   </div>
   {% include 'catalog/footer.html' %}
 {% endblock %}
