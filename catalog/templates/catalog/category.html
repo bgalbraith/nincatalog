@@ -11,6 +11,7 @@
       <table>
         <thead>
           <tr>
+            {% if not category.halo %}<th>artist</th>{% endif %}
             <th>title</th>
             <th>notes</th>
             <th class="format">format</th>
@@ -24,6 +25,7 @@
         {% for item in category.item_set.all %}
         {% url 'item' category.tag item.pk as item_url %}
           <tr>
+            {% if not category.halo %}<td><a href="{{ item_url }}">{{ item.artist.name|lower }}</a></td>{% endif %}
             <td><a href="{{ item_url }}">{{ item.name|lower }}</a></td>
             <td><a href="{{ item_url }}">{{ item.description }}</a></td>
             <td><a href="{{ item_url }}">{{ item.media_format.name }}</a></td>
