@@ -10,7 +10,7 @@
         <tr>
         {% for entry in row %}
           <td class="icon">{% if entry.icon %}<img src="{{ entry.icon.url }}" alt="{{ entry.name }}"/>{% else %}&nbsp;{% endif %}</td>
-          <td width="{{ report.column_width }}"><a href="">{{ entry.name }}</a></td>
+          <td width="{{ report.column_width }}"><a href="{% url 'report_details' report.tag entry.pk %}">{{ entry.name }}</a></td>
           <td class="count">{{ entry.n_items }}</td>
           {% if not forloop.last %}<td class="spacer">&nbsp;</td>{% endif %}
         {% endfor %}
