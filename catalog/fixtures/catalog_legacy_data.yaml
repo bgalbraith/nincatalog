@@ -517,6 +517,7 @@
     name: Items By Country
     tag: country
     model: Country
+    field: country
     icon: reports/country.jpg
     n_columns: 3
     column_width: 150
@@ -526,6 +527,7 @@
     name: Items By Media Format
     tag: format
     model: MediaFormat
+    field: media_format
     icon: reports/format.jpg
     n_columns: 3
     column_width: 150
@@ -535,6 +537,7 @@
     name: Items By Media Package
     tag: package
     model: MediaPackage
+    field: media_package
     icon: reports/package.jpg
     n_columns: 2
     column_width: 350
@@ -544,6 +547,7 @@
     name: Items By Music Label
     tag: label
     model: MusicLabel
+    field: music_label
     icon: reports/label.jpg
     n_columns: 3
     column_width: 180
@@ -553,6 +557,7 @@
     name: Items By Artist
     tag: artist
     model: Artist
+    field: artist
     icon: reports/artist.jpg
     n_columns: 3
     column_width: 260
@@ -562,6 +567,7 @@
     name: Items By Era
     tag: era
     model: Era
+    field: era
     icon: reports/era.jpg
     n_columns: 1
     column_width: 180
