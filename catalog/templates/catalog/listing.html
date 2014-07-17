@@ -1,10 +1,11 @@
 {% extends 'catalog/base.html' %}
 {% load staticfiles %}
 
-{% block title %}nincatalog.com :: {{ category.name }}{% endblock %}
+{% block title %}nincatalog.com - {{ listing.title }}{% endblock %}
 
 {% block content %}
-  {% include "catalog/header.html" with group=group selected=category %}
+  {% include "catalog/header.html" with group=group selected=listing.selected %}
+  {% for category in listing.categories %}
   <div class="row">
     <div id="category-listing" class="col-xs-12">
       <h6>{% if category.halo %}Official Full Releases / {% endif %}{{ category.name }}</h6>
@@ -39,5 +40,6 @@
       </table>
     </div>
   </div>
+  {% endfor %}
   {% include 'catalog/footer.html' %}
 {% endblock %}

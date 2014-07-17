@@ -21,8 +21,13 @@ def index(request):
 def category(request, category_tag):
     _category = get_object_or_404(Category, tag=category_tag)
     _group = header_group(_category.halo is not None)
-    return render(request, 'catalog/category.html', {
-        "category": _category,
+    _listing = {
+        'title': _category.name.lower(),
+        'selected': _category,
+        'categories': [_category]
+    }
+    return render(request, 'catalog/listing.html', {
+        "listing": _listing,
         "group": _group
     })
 
