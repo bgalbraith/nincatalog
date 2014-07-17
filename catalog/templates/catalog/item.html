@@ -39,10 +39,12 @@
       {% if item.added_date %}
       <tr><th>added to catalog</th><td>{{ item.added_date|date }}</td></tr>
       {% endif %}
+      <tr><td class="spacer" colspan="2">&nbsp;</td></tr>
       <tr><th>notes</th><td>{{ item.notes|safe }}</td></tr>
       {% if item.discogs %}
       <tr><th>discogs ref</th><td><a href="http://www.discogs.com/release/{{ item.discogs }}" target="_blank">{{ item.discogs }}</a></td></tr>
       {% endif %}
+      <tr><td class="spacer" colspan="2">&nbsp;</td></tr>
       <tr><th>rarity class</th><td><img src="{{ item.rarity.scale_icon.url }}" alt="{{ item.rarity.code }}"/></td></tr>
     </table>
   </div>
