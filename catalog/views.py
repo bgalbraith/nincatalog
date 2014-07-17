@@ -21,10 +21,18 @@ def index(request):
 def category(request, category_tag):
     _category = get_object_or_404(Category, tag=category_tag)
     _group = header_group(_category.halo is not None)
+    _items = _category.item_set.all()
     _listing = {
         'title': _category.name.lower(),
         'selected': _category,
-        'categories': [_category]
+        'categories': [
+            {
+                'name': _category.name,
+                'halo': _category.halo,
+                'tag': _category.tag,
+                'items': _items
+            }
+        ]
     }
     return render(request, 'catalog/listing.html', {
         "listing": _listing,
@@ -62,6 +70,35 @@ def report(request, report_tag):
     return render(request, 'catalog/report.html', {
         "report": _report,
         "entries": _entries,
+        "group": _group
+    })
+
+
+def report_details(request, report_tag, entry_tag):
+    _report = get_object_or_404(Report, tag=report_tag)
+    _model = globals().get(_report.model, None)
+    if _model is None:
+        raise Http404
+    _entry = get_object_or_404(_model, pk=entry_tag)
+    _categories = list()
+    for _category in Category.objects.all():
+        filter_kwargs = {'category': _category.pk, _report.field: _entry.pk}
+        _items = Item.objects.filter(**filter_kwargs)
+        if _items.count() > 0:
+            _categories.append({
+                'name': "%s / %s" % (_entry.name, _category.name),
+                'halo': _category.halo,
+                'tag': _category.tag,
+                'items': _items
+            })
+    _listing = {
+        'title': '%s - %s' % (_report.name.lower(), _entry.name.lower()),
+        'selected': _report,
+        'categories': _categories
+    }
+    _group = header_group(False)
+    return render(request, 'catalog/listing.html', {
+        "listing": _listing,
         "group": _group
     })
 
