@@ -1627,51 +1627,61 @@
   fields:
     name: pretty hate machine era
     description: halo 1-4, 1989-1991
+    icon: eras/phm-era.jpg
 - model: catalog.era
   pk: 2
   fields:
     name: broken era
     description: halo 5-6, 1992-1993
+    icon: eras/broken-era.jpg
 - model: catalog.era
   pk: 3
   fields:
     name: the downward spiral era
     description: halo 7-10, 1994-1996
+    icon: eras/tds-era.jpg
 - model: catalog.era
   pk: 4
   fields:
     name: the perfect drug era
     description: halo 11-12, 1997-1998
+    icon: eras/tpd-era.jpg
 - model: catalog.era
   pk: 5
   fields:
     name: the fragile era
     description: halo 13-17, 1999-2003
+    icon: eras/fragile-era.jpg
 - model: catalog.era
   pk: 6
   fields:
     name: with teeth era
     description: halo 18-22, 2005-2007
+    icon: eras/wt-era.jpg
 - model: catalog.era
   pk: 7
   fields:
     name: year zero era
     description: halo 23-25, 2007-2008
+    icon: eras/yz-era.jpg
 - model: catalog.era
   pk: 8
   fields:
     name: ghosts i-iv era
     description: halo 26, 2008-2008
+    icon: eras/ghosts-era.jpg
 - model: catalog.era
   pk: 9
   fields:
     name: the slip era
     description: halo 27, 2008-2012
+    icon: eras/slip-era.jpg
 - model: catalog.era
   pk: 10
   fields:
     name: hesitation marks era
     description: halo 28-, 2013-
+    icon: eras/hm-era.jpg
 
 # itemrarity model
 - model: catalog.itemrarity
@@ -26473,7 +26483,7 @@
   fields:
     name: universal international rock big 4
     description: Japanese sampler contains Only
-    artist: 42
+    artist: 2
     category: 31
     media_package: 4
     media_format: 5
