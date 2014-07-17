@@ -3,7 +3,7 @@
 {% block title %}nincatalog.com - {{ report.name|lower }}{% endblock %}
 
 {% block content %}
-    {% include "catalog/header.html" with group=group selected=category %}
+    {% include "catalog/header.html" with group=group selected=report %}
     <div id="report">
       <table>
       {% for row in entries %}
