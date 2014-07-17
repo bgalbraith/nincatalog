@@ -547,7 +547,7 @@
     name: Items By Music Label
     tag: label
     model: MusicLabel
-    field: music_label
+    field: music_labels
     icon: reports/label.jpg
     n_columns: 3
     column_width: 180
