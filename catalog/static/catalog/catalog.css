@@ -149,6 +149,10 @@ body {
     font-weight: bold;
 }
 
+#item-images img {
+    max-width: 1092px;
+}
+
 #item-core-info th {
     width: 75px;
 }
