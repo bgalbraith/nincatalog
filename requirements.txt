@@ -1,9 +1,8 @@
-Django==1.6.5
-Pillow==2.4.0
-PyYAML==3.11
-South==0.8.4
+Django==1.7.3
 django-appconf==0.6
-django-imagekit==3.2.1
-pilkit==1.1.9
-six==1.7.2
-wsgiref==0.1.2
+django-durationfield==0.5.1
+django-imagekit==3.2.5
+pilkit==1.1.12
+Pillow==2.7.0
+PyYAML==3.11
+six==1.9.0
