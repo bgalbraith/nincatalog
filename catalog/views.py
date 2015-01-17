@@ -112,3 +112,9 @@ def header_group(is_halo):
         reports = Report.objects.all()
         group = {'categories': categories, 'reports': reports}
     return group
+
+
+def handle404(request):
+    response = render(request, 'catalog/404.html', {})
+    response.status_code = 404
+    return response
