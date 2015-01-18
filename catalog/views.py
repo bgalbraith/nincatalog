@@ -103,6 +103,10 @@ def report_details(request, report_tag, entry_tag):
     })
 
 
+def about(request):
+    return render(request, 'catalog/about.html', {})
+
+
 def header_group(is_halo):
     if is_halo:
         group = {'categories': Category.objects.filter(halo__isnull=False)}

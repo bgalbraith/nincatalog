@@ -214,3 +214,16 @@ body {
     background-color: black;
     width: 20px;
 }
+
+/**************/
+/* About Page */
+/**************/
+
+#about-message {
+    padding-top: 100px;
+}
+
+#about-status {
+    text-align: center;
+    padding-top: 60px;
+}
