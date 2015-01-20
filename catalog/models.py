@@ -143,6 +143,9 @@ class ItemImage(models.Model):
     class Meta:
         ordering = ('type',)
 
+    def __unicode__(self):
+        return "%s [%s]" % (self.item, self.type)
+
 
 class Report(models.Model):
     name = models.CharField(max_length=200)
