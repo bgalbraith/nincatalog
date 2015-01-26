@@ -1,6 +1,7 @@
-from django.http import Http404
+from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
+from django.core.urlresolvers import reverse
 
 from catalog.models import Artist, Category, Country, Era, Item, MediaFormat, \
     MediaPackage, MusicLabel, Report
@@ -122,3 +123,15 @@ def handle404(request):
     response = render(request, 'catalog/404.html', {})
     response.status_code = 404
     return response
+
+
+def legacy_item(request):
+    if 'key' not in request.GET:
+        raise Http404
+
+    _key = request.GET['key']
+    _item = get_object_or_404(Item, old_key=_key)
+    _category = _item.category
+    return HttpResponsePermanentRedirect(
+        reverse('item', kwargs={'category_tag': _category.tag,
+                                'item_tag': _item.pk}))

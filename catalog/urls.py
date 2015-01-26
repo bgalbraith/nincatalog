@@ -14,4 +14,5 @@ urlpatterns = patterns('',
     url(r'^(?P<category_tag>[a-z0-9-]+)/(?P<item_tag>[a-z0-9-]+)/$',
         views.item, name='item'),
     url(r'^default\.asp$', RedirectView.as_view(pattern_name='index')),
+    url(r'^item\.asp$', views.legacy_item, name='legacy_item'),
 )
