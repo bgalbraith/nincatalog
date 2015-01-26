@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, url
+from django.views.generic import RedirectView
 
 from catalog import views
+
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
@@ -11,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^(?P<category_tag>[a-z0-9-]+)/$', views.category, name='category'),
     url(r'^(?P<category_tag>[a-z0-9-]+)/(?P<item_tag>[a-z0-9-]+)/$',
         views.item, name='item'),
+    url(r'^default\.asp$', RedirectView.as_view(pattern_name='index')),
 )
