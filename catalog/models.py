@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 
 class Artist(models.Model):
@@ -36,6 +37,7 @@ class MediaPackage(models.Model):
 
 class MediaFormat(models.Model):
     name = models.CharField(max_length=200)
+    tag = models.CharField(max_length=200, default='')
 
     class Meta:
         ordering = ('name',)
@@ -126,6 +128,12 @@ class Item(models.Model):
     def __unicode__(self):
         return "%s (%s %s)" % (self.name, self.country.code,
                                self.media_format.name)
+
+    def tag(self):
+        return slugify("-".join([self.name,
+                                 self.country.code,
+                                 self.media_format.tag,
+                                 str(self.id)]))
 
 
 class ItemImageType(models.Model):

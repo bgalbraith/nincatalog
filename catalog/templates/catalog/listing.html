@@ -24,7 +24,7 @@
         </thead>
         <tbody>
         {% for item in category.items %}
-        {% url 'item' category.tag item.pk as item_url %}
+        {% url 'item' category.tag item.tag as item_url %}
           <tr>
             {% if not category.halo %}<td class="artist"><a href="{{ item_url }}">{{ item.artist.name|lower }}</a></td>{% endif %}
             <td class="title"><a href="{{ item_url }}">{{ item.name|lower }}</a></td>

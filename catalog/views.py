@@ -43,7 +43,8 @@ def category(request, category_tag):
 
 def item(request, category_tag, item_tag):
     _category = get_object_or_404(Category, tag=category_tag)
-    _item = get_object_or_404(Item, pk=item_tag)
+    pk = item_tag.split('-')[-1]
+    _item = get_object_or_404(Item, pk=pk)
     if _category != _item.category:
         raise Http404
 
@@ -134,4 +135,4 @@ def legacy_item(request):
     _category = _item.category
     return HttpResponsePermanentRedirect(
         reverse('item', kwargs={'category_tag': _category.tag,
-                                'item_tag': _item.pk}))
+                                'item_tag': _item.tag}))
