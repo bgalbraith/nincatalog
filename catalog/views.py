@@ -135,4 +135,4 @@ def legacy_item(request):
     _category = _item.category
     return HttpResponsePermanentRedirect(
         reverse('item', kwargs={'category_tag': _category.tag,
-                                'item_tag': _item.tag}))
+                                'item_tag': _item.tag()}))
