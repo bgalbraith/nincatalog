@@ -45,7 +45,7 @@
       <tr><th>discogs ref</th><td><a href="http://www.discogs.com/release/{{ item.discogs }}" target="_blank">{{ item.discogs }}</a></td></tr>
       {% endif %}
       <tr><td class="spacer" colspan="2">&nbsp;</td></tr>
-      <tr><th>rarity class</th><td><img src="{{ item.rarity.scale_icon.url }}" alt="{{ item.rarity.code }}"/></td></tr>
+      <tr><th>rarity class</th><td><img src="{{ item.rarity.scale_icon.url }}" alt="{{ item.rarity.code }}" title="{{ item.rarity.description}}&#013;&#013;Rated: {{ item.rarity_date }}"/></td></tr>
     </table>
     <div id="item-label-icons">
         {% for label in item.music_labels.all %}

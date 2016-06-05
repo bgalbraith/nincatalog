@@ -53,5 +53,6 @@ media
 # Sphinx documentation
 docs/_build/
 
-# PyCharm
+# JetBrains
 .idea
+nincatalog.iml
