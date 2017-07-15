@@ -1,10 +1,9 @@
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
-from catalog.models import Artist, Category, Country, Era, Item, MediaFormat, \
-    MediaPackage, MusicLabel, Report
+from catalog.models import Category, Item, Report
 
 
 def index(request):
@@ -64,7 +63,7 @@ def report(request, report_tag):
 
     _entries = model.objects.annotate(n_items=Count('item')) \
         .filter(n_items__gt=0)
-    col_length = len(_entries) / _report.n_columns
+    col_length = len(_entries) // _report.n_columns
     if len(_entries) % _report.n_columns != 0:
         col_length += 1
     _entries = [_entries[i::col_length] for i in range(col_length)]
@@ -120,7 +119,7 @@ def header_group(is_halo):
     return group
 
 
-def handle404(request):
+def handle404(request, exception):
     response = render(request, 'catalog/404.html', {})
     response.status_code = 404
     return response
