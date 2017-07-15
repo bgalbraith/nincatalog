@@ -1,10 +1,10 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.views.generic import RedirectView
 
 from catalog import views
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^about/$', views.about, name='about'),
     url(r'^by-(?P<report_tag>[a-z0-9-]+)/$', views.report, name='report'),
@@ -15,4 +15,4 @@ urlpatterns = patterns('',
         views.item, name='item'),
     url(r'^default\.asp$', RedirectView.as_view(pattern_name='index')),
     url(r'^item\.asp$', views.legacy_item, name='legacy_item'),
-)
+]
