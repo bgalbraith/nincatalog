@@ -19,7 +19,7 @@ class Category(models.Model):
     icon = models.ImageField(upload_to='categories')
 
     class Meta:
-        verbose_name_plural = 'Countries'
+        verbose_name_plural = 'Categories'
 
     def __str__(self):
         label = self.name
@@ -179,9 +179,6 @@ class Report(models.Model):
     icon = models.ImageField(upload_to='reports')
     n_columns = models.PositiveSmallIntegerField(default=3)
     column_width = models.PositiveSmallIntegerField(blank=True, null=True)
-
-    class Meta:
-        ordering = ('name',)
 
     def __str__(self):
         return self.name
