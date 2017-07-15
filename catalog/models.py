@@ -8,7 +8,7 @@ class Artist(models.Model):
     class Meta:
         ordering = ('name',)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -18,7 +18,10 @@ class Category(models.Model):
     halo = models.PositiveSmallIntegerField(blank=True, null=True)
     icon = models.ImageField(upload_to='categories')
 
-    def __unicode__(self):
+    class Meta:
+        verbose_name_plural = 'Countries'
+
+    def __str__(self):
         label = self.name
         if self.halo is not None:
             label = "%s (Halo %d)" % (label, self.halo)
@@ -30,8 +33,9 @@ class MediaPackage(models.Model):
 
     class Meta:
         ordering = ('name',)
+        verbose_name_plural = 'Media Packages'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -41,8 +45,9 @@ class MediaFormat(models.Model):
 
     class Meta:
         ordering = ('name',)
+        verbose_name_plural = 'Media Formats'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -53,8 +58,9 @@ class Country(models.Model):
 
     class Meta:
         ordering = ('name',)
+        verbose_name_plural = 'Countries'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -65,8 +71,9 @@ class MusicLabel(models.Model):
 
     class Meta:
         ordering = ('name',)
+        verbose_name_plural = 'Music Labels'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -75,7 +82,7 @@ class Era(models.Model):
     description = models.CharField(max_length=200)
     icon = models.ImageField(upload_to='eras')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -83,7 +90,7 @@ class Track(models.Model):
     related_tracks = models.ManyToManyField('self')
     name = models.CharField(max_length=200)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -93,7 +100,11 @@ class ItemRarity(models.Model):
     icon = models.ImageField(upload_to='rarity')
     scale_icon = models.ImageField(upload_to='rarity')
 
-    def __unicode__(self):
+    class Meta:
+        ordering = ('id',)
+        verbose_name_plural = 'Item Rarities'
+
+    def __str__(self):
         return self.code
 
 
@@ -125,7 +136,7 @@ class Item(models.Model):
         ordering = ('year', 'name', 'media_format', 'country',
                     'catalog_number')
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s (%s %s)" % (self.name, self.country.code,
                                self.media_format.name)
 
@@ -139,7 +150,11 @@ class Item(models.Model):
 class ItemImageType(models.Model):
     name = models.CharField(max_length=200)
 
-    def __unicode__(self):
+    class Meta:
+        ordering = ('name',)
+        verbose_name_plural = 'Item Image Types'
+
+    def __str__(self):
         return self.name
 
 
@@ -150,8 +165,9 @@ class ItemImage(models.Model):
 
     class Meta:
         ordering = ('type',)
+        verbose_name_plural = 'Item Images'
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s [%s]" % (self.item, self.type)
 
 
@@ -164,5 +180,8 @@ class Report(models.Model):
     n_columns = models.PositiveSmallIntegerField(default=3)
     column_width = models.PositiveSmallIntegerField(blank=True, null=True)
 
-    def __unicode__(self):
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
         return self.name
