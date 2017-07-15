@@ -77,10 +77,10 @@ class Migration(migrations.Migration):
                 ('release_date', models.DateField(null=True, blank=True)),
                 ('added_date', models.DateField(null=True, blank=True)),
                 ('old_key', models.CharField(max_length=8)),
-                ('artist', models.ForeignKey(to='catalog.Artist')),
-                ('category', models.ForeignKey(to='catalog.Category')),
-                ('country', models.ForeignKey(to='catalog.Country')),
-                ('era', models.ForeignKey(to='catalog.Era', null=True)),
+                ('artist', models.ForeignKey(to='catalog.Artist', on_delete=models.CASCADE)),
+                ('category', models.ForeignKey(to='catalog.Category', on_delete=models.CASCADE)),
+                ('country', models.ForeignKey(to='catalog.Country', on_delete=models.CASCADE)),
+                ('era', models.ForeignKey(to='catalog.Era', null=True, on_delete=models.CASCADE)),
             ],
             options={
                 'ordering': ('year', 'name', 'media_format', 'country', 'catalog_number'),
@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('image', models.ImageField(upload_to=b'item_images')),
-                ('item', models.ForeignKey(to='catalog.Item')),
+                ('item', models.ForeignKey(to='catalog.Item', on_delete=models.CASCADE)),
             ],
             options={
                 'ordering': ('type',),
@@ -187,19 +187,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='itemimage',
             name='type',
-            field=models.ForeignKey(to='catalog.ItemImageType'),
+            field=models.ForeignKey(to='catalog.ItemImageType', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='item',
             name='media_format',
-            field=models.ForeignKey(to='catalog.MediaFormat'),
+            field=models.ForeignKey(to='catalog.MediaFormat', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='item',
             name='media_package',
-            field=models.ForeignKey(to='catalog.MediaPackage'),
+            field=models.ForeignKey(to='catalog.MediaPackage', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -211,7 +211,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='item',
             name='rarity',
-            field=models.ForeignKey(to='catalog.ItemRarity'),
+            field=models.ForeignKey(to='catalog.ItemRarity', on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

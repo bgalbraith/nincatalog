@@ -18,9 +18,12 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from catalog.views import handle404
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('catalog.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = 'catalog.views.handle404'
+handler404 = handle404

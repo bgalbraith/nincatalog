@@ -111,17 +111,17 @@ class ItemRarity(models.Model):
 class Item(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
-    artist = models.ForeignKey(Artist)
-    category = models.ForeignKey(Category)
-    media_format = models.ForeignKey(MediaFormat)
-    media_package = models.ForeignKey(MediaPackage)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    media_format = models.ForeignKey(MediaFormat, on_delete=models.CASCADE)
+    media_package = models.ForeignKey(MediaPackage, on_delete=models.CASCADE)
     media_notes = models.CharField(max_length=200)
-    country = models.ForeignKey(Country)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
     music_labels = models.ManyToManyField(MusicLabel)
     year = models.IntegerField()
-    rarity = models.ForeignKey(ItemRarity)
+    rarity = models.ForeignKey(ItemRarity, on_delete=models.CASCADE)
     rarity_date = models.DateField(null=True, blank=True)
-    era = models.ForeignKey(Era, null=True)
+    era = models.ForeignKey(Era, null=True, on_delete=models.CASCADE)
     notes = models.CharField(max_length=200)
     catalog_number = models.CharField(max_length=200)
     upc = models.CharField(max_length=200)
@@ -160,8 +160,8 @@ class ItemImageType(models.Model):
 
 class ItemImage(models.Model):
     image = models.ImageField(upload_to='item_images')
-    item = models.ForeignKey(Item)
-    type = models.ForeignKey(ItemImageType)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    type = models.ForeignKey(ItemImageType, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('type',)
