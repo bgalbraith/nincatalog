@@ -64,7 +64,7 @@ def report(request, report_tag):
 
     _entries = model.objects.annotate(n_items=Count('item')) \
         .filter(n_items__gt=0)
-    col_length = len(_entries) / _report.n_columns
+    col_length = len(_entries) // _report.n_columns
     if len(_entries) % _report.n_columns != 0:
         col_length += 1
     _entries = [_entries[i::col_length] for i in range(col_length)]
