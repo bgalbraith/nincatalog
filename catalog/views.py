@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
 from django.urls import reverse
 
-from catalog.models import Category, Item, Report
+from catalog.models import Artist, Category, Country, Era, Item, MediaFormat, \
+    MediaPackage, MusicLabel, Report
 
 
 def index(request):
