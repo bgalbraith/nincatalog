@@ -162,9 +162,10 @@ class ItemImage(models.Model):
     image = models.ImageField(upload_to='item_images')
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     type = models.ForeignKey(ItemImageType, on_delete=models.CASCADE)
+    order = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
-        ordering = ('type',)
+        ordering = ('order',)
         verbose_name_plural = 'Item Images'
 
     def __str__(self):
