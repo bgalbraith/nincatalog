@@ -133,7 +133,7 @@ class Item(models.Model):
     old_key = models.CharField(max_length=8, null=True, blank=True)
 
     class Meta:
-        ordering = ('year', 'name', 'media_format', 'country',
+        ordering = ('year', 'release_date', 'name', 'media_format', 'country',
                     'catalog_number')
 
     def __str__(self):
