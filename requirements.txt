@@ -1,5 +1,5 @@
 django==1.11.3
 django-imagekit==4.0.1
-pillow==4.2.1
+pillow==6.2.0
 PyYAML==3.12
 uwsgi==2.0.15
