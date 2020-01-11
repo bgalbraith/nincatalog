@@ -122,7 +122,7 @@ class Item(models.Model):
     rarity = models.ForeignKey(ItemRarity, on_delete=models.CASCADE)
     rarity_date = models.DateField(null=True, blank=True)
     era = models.ForeignKey(Era, null=True, on_delete=models.CASCADE)
-    notes = models.CharField(max_length=200)
+    notes = models.TextField()
     catalog_number = models.CharField(max_length=200)
     upc = models.CharField(max_length=200)
     discogs = models.IntegerField(null=True, blank=True)
