@@ -1,4 +1,4 @@
-django==1.11.3
+django==1.11.23
 django-imagekit==4.0.1
 pillow==4.2.1
 PyYAML==3.12
