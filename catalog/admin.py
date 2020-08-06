@@ -8,6 +8,7 @@ class ItemImageInline(admin.TabularInline):
 
 
 class ItemAdmin(admin.ModelAdmin):
+    search_fields = ['name', 'artist__name']
     inlines = [
         ItemImageInline
     ]
