@@ -1,10 +1,10 @@
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Count
+from django.db.models import Count, F
 from django.urls import reverse
 
-from catalog.models import Artist, Category, Country, Era, Item, MediaFormat, \
-    MediaPackage, MusicLabel, Report
+from catalog.models import Artist, Category, Country, Era, Item, ItemRarity, \
+    MediaFormat, MediaPackage, MusicLabel, Report
 
 
 def index(request):
@@ -64,6 +64,9 @@ def report(request, report_tag):
 
     _entries = model.objects.annotate(n_items=Count('item')) \
         .filter(n_items__gt=0)
+    if model is ItemRarity:  # hack for ItemRarity
+        _entries = _entries.annotate(name=F('code'))
+
     col_length = len(_entries) // _report.n_columns
     if len(_entries) % _report.n_columns != 0:
         col_length += 1
@@ -84,17 +87,24 @@ def report_details(request, report_tag, entry_tag):
     _entry = get_object_or_404(_model, pk=entry_tag)
     _categories = list()
     for _category in Category.objects.all():
-        filter_kwargs = {'category': _category.pk, _report.field: _entry.pk}
+        field = _report.field
+        if field == 'code':  # hack for ItemRarity
+            field = 'rarity'
+            name = _entry.code
+        else:
+            name = _entry.name
+
+        filter_kwargs = {'category': _category.pk, field: _entry.pk}
         _items = Item.objects.filter(**filter_kwargs)
         if _items.count() > 0:
             _categories.append({
-                'name': "%s / %s" % (_entry.name, _category.name),
+                'name': "%s / %s" % (name, _category.name),
                 'halo': _category.halo,
                 'tag': _category.tag,
                 'items': _items
             })
     _listing = {
-        'title': '%s - %s' % (_report.name.lower(), _entry.name.lower()),
+        'title': '%s - %s' % (_report.name.lower(), name.lower()),
         'selected': _report,
         'categories': _categories
     }
