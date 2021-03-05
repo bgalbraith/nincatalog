@@ -84,6 +84,11 @@ body {
     padding: 1px;
 }
 
+#category-listing thead th a {
+    text-decoration: none;
+    color: black;
+}
+
 #category-listing tbody {
     color: #660000;
     font-weight: normal;

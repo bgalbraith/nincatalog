@@ -12,14 +12,14 @@
       <table>
         <thead>
           <tr>
-            {% if not category.halo %}<th class="artist">artist</th>{% endif %}
-            <th class="title">title</th>
-            <th>notes</th>
-            <th class="format">format</th>
-            <th class="catalog-number">cat number</th>
-            <th class="year">yr</th>
-            <th class="icon">ctr</th>
-            <th class="icon">sc</th>
+            {% if not category.halo %}<th class="artist"><a href="{{ "?sort=artist" }}">artist</a></th>{% endif %}
+            <th class="title"><a href="{{ "?sort=title" }}">title</a></th>
+            <th><a href="{{ "?sort=notes" }}">notes</a></th>
+            <th class="format"><a href="{{ "?sort=format" }}">format</a></th>
+            <th class="catalog-number"><a href="{{ "?sort=catalog" }}">cat number</a></th>
+            <th class="year"><a href="{{ "?sort=year" }}">yr</a></th>
+            <th class="icon"><a href="{{ "?sort=country" }}">ctr</a></th>
+            <th class="icon"><a href="{{ "?sort=rarity" }}">sc</a></th>
           </tr>
         </thead>
         <tbody>
