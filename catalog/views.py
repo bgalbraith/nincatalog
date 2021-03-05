@@ -23,6 +23,19 @@ def category(request, category_tag):
     _category = get_object_or_404(Category, tag=category_tag)
     _group = header_group(_category.halo is not None)
     _items = _category.item_set.all()
+    if 'sort' in request.GET:
+        sort_field = {
+            'artist': 'artist__name',
+            'title': 'name',
+            'notes': 'description',
+            'format': 'media_format__name',
+            'catalog': 'catalog_number',
+            'year': 'year',
+            'country': 'country__name',
+            'rarity': 'rarity__id'
+        }.get(request.GET['sort'], 'name')
+        _items = _items.order_by(sort_field)
+
     _listing = {
         'title': _category.name.lower(),
         'selected': _category,
