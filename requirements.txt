@@ -1,5 +1,6 @@
 django>=4.0,<4.1
+django-clone==3.0.1
 django-imagekit==4.1.0
 pillow>=9.1,<9.2
 PyYAML>=6.0,<6.1
-uwsgi==2.0.20
+uwsgi==2.0.18
