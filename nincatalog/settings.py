@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 DEFAULT_APPS = [
+    'model_clone',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

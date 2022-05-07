@@ -1,4 +1,5 @@
 from django.contrib import admin
+from model_clone import CloneModelAdmin
 
 import catalog.models as models
 
@@ -7,7 +8,7 @@ class ItemImageInline(admin.TabularInline):
     model = models.ItemImage
 
 
-class ItemAdmin(admin.ModelAdmin):
+class ItemAdmin(CloneModelAdmin):
     search_fields = ['name', 'artist__name']
     inlines = [
         ItemImageInline

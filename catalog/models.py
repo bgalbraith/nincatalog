@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from model_clone import CloneMixin
 
 
 class Artist(models.Model):
@@ -108,7 +109,7 @@ class ItemRarity(models.Model):
         return self.code
 
 
-class Item(models.Model):
+class Item(CloneMixin, models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
@@ -131,6 +132,8 @@ class Item(models.Model):
     release_date = models.DateField(null=True, blank=True)
     added_date = models.DateField(null=True, blank=True)
     old_key = models.CharField(max_length=8, null=True, blank=True)
+
+    _clone_m2m_fields = ['music_labels']
 
     class Meta:
         ordering = ('year', 'release_date', 'name', 'media_format', 'country',
