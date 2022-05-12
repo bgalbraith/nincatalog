@@ -164,7 +164,11 @@ body {
 
 #item-other-info th {
     width: 150px;
-    vertical-align: bottom;
+    vertical-align: top;
+}
+
+#item-other-info td {
+    vertical-align: top;
 }
 
 #item-label-icons {
