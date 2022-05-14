@@ -1,3 +1,4 @@
+from operator import mod
 from django.db import models
 from django.utils.text import slugify
 from model_clone import CloneMixin
@@ -82,14 +83,6 @@ class Era(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     icon = models.ImageField(upload_to='eras')
-
-    def __str__(self):
-        return self.name
-
-
-class Track(models.Model):
-    related_tracks = models.ManyToManyField('self')
-    name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
@@ -183,6 +176,22 @@ class Report(models.Model):
     icon = models.ImageField(upload_to='reports')
     n_columns = models.PositiveSmallIntegerField(default=3)
     column_width = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Track(models.Model):
+    order = models.IntegerField()
+    number = models.CharField(max_length=5)    
+    name = models.CharField(max_length=200)
+    legnth = models.DurationField()
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    old_key = models.CharField(max_length=11, null=True, blank=True)
+
+    class Meta:
+        ordering = ('order',)
 
     def __str__(self):
         return self.name
