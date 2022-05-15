@@ -1,4 +1,3 @@
-from operator import mod
 from django.db import models
 from django.utils.text import slugify
 from model_clone import CloneMixin
