@@ -1,6 +1,8 @@
 {% extends 'catalog/base.html' %}
 {% load markdown %}
 {% load upc_url %}
+{% load track_length %}
+{% load track_title %}
 
 {% block title %}nincatalog.com - {{ item }}{% endblock %}
 
@@ -17,9 +19,19 @@
       <tr><th>title</th><td>{{ item.name|lower }}</td></tr>
       <tr><th>package</th><td>{{ item.media_notes }}</td></tr>
     </table>
+    {% if item.track_set.count %}
     <table id="item-track-listing">
-      <tr><th>track listing</th></tr>
+      <tr><th colspan="3">track listing</th></tr>
+      {% for track in item.track_set.all %}
+      <tr>
+        <th></th>
+        <td class="track-number">{{ track.number }}.</td>
+        <td class="track-name">{{ track|track_title:item.artist.name }}</td>
+        <td class="track-length">{{ track.length|track_length }}</td>
+      </tr>
+      {% endfor %}
     </table>
+    {% endif %}
     <table id="item-other-info">
       <tr><th>catalog number</th><td>{{ item.catalog_number }}</td></tr>
       {% if item.upc %}

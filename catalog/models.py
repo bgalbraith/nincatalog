@@ -87,14 +87,6 @@ class Era(models.Model):
         return self.name
 
 
-class Track(models.Model):
-    related_tracks = models.ManyToManyField('self')
-    name = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name
-
-
 class ItemRarity(models.Model):
     code = models.CharField(max_length=1)
     description = models.CharField(max_length=200)
@@ -133,6 +125,7 @@ class Item(CloneMixin, models.Model):
     added_date = models.DateField(null=True, blank=True)
     old_key = models.CharField(max_length=8, null=True, blank=True)
 
+    _clone_excluded_fields = ['old_key']
     _clone_m2m_fields = ['music_labels']
 
     class Meta:
@@ -183,6 +176,22 @@ class Report(models.Model):
     icon = models.ImageField(upload_to='reports')
     n_columns = models.PositiveSmallIntegerField(default=3)
     column_width = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Track(models.Model):
+    order = models.IntegerField()
+    number = models.CharField(max_length=5)    
+    name = models.CharField(max_length=200)
+    length = models.DurationField()
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    artist = models.CharField(max_length=200)
+    old_key = models.CharField(max_length=11, null=True, blank=True)
+
+    class Meta:
+        ordering = ('order',)
 
     def __str__(self):
         return self.name

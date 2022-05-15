@@ -7,10 +7,14 @@ import catalog.models as models
 class ItemImageInline(admin.TabularInline):
     model = models.ItemImage
 
+class ItemTrackInline(admin.TabularInline):
+    model = models.Track
+
 
 class ItemAdmin(CloneModelAdmin):
     search_fields = ['name', 'artist__name']
     inlines = [
+        ItemTrackInline,
         ItemImageInline
     ]
 
