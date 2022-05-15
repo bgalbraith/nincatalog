@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='track',
             name='artist',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='catalog.artist'),
+            field=models.CharField(default='', max_length=200),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='track',
-            name='legnth',
+            name='length',
             field=models.DurationField(default=datetime.timedelta(0)),
             preserve_default=False,
         ),

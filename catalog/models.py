@@ -126,6 +126,7 @@ class Item(CloneMixin, models.Model):
     added_date = models.DateField(null=True, blank=True)
     old_key = models.CharField(max_length=8, null=True, blank=True)
 
+    _clone_excluded_fields = ['old_key']
     _clone_m2m_fields = ['music_labels']
 
     class Meta:
@@ -185,9 +186,9 @@ class Track(models.Model):
     order = models.IntegerField()
     number = models.CharField(max_length=5)    
     name = models.CharField(max_length=200)
-    legnth = models.DurationField()
+    length = models.DurationField()
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    artist = models.CharField(max_length=200)
     old_key = models.CharField(max_length=11, null=True, blank=True)
 
     class Meta:
