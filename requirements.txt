@@ -1,7 +1,7 @@
-django>=4.0,<4.1
-django-clone==3.0.1
-django-imagekit==4.1.0
-markdown2==2.4.3
-pillow>=9.1,<9.2
+django>=5.0,<6.0
+django-clone==5.3.3
+django-imagekit==5.0.0
+markdown2==2.5.0
+pillow>=10.0,<11.0
 PyYAML>=6.0,<6.1
-uwsgi==2.0.18
+#uwsgi==2.0.26
