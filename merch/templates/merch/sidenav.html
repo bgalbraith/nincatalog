@@ -1,0 +1,6 @@
+{% load static %}
+<ul id="sideNav">
+{% for navcategory in sidenav_categories %}
+    <li class="l{{ navcategory.depth }}{% if navcategory.id == category.id %} active{% endif %}"><a href="/{{ navcategory.tag }}">{{ navcategory.name }}</a></li>
+{% endfor %}
+</ul>

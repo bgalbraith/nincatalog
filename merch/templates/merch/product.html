@@ -1,0 +1,80 @@
+{% extends 'merch/base.html' %}
+{% load static %}
+
+{% block title %}merch > {{ product.name }}{% endblock %}
+{% block content %}
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(".productThumb").click(function (e) {
+      e.preventDefault();
+      var $this = $(this);
+      link = $this.attr("href");
+      $("#detailImage").attr("src", link);
+      $("#zoomLink").attr("href", link.replace("thumbnail", "zoom"));
+    });
+    $("#zoomLink").click(function (e) {
+      e.preventDefault();
+      var $this = $(this);
+      link = $this.attr("href");
+      $("#zoomImage").attr("src", link);
+      $("#imageZoom").fadeIn(300);
+      return false;
+    });
+
+    $("#closeButton").click(function () {
+      $("#imageZoom").fadeOut(400);
+    });
+  });
+</script>
+<div id="imageContainer">
+  <div>
+    <a href="{{ images.0.zoom.url }}" id="zoomLink"
+      ><img
+        id="detailImage"
+        src="{{ images.0.thumbnail.url }}"
+        alt="{{ product.name }}"
+    /></a>
+  </div>
+  {% if images|length > 1 %}
+  <div id="imageViews">
+    {% comment %}
+    <!-- I would like to process images upon upload, creating several size images - detail, zoom, and thumbnail.
+        Anchor tags below would be to detail, img tags use thumbnail.
+        Javascript would load the detail upon clicking the thumbnail. Rather than just front and back, a 'view' system might be nice - views a,b,c, etc.-->
+    {% endcomment %}
+    <ul>
+      {% for image in images %}
+      <li>
+        <a href="{{ image.thumbnail.url }}" class="productThumb"
+          ><img src="{{ image.thumbnail_medium.url }}" alt="{{ product.name }}"
+        /></a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+<div id="productDetail">
+  <h2>{{ product.name }}</h2>
+  <div id="productDescription">
+    <p>{{ product.description }}</p>
+    {% comment %}
+    <!-- Rather than have t-shirt,hoodie,litho, etc. as a category, I would like to set those up as a 'productType' -->
+    {% for category in product.categories.all %}{% if category == "Men's" or
+    "Women's" %}{{ category }} {% endif %}{% endfor %} {% endcomment %}
+    <ul>
+    {% for option in product.options.all %}
+      <li>{{ option.type }}:  {{ option.name }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+  
+  <div id="relations">
+    Related Categories: {{ product.categories.all|join:', ' }}
+  </div>
+</div>
+<div id="imageZoom">
+  <img src="{{images.0.zoom.url}}" id="zoomImage" alt="{{product.name}}" />
+  <div id="closeButton">X</div>
+</div>
+{% endblock %}
