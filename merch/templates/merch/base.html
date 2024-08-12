@@ -47,26 +47,28 @@
     </script>
 
     <div class="container_12">
-      <div id="header">
-        <h1 id="siteTitle"><a href="/">merch.nincatalog.com</a></h1>
+      <div class="header">
+        <h1><a href="/">merch.nincatalog.com</a></h1>
       </div>
-      <div id="side_nav">
+      <div class="sidenav">
         <div class="grid_3">{% include "merch/sidenav.html" %}</div>
       </div>
-      <div class="grid_9">
+      <div id="content" class="grid_9">
         <div class="grid_9">{% block banner %}{% endblock %}</div>
         <div class="grid_9">{% block content %}{% endblock %}</div>
       </div>
       <div class="clear"></div>
-      <div class="grid_12" id="footer">
-        <ul>
-          <li><a href="https://theninhotline.net">nin hotline</a></li>
-          <li><a href="https://nin.wiki">nin wiki</a></li>
-          <li><a href="https://nincatalog.com">nin catalog</a></li>
-          <li><a href="https://nintourhistory.com">nin tour history</a></li>
-          <li class="last"><a href="https://nin.com">nin.com</a></li>
-        </ul>
-        <p><a href="mailto:contact@nincatalog.com">contact@nincatalog.com</a></p>
+      <div class="footer">
+        <div class="grid_12">
+          <ul class="link-list">
+            <li class="link-list-item"><a href="https://theninhotline.net">nin hotline</a></li>
+            <li class="link-list-item"><a href="https://nin.wiki">nin wiki</a></li>
+            <li class="link-list-item"><a href="https://nincatalog.com">nin catalog</a></li>
+            <li class="link-list-item"><a href="https://nintourhistory.com">nin tour history</a></li>
+            <li class="link-list-item link-list-item-last"><a href="https://nin.com">nin.com</a></li>
+          </ul>
+          <p><a href="mailto:contact@nincatalog.com">contact@nincatalog.com</a></p>
+        </div>
       </div>
     </div>
   </body>

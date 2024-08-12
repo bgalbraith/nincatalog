@@ -1,31 +1,30 @@
 {% extends 'merch/base.html' %}
 {% load static %}
 
-{% block title %}merch > {{ category.name }}{% endblock %}
+{% block title %}merch > {{ category.name|lower }}{% endblock %}
 {% block banner %}<h2>{{ category.name }}</h2>{% endblock %}
 {% block content %}
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('.browseImage').hover(function() {
-             var $this = $(this);
-             $this.next().fadeIn();
-        },
-        function() {
-             var $this = $(this);
-             $this.next().fadeOut();
-        })
-    });
+  $(document).ready(function(){
+    $('.category-product-image').hover(function() {
+      var $this = $(this);
+      $this.next().fadeIn();
+    },
+    function() {
+      var $this = $(this);
+      $this.next().fadeOut();
+    })
+  });
 </script>
-<!---<div class="prefix_5 grid_4"><p>Pagination and filters</p></div>--->
-<div id="products">
+<div>
 {% for product in category.products|dictsortreversed:"id" %}
 {% if forloop.counter0|divisibleby:"3" %}
 {% endif %}
-<div class="grid_3{% if forloop.counter0|divisibleby:"3" %} alpha{% endif %}{% if forloop.counter0|add:"-2"|divisibleby:"3" %} omega{% endif %} productContainer">
-    <a href="{% url 'product' category.tag product.tag %}">
-        <img class="browseImage" src="{{ product.productimage_set.all.0.thumbnail.url }}" alt="{{product.name}}"/>
-        <div class="title">{{product.name}}</div>
-    </a>
+<div class="grid_3{% if forloop.counter0|divisibleby:"3" %} alpha{% endif %}{% if forloop.counter0|add:"-2"|divisibleby:"3" %} omega{% endif %} category-product-container">
+  <a href="{% url 'product' category.tag product.tag %}">
+    <img class="category-product-image" src="{{ product.productimage_set.all.0.thumbnail.url }}" alt="{{product.name}}"/>
+    <div class="category-product-title">{{product.name}}</div>
+  </a>
 </div>
 {% endfor %}
 </div>

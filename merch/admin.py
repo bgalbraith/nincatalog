@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.db.models import Max
+from django.utils.text import slugify
 from imagekit.admin import AdminThumbnail
 
 import merch.models as models
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    exclude = ("left_id", "right_id")
+    exclude = ("left_id", "right_id", "tag")
 
     list_display = ["ascii_branch"]
 
@@ -17,6 +18,7 @@ class CategoryAdmin(admin.ModelAdmin):
     ascii_branch.short_description = "Category"
 
     def save_model(self, request, obj, form, change):
+        obj.tag = slugify(obj.name)
         reorganize = True
         if change:
             ref = models.Category.objects.get(pk=obj.id)

@@ -26,4 +26,8 @@ def product(request, category_tag, product_tag):
     # force caching of zoom spec if needed
     for image in images:
         url = image.zoom.url
-    return render(request, "merch/product.html", {"product": product, "images": images})
+    return render(
+        request,
+        "merch/product.html",
+        {"category": category, "product": product, "images": images},
+    )
