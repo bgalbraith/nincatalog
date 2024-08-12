@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="merch.nincatalog.com" />
+    <meta name="author" content="nincatalog.com" />
+
+    <title>{% block title %}merch.nincatalog.com{% endblock %}</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static "/merch/css/reset.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "/merch/css/text.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "/merch/css/960.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "/merch/css/catalog.css" %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400..900&display=swap" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <script>
+      (function (i, s, o, g, r, a, m) {
+        i["GoogleAnalyticsObject"] = r;
+        (i[r] =
+          i[r] ||
+          function () {
+            (i[r].q = i[r].q || []).push(arguments);
+          }),
+          (i[r].l = 1 * new Date());
+        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m);
+      })(
+        window,
+        document,
+        "script",
+        "//www.google-analytics.com/analytics.js",
+        "ga"
+      );
+
+      ga("create", "UA-58668831-1", "auto");
+      ga("send", "pageview");
+    </script>
+
+    <div class="container_12">
+      <div class="header">
+        <h1><a href="/">merch.nincatalog.com</a></h1>
+      </div>
+      <div class="sidenav">
+        <div class="grid_3">{% include "merch/sidenav.html" %}</div>
+      </div>
+      <div id="content" class="grid_9">
+        <div class="grid_9">{% block banner %}{% endblock %}</div>
+        <div class="grid_9">{% block content %}{% endblock %}</div>
+      </div>
+      <div class="clear"></div>
+      <div class="footer">
+        <div class="grid_12">
+          <ul class="link-list">
+            <li class="link-list-item"><a href="https://theninhotline.net">nin hotline</a></li>
+            <li class="link-list-item"><a href="https://nin.wiki">nin wiki</a></li>
+            <li class="link-list-item"><a href="https://nincatalog.com">nin catalog</a></li>
+            <li class="link-list-item"><a href="https://nintourhistory.com">nin tour history</a></li>
+            <li class="link-list-item link-list-item-last"><a href="https://nin.com">nin.com</a></li>
+          </ul>
+          <p><a href="mailto:contact@nincatalog.com">contact@nincatalog.com</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

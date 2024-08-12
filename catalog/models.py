@@ -7,7 +7,7 @@ class Artist(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ("name",)
 
     def __str__(self):
         return self.name
@@ -17,10 +17,10 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     tag = models.CharField(max_length=200)
     halo = models.PositiveSmallIntegerField(blank=True, null=True)
-    icon = models.ImageField(upload_to='categories')
+    icon = models.ImageField(upload_to="categories")
 
     class Meta:
-        verbose_name_plural = 'Categories'
+        verbose_name_plural = "Categories"
 
     def __str__(self):
         label = self.name
@@ -33,8 +33,8 @@ class MediaPackage(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta:
-        ordering = ('name',)
-        verbose_name_plural = 'Media Packages'
+        ordering = ("name",)
+        verbose_name_plural = "Media Packages"
 
     def __str__(self):
         return self.name
@@ -42,11 +42,11 @@ class MediaPackage(models.Model):
 
 class MediaFormat(models.Model):
     name = models.CharField(max_length=200)
-    tag = models.CharField(max_length=200, default='')
+    tag = models.CharField(max_length=200, default="")
 
     class Meta:
-        ordering = ('name',)
-        verbose_name_plural = 'Media Formats'
+        ordering = ("name",)
+        verbose_name_plural = "Media Formats"
 
     def __str__(self):
         return self.name
@@ -55,11 +55,11 @@ class MediaFormat(models.Model):
 class Country(models.Model):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=2)
-    icon = models.ImageField(upload_to='countries')
+    icon = models.ImageField(upload_to="countries")
 
     class Meta:
-        ordering = ('name',)
-        verbose_name_plural = 'Countries'
+        ordering = ("name",)
+        verbose_name_plural = "Countries"
 
     def __str__(self):
         return self.name
@@ -68,11 +68,11 @@ class Country(models.Model):
 class MusicLabel(models.Model):
     name = models.CharField(max_length=200)
     url = models.URLField()
-    icon = models.ImageField(upload_to='music_labels', null=True)
+    icon = models.ImageField(upload_to="music_labels", null=True)
 
     class Meta:
-        ordering = ('name',)
-        verbose_name_plural = 'Music Labels'
+        ordering = ("name",)
+        verbose_name_plural = "Music Labels"
 
     def __str__(self):
         return self.name
@@ -81,7 +81,7 @@ class MusicLabel(models.Model):
 class Era(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
-    icon = models.ImageField(upload_to='eras')
+    icon = models.ImageField(upload_to="eras")
 
     def __str__(self):
         return self.name
@@ -90,12 +90,12 @@ class Era(models.Model):
 class ItemRarity(models.Model):
     code = models.CharField(max_length=1)
     description = models.CharField(max_length=200)
-    icon = models.ImageField(upload_to='rarity')
-    scale_icon = models.ImageField(upload_to='rarity')
+    icon = models.ImageField(upload_to="rarity")
+    scale_icon = models.ImageField(upload_to="rarity")
 
     class Meta:
-        ordering = ('id',)
-        verbose_name_plural = 'Item Rarities'
+        ordering = ("id",)
+        verbose_name_plural = "Item Rarities"
 
     def __str__(self):
         return self.code
@@ -125,44 +125,50 @@ class Item(CloneMixin, models.Model):
     added_date = models.DateField(null=True, blank=True)
     old_key = models.CharField(max_length=8, null=True, blank=True)
 
-    _clone_excluded_fields = ['old_key']
-    _clone_m2m_fields = ['music_labels']
+    _clone_excluded_fields = ["old_key"]
+    _clone_m2m_fields = ["music_labels"]
 
     class Meta:
-        ordering = ('year', 'release_date', 'name', 'media_format', 'country',
-                    'catalog_number')
+        ordering = (
+            "year",
+            "release_date",
+            "name",
+            "media_format",
+            "country",
+            "catalog_number",
+        )
 
     def __str__(self):
-        return "%s (%s %s)" % (self.name, self.country.code,
-                               self.media_format.name)
+        return "%s (%s %s)" % (self.name, self.country.code, self.media_format.name)
 
     def tag(self):
-        return slugify("-".join([self.name,
-                                 self.country.code,
-                                 self.media_format.tag,
-                                 str(self.id)]))
+        return slugify(
+            "-".join(
+                [self.name, self.country.code, self.media_format.tag, str(self.id)]
+            )
+        )
 
 
 class ItemImageType(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta:
-        ordering = ('name',)
-        verbose_name_plural = 'Item Image Types'
+        ordering = ("name",)
+        verbose_name_plural = "Item Image Types"
 
     def __str__(self):
         return self.name
 
 
 class ItemImage(models.Model):
-    image = models.ImageField(upload_to='item_images')
+    image = models.ImageField(upload_to="item_images")
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     type = models.ForeignKey(ItemImageType, on_delete=models.CASCADE)
     order = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
-        ordering = ('order',)
-        verbose_name_plural = 'Item Images'
+        ordering = ("order",)
+        verbose_name_plural = "Item Images"
 
     def __str__(self):
         return "%s [%s]" % (self.item, self.type)
@@ -173,7 +179,7 @@ class Report(models.Model):
     tag = models.CharField(max_length=200)
     model = models.CharField(max_length=200)
     field = models.CharField(max_length=200)
-    icon = models.ImageField(upload_to='reports')
+    icon = models.ImageField(upload_to="reports")
     n_columns = models.PositiveSmallIntegerField(default=3)
     column_width = models.PositiveSmallIntegerField(blank=True, null=True)
 
@@ -183,7 +189,7 @@ class Report(models.Model):
 
 class Track(models.Model):
     order = models.IntegerField()
-    number = models.CharField(max_length=5)    
+    number = models.CharField(max_length=5)
     name = models.CharField(max_length=200)
     length = models.DurationField()
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -191,7 +197,7 @@ class Track(models.Model):
     old_key = models.CharField(max_length=11, null=True, blank=True)
 
     class Meta:
-        ordering = ('order',)
+        ordering = ("order",)
 
     def __str__(self):
         return self.name

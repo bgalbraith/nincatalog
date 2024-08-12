@@ -1,0 +1,162 @@
+body {
+  background-color: #111111;
+  color: white;
+  text-align: center;
+  font-family: "Maven Pro", serif;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.header {
+  padding-left: 30px;
+  padding-top: 20px;
+  overflow: auto;
+}
+.header h1 {
+  float: left;
+}
+
+.sidenav-list {
+  margin: 0;
+  list-style: none;
+}
+.sidenav-list-item {
+  background-color: #333;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 1px;
+}
+.sidenav-list-item a {
+  display: block;
+  padding: 10px;
+}
+.sidenav-list-item-d2 {
+  background-color: #444;
+  padding-left: 10px;
+}
+.sidenav-list-item-d3 {
+  background-color: #555;
+  padding-left: 40px;
+}
+.sidenav-active-item {
+  background-color: #666;
+}
+
+.footer p {
+  text-align: center;
+}
+
+.link-list {
+  margin: 20px;
+  overflow: auto;
+  text-align: center;
+  height: 30px;
+}
+.link-list-item {
+  display: inline;
+  margin-left: 0;
+  padding: 10px;
+  border-right: 1px solid white;
+}
+.link-list-item-last {
+  border: 0;
+}
+
+/******* CATEGORY *******/
+
+/* #products p {
+  background-color: #999999;
+  height: 100px;
+  padding-top: 80px;
+} */
+
+.category-product-container {
+  margin-bottom: 40px;
+}
+.category-product-title {
+  background-color: #333;
+  background: rgb(75, 75, 75) transparent;
+  background: rgba(75, 75, 75, 0.9);
+  padding: 5px;
+  margin-top: -200px;
+  margin-left: 10px;
+  width: 190px;
+  position: absolute;
+  text-align: center;
+  display: none;
+}
+.category-product-image {
+  height: 200px;
+  width: 200px;
+}
+
+
+/******* PRODUCT DETAIL *******/
+.product-detail {
+  float: left;
+}
+.product-detail h2,
+p {
+  text-align: left;
+}
+.product-detail li {
+  margin-left: 10px;
+}
+
+.product-description,
+.product-relations {
+  padding: 10px;
+}
+.product-option-list {
+  text-align: left;
+  list-style: none;
+}
+
+.zoom-close-button {
+  padding: 10px;
+  display: inline;
+  background-color: #777777;
+  position: absolute;
+  margin-right: -20px;
+  z-index: 55;
+  cursor: pointer;
+}
+
+.product-zoom {
+  z-index: 50;
+  position: absolute;
+  top: 10px;
+  width: 600px;
+  display: none;
+  margin-top: 100px;
+}
+.product-zoom img {
+  vertical-align: top;
+}
+
+.product-image-container {
+  padding: 10px;
+  width: 200px;
+}
+.product-detail-image {
+  margin-bottom: 10px;
+}
+
+.image-view-list {
+  list-style: none;
+}
+
+.image-view-list-item {
+  padding: 0px;
+  margin: 0px;
+  float: left;
+}
+
+.image-view-list-item img {
+  height: 100px;
+  width: 100px;
+  padding-bottom: 10px;
+}

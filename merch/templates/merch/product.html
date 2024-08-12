@@ -1,0 +1,64 @@
+{% extends 'merch/base.html' %}
+{% load static %}
+{% block title %}merch > {{ product.name|lower }}{% endblock %}
+{% block banner %}<h2>{{ product.name }}</h2>{% endblock %}
+{% block content %}
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(".product-thumb").click(function (e) {
+      e.preventDefault();
+      var $this = $(this);
+      $(".product-detail-image").attr("src", $this.attr("href"));
+      $(".product-zoom-link").attr("href", $this.attr("data-zoom"));
+    });
+    $(".product-zoom-link").click(function (e) {
+      e.preventDefault();
+      var $this = $(this);
+      $(".zoom-image").attr("src", $this.attr("href"));
+      $(".product-zoom").fadeIn(300);
+      return false;
+    });
+
+    $(".zoom-close-button").click(function () {
+      $(".product-zoom").fadeOut(400);
+    });
+  });
+</script>
+<div class="product-image-container">
+  <a class="product-zoom-link" href="{{ images.0.zoom.url }}">
+    <img
+      class="product-detail-image"
+      src="{{ images.0.thumbnail.url }}"
+      alt="{{ product.name }}"/>
+  </a>
+</div>
+{% if images|length > 1 %}
+<div class="product-images">
+  <ul class="image-view-list">
+    {% for image in images %}
+    <li class="image-view-list-item">
+      <a class="product-thumb" href="{{ image.thumbnail.url }}" data-zoom="{{ image.zoom.url }}">
+        <img src="{{ image.thumbnail_medium.url }}" alt="{{ product.name }}"/>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+<div class="product-detail">
+  <div class="product-description">
+    {{ product.description|linebreaks }}
+    <ul class="product-option-list">
+      {% for option in product.options.all %}
+      <li class="product-option-list-item">{{ option.type }}: {{ option.name }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {% comment %} <p class="product-relations">Related Categories: {{ product.categories.all|join:', ' }}</p> {% endcomment %}
+</div>
+<div class="product-zoom">
+  <img class="zoom-image" src="{{images.0.zoom.url}}" alt="{{product.name}}" />
+  <div class="zoom-close-button">X</div>
+</div>
+{% endblock %}
