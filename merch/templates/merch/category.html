@@ -4,18 +4,6 @@
 {% block title %}merch > {{ category.name|lower }}{% endblock %}
 {% block banner %}<h2>{{ category.name }}</h2>{% endblock %}
 {% block content %}
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('.category-product-image').hover(function() {
-      var $this = $(this);
-      $this.next().fadeIn();
-    },
-    function() {
-      var $this = $(this);
-      $this.next().fadeOut();
-    })
-  });
-</script>
 <div class="product-grid">
 {% for product in category.products|dictsortreversed:"id" %}
 <div class="category-product-container">
