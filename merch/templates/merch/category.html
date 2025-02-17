@@ -4,23 +4,9 @@
 {% block title %}merch > {{ category.name|lower }}{% endblock %}
 {% block banner %}<h2>{{ category.name }}</h2>{% endblock %}
 {% block content %}
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('.category-product-image').hover(function() {
-      var $this = $(this);
-      $this.next().fadeIn();
-    },
-    function() {
-      var $this = $(this);
-      $this.next().fadeOut();
-    })
-  });
-</script>
-<div>
+<div class="product-grid">
 {% for product in category.products|dictsortreversed:"id" %}
-{% if forloop.counter0|divisibleby:"3" %}
-{% endif %}
-<div class="grid_3{% if forloop.counter0|divisibleby:"3" %} alpha{% endif %}{% if forloop.counter0|add:"-2"|divisibleby:"3" %} omega{% endif %} category-product-container">
+<div class="category-product-container">
   <a href="{% url 'product' category.tag product.tag %}">
     <img class="category-product-image" src="{{ product.productimage_set.all.0.thumbnail.url }}" alt="{{product.name}}"/>
     <div class="category-product-title">{{product.name}}</div>
