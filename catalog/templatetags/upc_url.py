@@ -8,4 +8,6 @@ register = template.Library()
 def upc_url(value):
     value = value.replace(' ', '')
     value = value.replace('-', '')
-    return "http://www.upcdatabase.com/item.asp?upc=" + value
+    if len(value) == 12:
+        value = f"0{value}"
+    return f"http://www.upcdatabase.org/code/{value}"
