@@ -1,11 +1,11 @@
 /* Base styles and variables */
 :root {
-  --primary-color: #000;
-  --secondary-color: #333;
+  --primary-color: #fff;
+  --secondary-color: #ccc;
   --accent-color: #d01818;
-  --background-color: #fff;
-  --border-color: #eee;
-  --text-color: #333;
+  --background-color: #000;
+  --border-color: #111;
+  --text-color: #ccc;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 2rem;
@@ -46,19 +46,17 @@ body {
 
 /* Header */
 .header {
-  height: var(--header-height);
-  border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 var(--spacing-md);
 }
 
-.header h1 a {
-  color: var(--primary-color);
-  text-decoration: none;
-  font-size: 1.75rem;
-  font-weight: 700;
+.header img {
+  object-fit: cover;
+  max-width: 1080px;
+  width: 100%;
+  height: auto;
 }
 
 /* Main content area */
