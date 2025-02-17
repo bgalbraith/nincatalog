@@ -10,9 +10,6 @@
 
     <title>{% block title %}merch.nincatalog.com{% endblock %}</title>
 
-    <link rel="stylesheet" type="text/css" href="{% static "/merch/css/reset.css" %}" />
-    <link rel="stylesheet" type="text/css" href="{% static "/merch/css/text.css" %}" />
-    <link rel="stylesheet" type="text/css" href="{% static "/merch/css/960.css" %}" />
     <link rel="stylesheet" type="text/css" href="{% static "/merch/css/catalog.css" %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,31 +42,29 @@
       ga("create", "UA-58668831-1", "auto");
       ga("send", "pageview");
     </script>
-
-    <div class="container_12">
-      <div class="header">
+    <div class="page-container">
+      <header class="header">
         <h1><a href="/">merch.nincatalog.com</a></h1>
-      </div>
-      <div class="sidenav">
-        <div class="grid_3">{% include "merch/sidenav.html" %}</div>
-      </div>
-      <div id="content" class="grid_9">
-        <div class="grid_9">{% block banner %}{% endblock %}</div>
-        <div class="grid_9">{% block content %}{% endblock %}</div>
-      </div>
-      <div class="clear"></div>
-      <div class="footer">
-        <div class="grid_12">
-          <ul class="link-list">
-            <li class="link-list-item"><a href="https://theninhotline.net">nin hotline</a></li>
-            <li class="link-list-item"><a href="https://nin.wiki">nin wiki</a></li>
-            <li class="link-list-item"><a href="https://nincatalog.com">nin catalog</a></li>
-            <li class="link-list-item"><a href="https://nintourhistory.com">nin tour history</a></li>
-            <li class="link-list-item link-list-item-last"><a href="https://nin.com">nin.com</a></li>
-          </ul>
-          <p><a href="mailto:contact@nincatalog.com">contact@nincatalog.com</a></p>
+      </header>
+      
+      <main class="main-container">
+        <div class="content-wrapper">
+          <nav class="sidenav">
+            {% include "merch/sidenav.html" %}
+          </nav>
+          
+          <div class="content">
+            {% block banner %}{% endblock %}
+            {% block content %}{% endblock %}
+          </div>
         </div>
-      </div>
+      </main>
+
+      <footer class="footer">
+        <p>To submit an entry to the site, please contact us at <a href="mailto:contact@nincatalog.com">contact@nincatalog.com</a></p>
+      </footer>
     </div>
+
+    {% block scripts %}{% endblock %}
   </body>
 </html>
