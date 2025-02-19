@@ -42,9 +42,20 @@
       ga("create", "UA-58668831-1", "auto");
       ga("send", "pageview");
     </script>
+
+    <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    
+    <div class="nav-overlay"></div>
+
     <div class="page-container">
       <header class="header">
-        <a href="/"><img src="{% static "merch/img/banner.png" %}" alt="merch.nincatalog.com" /></a>
+        <img src="{% static "merch/img/banner.png" %}" alt="merch.nincatalog.com" />
       </header>
       
       <main class="main-container">
@@ -66,5 +77,41 @@
     </div>
 
     {% block scripts %}{% endblock %}
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+      const sidenav = document.querySelector('.sidenav');
+      const overlay = document.querySelector('.nav-overlay');
+      const body = document.body;
+
+      function toggleNav() {
+        mobileNavToggle.classList.toggle('active');
+        sidenav.classList.toggle('active');
+        overlay.classList.toggle('active');
+        body.classList.toggle('nav-open');
+      }
+
+      mobileNavToggle.addEventListener('click', toggleNav);
+      overlay.addEventListener('click', toggleNav);
+
+      // Close nav on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sidenav.classList.contains('active')) {
+          toggleNav();
+        }
+      });
+
+      // Close nav when clicking a link (for better mobile UX)
+      const navLinks = sidenav.querySelectorAll('a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (sidenav.classList.contains('active')) {
+            toggleNav();
+          }
+        });
+      });
+    });
+    </script>
   </body>
 </html>
