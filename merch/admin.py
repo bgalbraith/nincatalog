@@ -61,9 +61,6 @@ class CategoryAdmin(admin.ModelAdmin):
         obj.delete()
 
 
-admin.site.register(models.Category, CategoryAdmin)
-
-
 class ProductImageInline(admin.TabularInline):
     model = models.ProductImage
     extra = 1
@@ -78,6 +75,15 @@ class ProductAdmin(admin.ModelAdmin):
     ]
 
 
+class OptionAdmin(admin.ModelAdmin):
+    ordering = ["option_type__name", "name"]
+
+
+class OptionTypeAdmin(admin.ModelAdmin):
+    ordering = ["name"]
+
+
 admin.site.register(models.Product, ProductAdmin)
-admin.site.register(models.Option)
-admin.site.register(models.OptionType)
+admin.site.register(models.Category, CategoryAdmin)
+admin.site.register(models.Option, OptionAdmin)
+admin.site.register(models.OptionType, OptionTypeAdmin)

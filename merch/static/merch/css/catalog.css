@@ -252,6 +252,10 @@ body {
   margin-bottom: var(--spacing-lg);
 }
 
+.product-description p {
+  margin-bottom: var(--spacing-md);
+}
+
 .product-options h3 {
   margin-bottom: var(--spacing-md);
   font-size: 1.2rem;
