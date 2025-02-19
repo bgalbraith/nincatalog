@@ -25,7 +25,7 @@ class Category(models.Model):
     def products(self):
         """
         Returns a flat list of all products that fall within a category and
-        it's children.
+        its children.
         """
         children = Category.objects.filter(
             left_id__gt=self.left_id, right_id__lt=self.right_id
