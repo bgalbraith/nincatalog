@@ -1,14 +1,25 @@
 from django.contrib import admin
-from django.db.models import Max
 from django.utils.text import slugify
 from imagekit.admin import AdminThumbnail
 
 import merch.models as models
 
 
+def generate_tree_ids(parent=None, i=1):
+    obs = []
+    for c in models.Category.objects.filter(parent__exact=parent).order_by("order"):
+        c.left_id = i
+        children, j = generate_tree_ids(c, i+1)
+        c.right_id = j
+        obs.append(c)
+        obs.extend(children)
+        i = j + 1
+
+    return obs, i
+
+
 class CategoryAdmin(admin.ModelAdmin):
     exclude = ("left_id", "right_id", "tag")
-
     list_display = ["ascii_branch"]
 
     def ascii_branch(self, obj):
@@ -19,46 +30,15 @@ class CategoryAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.tag = slugify(obj.name)
-        reorganize = True
-        if change:
-            ref = models.Category.objects.get(pk=obj.id)
-            if ref.parent == obj.parent:
-                reorganize = False
-        if reorganize:
-            anchor = obj.parent
-            if anchor is None:
-                insert = models.Category.objects.aggregate(Max("right_id"))[
-                    "right_id__max"
-                ]
-                # first entry edge case
-                if insert is None:
-                    insert = 0
-
-                insert += 1
-            else:
-                insert = obj.parent.right_id
-
-            for c in models.Category.objects.filter(left_id__gt=insert):
-                c.left_id += 2
-                c.save()
-            for c in models.Category.objects.filter(right_id__gte=insert):
-                c.right_id += 2
-                c.save()
-            obj.left_id = insert
-            obj.right_id = insert + 1
-
         obj.save()
+        objs, _ = generate_tree_ids()
+        models.Category.objects.bulk_update(objs, ["left_id", "right_id"])
 
     def delete_model(self, request, obj):
-        for c in models.Category.objects.filter(left_id__gt=obj.right_id):
-            c.left_id -= 2
-            c.save()
-        for c in models.Category.objects.filter(right_id__gte=obj.right_id):
-            c.right_id -= 2
-            c.save()
-
         obj.product_set.clear()
         obj.delete()
+        objs, _ = generate_tree_ids()
+        models.Category.objects.bulk_update(objs, ["left_id", "right_id"])
 
 
 class ProductImageInline(admin.TabularInline):

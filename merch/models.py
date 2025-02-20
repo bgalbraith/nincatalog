@@ -12,8 +12,9 @@ class Category(models.Model):
     )
     name = models.CharField(max_length=200)
     tag = models.CharField(max_length=200)
-    left_id = models.IntegerField()
-    right_id = models.IntegerField()
+    left_id = models.IntegerField(default=0)
+    right_id = models.IntegerField(default=0)
+    order = models.IntegerField(default=0)
 
     class Meta:
         ordering = ["left_id"]
