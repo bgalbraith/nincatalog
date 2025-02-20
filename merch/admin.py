@@ -49,6 +49,7 @@ class ProductImageInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
+    search_fields = ["name", "categories__name"]
     ordering = ["name"]
     inlines = [
         ProductImageInline,
