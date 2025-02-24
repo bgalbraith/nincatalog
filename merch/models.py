@@ -130,9 +130,10 @@ class ProductImage(models.Model):
     thumbnail_tiny = ImageSpecField(
         source="original", processors=[ResizeToFill(50, 50)], format="PNG"
     )
+    order = models.SmallIntegerField(default=0)
 
     class Meta:
-        order_with_respect_to = "product"
+        ordering = ["order"]
 
     def __str__(self):
-        return "%s [%d]" % (self.product.name, self._order)
+        return "%s [%d]" % (self.product.name, self.order)
