@@ -21,6 +21,9 @@
         <img src="{{ category.icon.url }}" alt="{{ category.name }}"/>
       </a>
     {% endfor %}
+    <a href="{{ request.scheme }}://merch.{{ request.get_host }}" title="Merch">
+      <img src="{% static 'catalog/img/merch.png' %}" alt="About the Site">
+    </a>
     <a href="{% url 'about' %}" title="About the Site">
       <img src="{% static 'catalog/img/about.jpg' %}" alt="About the Site">
     </a>
