@@ -42,6 +42,12 @@
     <div class="product-options">
       <h3>Product Details</h3>
       <ul class="product-option-list">
+        {% if product.is_authorized != "Y" %}
+        <li class="product-option-list-item">
+          <span class="option-type">Authorized:</span>
+          <span class="option-value">{{ product.get_is_authorized_display }}</span>
+        </li>
+        {% endif %}
         {% for option in product.options.all %}
         <li class="product-option-list-item">
           <span class="option-type">{{ option.type }}:</span>
