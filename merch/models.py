@@ -94,6 +94,14 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     options = models.ManyToManyField(Option)
+    product_id = models.CharField(max_length=200, null=True, blank=True)
+    material = models.CharField(max_length=200, null=True, blank=True)
+    cost = models.CharField(max_length=20, null=True, blank=True)
+    is_authorized = models.CharField(
+        max_length=1,
+        choices=[("Y", "Yes"), ("?", "Unknown"), ("N", "No")],
+        default="Y",
+    )
 
     def __str__(self):
         return self.name

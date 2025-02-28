@@ -11,7 +11,12 @@ def index(request):
 
 def category(request, category_tag):
     category = get_object_or_404(Category, tag=category_tag)
-    return render(request, "merch/category.html", {"category": category})
+    products = filter(lambda p: p.is_authorized != "N", category.products())
+    return render(  
+        request,
+        "merch/category.html",
+        {"category": category, "products": products},
+    )
 
 
 def product(request, category_tag, product_tag):

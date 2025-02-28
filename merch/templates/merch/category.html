@@ -5,7 +5,7 @@
 {% block banner %}<h2>{{ category.name }}</h2>{% endblock %}
 {% block content %}
 <div class="product-grid">
-{% for product in category.products|dictsortreversed:"id" %}
+{% for product in products|dictsort:"name" %}
 <div class="category-product-container">
   <a href="{% url 'product' category.tag product.tag %}">
     <img class="category-product-image" src="{{ product.productimage_set.all.0.thumbnail.url }}" alt="{{product.name}}"/>
