@@ -48,6 +48,24 @@
           <span class="option-value">{{ option.name }}</span>
         </li>
         {% endfor %}
+        {% if product.material %}
+        <li class="product-option-list-item">
+          <span class="option-type">Material:</span>
+          <span class="option-value">{{ product.material }}</span>
+        </li>
+        {% endif %}
+        {% if product.cost %}
+        <li class="product-option-list-item">
+          <span class="option-type">Original Cost:</span>
+          <span class="option-value">{{ product.cost }}</span>
+        </li>
+        {% endif %}
+        {% if product.product_id %}
+        <li class="product-option-list-item">
+          <span class="option-type">RN/Product ID:</span>
+          <span class="option-value">{{ product.product_id }}</span>
+        </li>
+        {% endif %}
       </ul>
     </div>
     {% endif %}
