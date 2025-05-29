@@ -60,6 +60,12 @@
           <span class="option-value">{{ product.material }}</span>
         </li>
         {% endif %}
+        {% if product.measurements %}
+        <li class="product-option-list-item">
+          <span class="option-type">Measurements:</span>
+          <span class="option-value">{{ product.measurements }}</span>
+        </li>
+        {% endif %}
         {% if product.cost %}
         <li class="product-option-list-item">
           <span class="option-type">Original Cost:</span>

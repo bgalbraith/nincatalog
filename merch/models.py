@@ -97,6 +97,7 @@ class Product(models.Model):
     product_id = models.CharField(max_length=200, null=True, blank=True)
     material = models.CharField(max_length=200, null=True, blank=True)
     cost = models.CharField(max_length=20, null=True, blank=True)
+    measurements = models.CharField(max_length=50, null=True, blank=True)
     is_authorized = models.CharField(
         max_length=1,
         choices=[("Y", "Yes"), ("?", "Unknown"), ("N", "No")],
