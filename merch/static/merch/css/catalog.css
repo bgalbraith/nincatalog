@@ -52,7 +52,7 @@ body {
   padding: 0 var(--spacing-md);
 }
 
-.header img {
+.header a img {
   object-fit: cover;
   max-width: 1080px;
   width: 100%;
@@ -462,7 +462,7 @@ body {
     align-items: right;
   }
 
-  .header img {
+  .header a {
     width: 90%;
   }
 }
