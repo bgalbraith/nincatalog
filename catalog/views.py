@@ -18,7 +18,7 @@ from catalog.models import (
 
 
 def index(request):
-    _halo_group = Category.objects.filter(halo__isnull=False)
+    _halo_group = Category.objects.filter(halo__isnull=False).order_by("halo")
     _other_group = (
         Category.objects.filter(halo__isnull=True)
         .annotate(n_item=Count("item"))
