@@ -150,7 +150,9 @@ def about(request):
 
 def header_group(is_halo):
     if is_halo:
-        group = {"categories": Category.objects.filter(halo__isnull=False)}
+        group = {
+            "categories": Category.objects.filter(halo__isnull=False).order_by("halo")
+        }
     else:
         categories = (
             Category.objects.filter(halo__isnull=True)
