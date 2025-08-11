@@ -1,0 +1,71 @@
+{% extends 'merch/base.html' %}
+{% load static %}
+
+{% block banner %}
+<h2>Search Results</h2>
+{% endblock %}
+
+{% block content %}
+<div class="search-container">
+  <form method="get" action="/search/" class="search-form">
+    <div class="search-input-group">
+      <input 
+        type="text" 
+        name="q" 
+        placeholder="Search merchandise..." 
+        class="search-input"
+        value="{{ query }}"
+      />
+      <button type="submit" class="search-button">Search</button>
+    </div>
+  </form>
+</div>
+
+{% if query %}
+  <div class="search-info">
+    {% if result_count > 0 %}
+      <p><strong>{{ result_count }}</strong> result{{ result_count|pluralize }} found for "<em>{{ query }}</em>"</p>
+    {% else %}
+      <p>No results found for "<em>{{ query }}</em>"</p>
+      <p>Try searching with different keywords or check your spelling.</p>
+    {% endif %}
+  </div>
+
+  {% if results %}
+    <div class="product-grid">
+      {% for product in results %}
+        <div class="category-product-container">
+          {% if product.categories.exists %}
+            {% with product.categories.first as category %}
+              <a href="/{{ category.tag }}/{{ product.tag }}/">
+                {% if product.productimage_set.exists %}
+                  <img class="category-product-image" src="{{ product.productimage_set.all.0.thumbnail.url }}" alt="{{ product.name }}"/>
+                {% else %}
+                  <div class="category-product-image no-image-placeholder">
+                    <span>No Image</span>
+                  </div>
+                {% endif %}
+                <div class="category-product-title">{{ product.name }}</div>
+              </a>
+            {% endwith %}
+          {% else %}
+            {% if product.productimage_set.exists %}
+              <img class="category-product-image" src="{{ product.productimage_set.all.0.thumbnail.url }}" alt="{{ product.name }}"/>
+            {% else %}
+              <div class="category-product-image no-image-placeholder">
+                <span>No Image</span>
+              </div>
+            {% endif %}
+            <div class="category-product-title">{{ product.name }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% else %}
+  <div class="search-info">
+    <p>Enter a search term above to find merchandise.</p>
+  </div>
+{% endif %}
+
+{% endblock %}
