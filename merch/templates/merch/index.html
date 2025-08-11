@@ -3,7 +3,23 @@
 
 {% block banner %}<h2>Merch</h2>{% endblock %}
 {% block content %}
-<div style="font-size:12pt;font-weight:bold;">
+<div class="intro-text">
   <p>This is a fan project to catalog officially licensed Nine Inch Nails apparel and merchandise.</p>
 </div>
+
+<div class="search-container">
+  <form method="get" action="/search/" class="search-form">
+    <div class="search-input-group">
+      <input 
+        type="text" 
+        name="q" 
+        placeholder="Search merchandise..." 
+        class="search-input"
+        value="{{ request.GET.q }}"
+      />
+      <button type="submit" class="search-button">Search</button>
+    </div>
+  </form>
+</div>
+
 {% endblock %}
