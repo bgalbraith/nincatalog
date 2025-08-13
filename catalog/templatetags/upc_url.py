@@ -10,4 +10,4 @@ def upc_url(value):
     value = value.replace('-', '')
     if len(value) == 12:
         value = f"0{value}"
-    return f"http://www.upcdatabase.org/code/{value}"
+    return f"https://www.barcodelookup.com/{value}"
