@@ -15,6 +15,7 @@ class Category(models.Model):
     left_id = models.IntegerField(default=0)
     right_id = models.IntegerField(default=0)
     order = models.IntegerField(default=0)
+    show_in_parent = models.BooleanField(default=True)
 
     class Meta:
         ordering = ["left_id"]
@@ -33,7 +34,8 @@ class Category(models.Model):
         )
         products = [self.product_set.all()]
         for child in children:
-            products.append(child.product_set.all())
+            if child.show_in_parent:
+                products.append(child.product_set.all())
 
         return set(chain.from_iterable(products))
 
