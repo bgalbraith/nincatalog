@@ -148,3 +148,22 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return "%s [%d]" % (self.product.name, self.order)
+
+
+class Poster(models.Model):
+    submitter_name = models.CharField(max_length=200, default="anonymous")
+    image = models.ImageField(upload_to="poster_images")
+    
+    # ImageKit specs for different sizes
+    zoom = ImageSpecField(
+        source="image", processors=[ResizeToFill(1080, 1080)], format="PNG"
+    )
+    thumbnail = ImageSpecField(
+        source="image", processors=[ResizeToFill(300, 300)], format="PNG"
+    )
+    thumbnail_medium = ImageSpecField(
+        source="image", processors=[ResizeToFill(200, 200)], format="PNG"
+    )
+
+    def __str__(self):
+        return f"Poster peeled by {self.submitter_name}"

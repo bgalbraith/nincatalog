@@ -64,7 +64,14 @@ class OptionTypeAdmin(admin.ModelAdmin):
     ordering = ["name"]
 
 
+class PosterAdmin(admin.ModelAdmin):
+    list_display = ('submitter_name', 'id')
+    list_filter = ('submitter_name',)
+    search_fields = ('submitter_name',)
+
+
 admin.site.register(models.Product, ProductAdmin)
 admin.site.register(models.Category, CategoryAdmin)
 admin.site.register(models.Option, OptionAdmin)
 admin.site.register(models.OptionType, OptionTypeAdmin)
+admin.site.register(models.Poster, PosterAdmin)
