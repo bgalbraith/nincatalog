@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+    <meta name="description" content="NIN Posters Gallery" />
+    <meta name="theme-color" content="#000000" />
+
+    <title>NIN Posters</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'merch/css/posters.css' %}" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="poster-grid">
+        {% for poster in posters %}
+        <div class="poster-item" data-poster-id="{{ poster.id }}" onclick="openGallery({{ poster.id }})">
+          <img class="poster-image" 
+               src="{{ poster.thumbnail_medium.url }}" 
+               srcset="{{ poster.thumbnail_medium.url }} 480w, {{ poster.thumbnail.url }} 768w"
+               sizes="(max-width: 480px) 180px, (max-width: 768px) 240px, 300px"
+               alt="Poster by {{ poster.submitter_name|default:'anonymous' }}"
+               loading="lazy">
+          <div class="poster-submitter">Submitted by: {{ poster.submitter_name|default:"anonymous" }}</div>
+        </div>
+        {% empty %}
+        <div style="text-align: center; grid-column: 1 / -1; padding: 50px; color: #666;">
+          <h3>No posters available yet.</h3>
+          <p>Check back later for new submissions!</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal" id="galleryModal">
+      <div class="gallery-content">
+        <button class="gallery-close" id="galleryClose">&times;</button>
+        <button class="gallery-nav prev" id="galleryPrev">&lt;</button>
+        <div class="gallery-image-container">
+          <img class="gallery-image" id="galleryImage" src="" alt="">
+          <div class="gallery-info">
+            <div id="gallerySubmitter"></div>
+          </div>
+        </div>
+        <button class="gallery-nav next" id="galleryNext">&gt;</button>
+      </div>
+    </div>
+
+    <script src="{% static 'merch/js/posters.js' %}"></script>
+  </body>
+</html>

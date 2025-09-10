@@ -1,9 +1,9 @@
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Case, When, IntegerField, Value
 from django.db.models.functions import Length
 
-from merch.models import Category, Product, ProductImage
+from merch.models import Category, Product, ProductImage, Poster
 
 
 def index(request):
@@ -89,3 +89,44 @@ def search(request):
             'result_count': len(results)
         }
     )
+
+
+def posters(request):
+    posters = Poster.objects.all()
+    return render(request, "merch/posters.html", {"posters": posters})
+
+
+def poster_gallery(request, poster_id):
+    clicked_poster = get_object_or_404(Poster, pk=poster_id)
+    
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        # Return JSON for AJAX requests with ALL posters
+        all_posters = Poster.objects.all().order_by('id')
+        
+        # Force caching of zoom specs
+        for poster in all_posters:
+            _ = poster.zoom.url
+        
+        # Find the index of the clicked poster
+        poster_list = list(all_posters)
+        try:
+            initial_index = next(i for i, p in enumerate(poster_list) if p.id == clicked_poster.id)
+        except StopIteration:
+            initial_index = 0
+        
+        # Create poster data for all posters
+        posters_data = []
+        for poster in poster_list:
+            posters_data.append({
+                'id': poster.id,
+                'url': poster.zoom.url,
+                'submitter_name': poster.submitter_name
+            })
+        
+        return JsonResponse({
+            'posters': posters_data,
+            'initial_index': initial_index
+        })
+    else:
+        raise Http404
+
