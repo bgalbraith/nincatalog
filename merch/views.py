@@ -1,9 +1,31 @@
+import random
+import uuid
+
 from django.http import Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Case, When, IntegerField, Value
 from django.db.models.functions import Length
 
 from merch.models import Category, Product, ProductImage, Poster
+
+
+def get_random_posters_for_session(request, shuffle=False):
+    """Get posters in a consistent random order for this session"""
+    # Ensure session exists
+    if not request.session.session_key:
+        request.session.create()
+    
+    if shuffle:
+        request.session["seed"] = hash(uuid.uuid4())
+    
+    # Get all posters and convert to list for consistent ordering
+    all_posters = list(Poster.objects.all())
+    
+    # Use the seed to randomize consistently
+    random.seed(request.session.get("seed", 0))
+    random.shuffle(all_posters)
+    
+    return all_posters
 
 
 def index(request):
@@ -92,7 +114,7 @@ def search(request):
 
 
 def posters(request):
-    posters = Poster.objects.all()
+    posters = get_random_posters_for_session(request, shuffle=True)
     return render(request, "merch/posters.html", {"posters": posters})
 
 
@@ -100,23 +122,22 @@ def poster_gallery(request, poster_id):
     clicked_poster = get_object_or_404(Poster, pk=poster_id)
     
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        # Return JSON for AJAX requests with ALL posters
-        all_posters = Poster.objects.all().order_by('id')
+        # Return JSON for AJAX requests with ALL posters in same random order as grid
+        all_posters = get_random_posters_for_session(request)
         
         # Force caching of zoom specs
         for poster in all_posters:
             _ = poster.zoom.url
         
         # Find the index of the clicked poster
-        poster_list = list(all_posters)
         try:
-            initial_index = next(i for i, p in enumerate(poster_list) if p.id == clicked_poster.id)
+            initial_index = next(i for i, p in enumerate(all_posters) if p.id == clicked_poster.id)
         except StopIteration:
             initial_index = 0
         
         # Create poster data for all posters
         posters_data = []
-        for poster in poster_list:
+        for poster in all_posters:
             posters_data.append({
                 'id': poster.id,
                 'url': poster.zoom.url,
