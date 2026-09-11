@@ -58,3 +58,5 @@ docs/_build/
 # JetBrains
 .idea
 nincatalog.iml
+# Superpowers specs and plans
+docs/superpowers/
