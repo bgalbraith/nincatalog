@@ -43,12 +43,16 @@ class PosterTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test User")
 
-    def test_poster_gallery_view(self):
-        """Test the poster gallery view loads"""
+    def test_poster_gallery_view_requires_ajax(self):
+        """A plain GET is a 404 by design.
+
+        The gallery is AJAX-only: static/merch/js/posters.js sends
+        X-Requested-With explicitly, and no poster_gallery template exists,
+        so the non-AJAX branch of the view raises Http404.
+        """
         client = Client(HTTP_HOST='merch.localhost')
         response = client.get(f'/poster-gallery/{self.poster.id}/')
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Test User")
+        self.assertEqual(response.status_code, 404)
 
     def test_poster_gallery_ajax_view(self):
         """Test the poster gallery AJAX endpoint returns all posters"""
@@ -68,51 +72,58 @@ class PosterTestCase(TestCase):
         self.assertEqual(data['posters'][0]['submitter_name'], 'Test User')
 
     def test_multiple_posters_gallery(self):
-        """Test gallery with multiple posters"""
-        # Create additional posters
+        """Every poster is returned, with initial_index on the clicked one.
+
+        Order is per-session random (get_random_posters_for_session), so the
+        index is deliberately not asserted against insertion order.
+        """
         poster2 = Poster.objects.create(
             submitter_name="Second User",
             image=self.create_test_image()
         )
-        poster3 = Poster.objects.create(
-            submitter_name="Third User", 
+        Poster.objects.create(
+            submitter_name="Third User",
             image=self.create_test_image()
         )
-        
+
         client = Client(HTTP_HOST='merch.localhost')
-        # Test clicking on the second poster
         response = client.get(
             f'/poster-gallery/{poster2.id}/',
             HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         )
-        
+
         data = response.json()
-        self.assertEqual(len(data['posters']), 3)  # All 3 posters
-        self.assertEqual(data['initial_index'], 1)  # Second poster (0-indexed)
-        self.assertEqual(data['posters'][1]['submitter_name'], 'Second User')
+        self.assertEqual(len(data['posters']), 3)
+
+        selected = data['posters'][data['initial_index']]
+        self.assertEqual(selected['id'], poster2.id)
+        self.assertEqual(selected['submitter_name'], 'Second User')
+
+        self.assertCountEqual(
+            [p['submitter_name'] for p in data['posters']],
+            ['Test User', 'Second User', 'Third User'],
+        )
 
     def test_wrap_around_navigation(self):
-        """Test that gallery supports wrap-around navigation logic"""
-        # Create additional posters to test wrap-around
+        """All posters are present so the client can wrap around either end."""
         poster2 = Poster.objects.create(
             submitter_name="Last User",
             image=self.create_test_image()
         )
-        
+
         client = Client(HTTP_HOST='merch.localhost')
-        # Test clicking on the last poster
         response = client.get(
             f'/poster-gallery/{poster2.id}/',
             HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         )
-        
+
         data = response.json()
-        self.assertEqual(len(data['posters']), 2)  # Two posters total
-        self.assertEqual(data['initial_index'], 1)  # Last poster (0-indexed)
-        
-        # Verify all posters are accessible for wrap-around
-        self.assertEqual(data['posters'][0]['submitter_name'], 'Test User')
-        self.assertEqual(data['posters'][1]['submitter_name'], 'Last User')
+        self.assertEqual(len(data['posters']), 2)
+        self.assertEqual(data['posters'][data['initial_index']]['id'], poster2.id)
+        self.assertCountEqual(
+            [p['submitter_name'] for p in data['posters']],
+            ['Test User', 'Last User'],
+        )
 
     def test_mobile_responsive_features(self):
         """Test that mobile-responsive features are present in the HTML"""
