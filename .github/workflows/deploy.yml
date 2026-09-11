@@ -1,0 +1,59 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Run tests
+        # manage.py supplies a throwaway SECRET_KEY and disables the static
+        # manifest for the `test` command, so no environment is needed here.
+        run: uv run python manage.py test
+
+      - name: Verify collectstatic under manifest storage
+        # Catches unresolvable static references, which would otherwise fail
+        # the deploy on the server rather than here.
+        env:
+          DJANGO_SECRET_KEY: ci-probe-key
+        run: uv run python manage.py collectstatic --noinput
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            cd /var/www/nincatalog
+
+            git fetch origin main
+            git reset --hard origin/main
+
+            uv sync --frozen
+
+            uv run python manage.py migrate --noinput
+            uv run python manage.py collectstatic --noinput
+
+            sudo systemctl restart nincatalog
