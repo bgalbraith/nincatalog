@@ -95,3 +95,30 @@ class TestIsolationTests(SimpleTestCase):
         media_root = str(settings.MEDIA_ROOT)
         self.assertNotIn("/srv/", media_root)
         self.assertIn("nincatalog-test-media", media_root)
+
+
+class StaticStorageTests(SimpleTestCase):
+    def test_manifest_storage_used_in_production(self):
+        # DJANGO_STATIC_MANIFEST is cleared because manage.py sets it to false
+        # for the `test` command, and the subprocess inherits this environment.
+        backend = load_setting(
+            "STORAGES", DJANGO_DEBUG=None, DJANGO_STATIC_MANIFEST=None
+        )["staticfiles"]["BACKEND"]
+        self.assertEqual(
+            backend,
+            "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
+        )
+
+    def test_plain_storage_when_manifest_disabled(self):
+        """The test suite renders templates without a collectstatic manifest."""
+        backend = load_setting(
+            "STORAGES", DJANGO_DEBUG=None, DJANGO_STATIC_MANIFEST="false"
+        )["staticfiles"]["BACKEND"]
+        self.assertEqual(
+            backend, "django.contrib.staticfiles.storage.StaticFilesStorage"
+        )
+
+    def test_static_root_defaults_to_staticfiles_not_static(self):
+        """static/ is a source tree here; collectstatic must not target it."""
+        value = str(load_setting("STATIC_ROOT", DJANGO_STATIC_ROOT=None))
+        self.assertTrue(value.endswith("/staticfiles"), value)

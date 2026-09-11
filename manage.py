@@ -17,6 +17,9 @@ if __name__ == "__main__":
             "DJANGO_MEDIA_ROOT",
             os.path.join(tempfile.gettempdir(), "nincatalog-test-media"),
         )
+        # Templates render {% static %} during tests, and no manifest exists
+        # until collectstatic runs.
+        os.environ.setdefault("DJANGO_STATIC_MANIFEST", "false")
     try:
         from django.core.management import execute_from_command_line
     except ImportError:

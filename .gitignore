@@ -49,7 +49,7 @@ coverage.xml
 *.log
 *.pot
 media
-static
+/staticfiles/
 db.sqlite3
 
 # Sphinx documentation

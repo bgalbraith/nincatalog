@@ -111,7 +111,26 @@ DATE_FORMAT = "Y-m-d"
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 STATIC_URL = "/static/"
-STATIC_ROOT = env.str("DJANGO_STATIC_ROOT", default=str(BASE_DIR / "static"))
+STATIC_ROOT = env.str("DJANGO_STATIC_ROOT", default=str(BASE_DIR / "staticfiles"))
+
+# Content-hash static filenames (e.g. posters.a1b2c3d4.css) so nginx can serve
+# them with a long-lived `immutable` cache header while clients still pick up
+# changes immediately. Disabled for the test suite, which renders templates
+# without a collectstatic manifest and asserts plain static paths.
+USE_STATIC_MANIFEST = env.bool("DJANGO_STATIC_MANIFEST", default=not DEBUG)
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+            if USE_STATIC_MANIFEST
+            else "django.contrib.staticfiles.storage.StaticFilesStorage"
+        ),
+    },
+}
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = env.str("DJANGO_MEDIA_ROOT", default=str(BASE_DIR / "media"))
