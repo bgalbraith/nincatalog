@@ -30,27 +30,39 @@ The application uses django-hosts to serve different content on different subdom
 
 ## Development Commands
 
+Dependencies are managed with `uv`; every command runs through `uv run`.
+
+### First-time setup
+```bash
+cp .env.example .env    # then fill in DJANGO_SECRET_KEY
+uv sync
+```
+
 ### Running the Application
 ```bash
-python manage.py runserver
+uv run python manage.py runserver
 ```
 
 ### Database Operations
 ```bash
-python manage.py migrate
-python manage.py loaddata catalog/fixtures/catalog_test_data.yaml  # Load test data
-python manage.py loaddata catalog/fixtures/catalog_legacy_data.yaml  # Load legacy data
+uv run python manage.py migrate
+uv run python manage.py loaddata catalog/fixtures/catalog_test_data.yaml  # Load test data
+uv run python manage.py loaddata catalog/fixtures/catalog_legacy_data.yaml  # Load legacy data
 ```
 
 ### Testing
 ```bash
-python manage.py test  # Run all tests
-python manage.py test catalog  # Run catalog app tests only
+uv run python manage.py test          # Run all tests
+uv run python manage.py test catalog  # Run catalog app tests only
 ```
+
+`manage.py` supplies a throwaway `SECRET_KEY`, disables the static manifest,
+and redirects `MEDIA_ROOT` to a temp directory for the `test` command — so the
+suite runs on a bare checkout and never writes into the real media library.
 
 ### Static Files
 ```bash
-python manage.py collectstatic
+uv run python manage.py collectstatic
 ```
 
 ## Key Dependencies
@@ -92,10 +104,31 @@ Uses SQLite in development (`db.sqlite3`). The database includes comprehensive c
 
 ## Deployment
 
-Configured for uWSGI deployment (see uwsgi.ini) with:
-- Socket-based communication
-- Process management
-- Logging to `/home/www/nincatalog.com/logs/`
+Push to `main`. `.github/workflows/deploy.yml` runs the test suite, then SSHes
+to the host and runs `git reset --hard`, `uv sync --frozen`, `migrate`,
+`collectstatic`, and `systemctl restart nincatalog`.
+
+Serving stack, all configured from files in this repo:
+
+- `gunicorn.conf.py` — binds `unix:/run/nincatalog/gunicorn.sock`
+- `nincatalog.service` — systemd unit, reads `/var/www/nincatalog/.env`
+- `nginx.conf` — TLS, `/static/` and `/media/` aliases, proxy to the socket
+
+Layout on the host:
+
+| Path | Contents |
+|---|---|
+| `/var/www/nincatalog` | Git tree, `.venv/`, `staticfiles/`, `.env`. Disposable |
+| `/srv/nincatalog` | `db.sqlite3` and `media/`. Never touched by deploys |
+
+Configuration comes from `.env`; see `.env.example`. Two traps:
+
+- **Single-quote any value containing `#` or `$`.** Both django-environ and
+  systemd treat an unquoted `#` as a comment and silently truncate the value.
+- **nginx must reach gunicorn over the unix socket**, and must send
+  `X-Forwarded-Proto`. Gunicorn derives `wsgi.url_scheme` from that header over
+  a socket connection, which is what makes `request.is_secure()` true and admin
+  CSRF pass. Moving to TCP on a non-loopback address breaks admin forms.
 
 ## Legacy Data Utilities
 
