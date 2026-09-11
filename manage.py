@@ -1,9 +1,22 @@
 #!/usr/bin/env python
 import os
 import sys
+import tempfile
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nincatalog.settings")
+
+    # The suite must run on a bare checkout with no .env, and must never write
+    # into the real media library — on the server that is /srv/nincatalog/media.
+    # setdefault means a real environment always wins.
+    if "test" in sys.argv:
+        os.environ.setdefault(
+            "DJANGO_SECRET_KEY", "insecure-test-key-not-for-deployment"
+        )
+        os.environ.setdefault(
+            "DJANGO_MEDIA_ROOT",
+            os.path.join(tempfile.gettempdir(), "nincatalog-test-media"),
+        )
     try:
         from django.core.management import execute_from_command_line
     except ImportError:

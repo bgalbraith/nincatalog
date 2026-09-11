@@ -60,3 +60,7 @@ docs/_build/
 nincatalog.iml
 # Superpowers specs and plans
 docs/superpowers/
+
+# Environment
+.env
+.venv/
