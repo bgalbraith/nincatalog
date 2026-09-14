@@ -1,0 +1,17 @@
+# MIGRATION WINDOW ONLY — not the authoritative dependency set.
+#
+# The project is managed with uv; pyproject.toml and uv.lock are canonical.
+# This file is retained, with the pins the legacy nincatalog host is running
+# today, so that emergency maintenance there can still rebuild its virtualenv
+# with pip without pulling in the migration's upgrades.
+#
+# DELETE THIS FILE at cutover, once the legacy host is retired.
+
+django>=5.0,<6.0
+django-clone==5.3.3
+django-hosts==6.0
+django-imagekit==5.0.0
+markdown2==2.5.0
+pillow>=10.0,<11.0
+PyYAML>=6.0,<6.1
+gunicorn==23.0.0
