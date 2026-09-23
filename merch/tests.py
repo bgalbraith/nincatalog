@@ -1,7 +1,11 @@
+from django.conf import settings
+from django.contrib.staticfiles import finders
 from django.test import TestCase, Client
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image
+from pathlib import Path
 import io
+import re
 
 from merch.models import Poster
 
@@ -144,3 +148,19 @@ class PosterTestCase(TestCase):
         # Check for external CSS and JS files
         self.assertIn('/static/merch/css/posters.css', content)
         self.assertIn('/static/merch/js/posters.js', content)
+
+
+
+class StaticReferenceTestCase(TestCase):
+    def test_static_references_resolve(self):
+        """Every {% static %} path must be one collectstatic puts in the manifest.
+
+        Tests run without the manifest, and the plain storage strips a leading
+        slash, so a bad path renders fine here and 500s only in production.
+        """
+        pattern = re.compile(r"""{%\s*static\s+["']([^"']+)["']""")
+        for template in Path(settings.BASE_DIR).glob('*/templates/**/*.html'):
+            for path in pattern.findall(template.read_text()):
+                with self.subTest(template=template.name, path=path):
+                    self.assertFalse(path.startswith('/'))
+                    self.assertIsNotNone(finders.find(path))
