@@ -1,0 +1,17 @@
+[Unit]
+Description=nincatalog gunicorn
+After=network.target
+
+[Service]
+User=nginx
+Group=nginx
+WorkingDirectory=/var/www/nincatalog
+EnvironmentFile=/var/www/nincatalog/.env
+RuntimeDirectory=nincatalog
+ExecStart=/var/www/nincatalog/.venv/bin/gunicorn nincatalog.wsgi:application -c gunicorn.conf.py
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

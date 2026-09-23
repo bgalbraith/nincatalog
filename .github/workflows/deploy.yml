@@ -1,0 +1,71 @@
+name: Deploy
+
+# MIGRATION WINDOW: the deploy job is gated behind workflow_dispatch so that
+# merging to main cannot deploy anywhere. The legacy nincatalog host is still
+# live and is updated by `git pull` with a hand-applied settings.py; a stray
+# run of the deploy script there would `git reset --hard` that file away.
+#
+# AT CUTOVER: change the deploy job's `if:` to
+#   if: github.event_name == 'push'
+# so pushes to main deploy again, matching nin.fan.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Run tests
+        # manage.py supplies a throwaway SECRET_KEY and disables the static
+        # manifest for the `test` command, so no environment is needed here.
+        run: uv run python manage.py test
+
+      - name: Verify collectstatic under manifest storage
+        # Catches unresolvable static references, which would otherwise fail
+        # the deploy on the server rather than here.
+        env:
+          DJANGO_SECRET_KEY: ci-probe-key
+        run: uv run python manage.py collectstatic --noinput
+
+  deploy:
+    needs: test
+    # Manual trigger only until the migration cutover. See the note above.
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            cd /var/www/nincatalog
+
+            git fetch origin main
+            git reset --hard origin/main
+
+            uv sync --frozen
+
+            uv run python manage.py migrate --noinput
+            uv run python manage.py collectstatic --noinput
+
+            sudo systemctl restart nincatalog
