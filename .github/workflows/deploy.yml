@@ -1,18 +1,9 @@
 name: Deploy
 
-# MIGRATION WINDOW: the deploy job is gated behind workflow_dispatch so that
-# merging to main cannot deploy anywhere. The legacy nincatalog host is still
-# live and is updated by `git pull` with a hand-applied settings.py; a stray
-# run of the deploy script there would `git reset --hard` that file away.
-#
-# AT CUTOVER: change the deploy job's `if:` to
-#   if: github.event_name == 'push'
-# so pushes to main deploy again, matching nin.fan.
 on:
   push:
     branches: [main]
   pull_request:
-  workflow_dispatch:
 
 concurrency:
   group: deploy
@@ -46,8 +37,8 @@ jobs:
 
   deploy:
     needs: test
-    # Manual trigger only until the migration cutover. See the note above.
-    if: github.event_name == 'workflow_dispatch'
+    # Pull requests run the tests only; pushes to main also deploy.
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Deploy via SSH
