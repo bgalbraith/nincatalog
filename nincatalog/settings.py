@@ -157,6 +157,13 @@ if MEDIA_S3_BUCKET:
         },
     }
 
+# Generate imagekit derivatives when the source image is saved, and assume they
+# exist at render time. The default (JustInTime) checks storage for every
+# thumbnail on every render: cheap on disk, a network call per image on S3.
+# A missing derivative renders as a broken image; `manage.py generateimages`
+# repairs it.
+IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = "imagekit.cachefiles.strategies.Optimistic"
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = env.str("DJANGO_MEDIA_ROOT", default=str(BASE_DIR / "media"))
 

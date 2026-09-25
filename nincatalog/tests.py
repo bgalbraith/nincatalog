@@ -175,6 +175,12 @@ class MediaStorageTests(SimpleTestCase):
                 DJANGO_MEDIA_DOMAIN=None,
             )
 
+    def test_imagekit_does_not_touch_storage_at_render_time(self):
+        self.assertEqual(
+            load_setting("IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY"),
+            "imagekit.cachefiles.strategies.Optimistic",
+        )
+
 
 class S3StorageBehaviourTests(SimpleTestCase):
     """Exercise S3Storage with the production options, without the network."""
