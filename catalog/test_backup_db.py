@@ -6,6 +6,7 @@ is a gzipped, complete SQLite database.
 
 import datetime
 import gzip
+import io
 import os
 import sqlite3
 import tempfile
@@ -45,7 +46,7 @@ class BackupDbTests(SimpleTestCase):
 
         client.upload_file.side_effect = capture
         with mock.patch.dict(os.environ, ENV):
-            call_command("backup_db", db_path=str(self.db_path))
+            call_command("backup_db", db_path=str(self.db_path), stdout=io.StringIO())
         return (*uploaded["args"], uploaded["body"])
 
     @mock.patch(BOTO3)
