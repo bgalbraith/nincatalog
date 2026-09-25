@@ -181,6 +181,16 @@ class MediaStorageTests(SimpleTestCase):
             "imagekit.cachefiles.strategies.Optimistic",
         )
 
+    def test_empty_domain_fails_at_startup(self):
+        """An empty value is as broken as a missing one: S3 URLs that 403."""
+        with self.assertRaises(subprocess.CalledProcessError) as ctx:
+            load_setting(
+                "STORAGES",
+                DJANGO_MEDIA_S3_BUCKET="nincatalog-media",
+                DJANGO_MEDIA_DOMAIN="",
+            )
+        self.assertIn("DJANGO_MEDIA_DOMAIN", ctx.exception.stderr)
+
 
 class S3StorageBehaviourTests(SimpleTestCase):
     """Exercise S3Storage with the production options, without the network."""

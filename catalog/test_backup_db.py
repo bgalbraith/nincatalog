@@ -13,7 +13,7 @@ import tempfile
 from pathlib import Path
 from unittest import mock
 
-from botocore.exceptions import ClientError
+from boto3.exceptions import S3UploadFailedError
 from django.core.management import CommandError, call_command
 from django.test import SimpleTestCase
 
@@ -94,8 +94,11 @@ class BackupDbTests(SimpleTestCase):
     @mock.patch(BOTO3)
     def test_upload_error_fails(self, boto3):
         """A missing IAM permission must surface as a failed systemd run."""
-        boto3.client.return_value.upload_file.side_effect = ClientError(
-            {"Error": {"Code": "AccessDenied", "Message": "denied"}}, "PutObject"
+        # upload_file wraps the ClientError from PutObject in S3UploadFailedError
+        # (boto3/s3/transfer.py); raise what the real library raises.
+        boto3.client.return_value.upload_file.side_effect = S3UploadFailedError(
+            "Failed to upload: An error occurred (AccessDenied) when calling the "
+            "PutObject operation: denied"
         )
         with mock.patch.dict(os.environ, ENV):
             with self.assertRaisesRegex(CommandError, "AccessDenied"):

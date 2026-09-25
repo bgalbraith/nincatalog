@@ -23,6 +23,7 @@ import tempfile
 from pathlib import Path
 
 import boto3
+from boto3.exceptions import Boto3Error
 from botocore.exceptions import BotoCoreError, ClientError
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
@@ -64,7 +65,9 @@ class Command(BaseCommand):
 
             try:
                 boto3.client("s3").upload_file(str(archive), bucket, key)
-            except (BotoCoreError, ClientError) as exc:
+            # upload_file re-raises a PutObject ClientError (e.g. AccessDenied)
+            # as S3UploadFailedError, a Boto3Error.
+            except (Boto3Error, BotoCoreError, ClientError) as exc:
                 raise CommandError(f"Upload to s3://{bucket}/{key} failed: {exc}")
 
         self.stdout.write(f"Backed up {source} to s3://{bucket}/{key}")
