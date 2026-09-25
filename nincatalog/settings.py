@@ -132,6 +132,31 @@ STORAGES = {
     },
 }
 
+# Media goes to S3, served through CloudFront at DJANGO_MEDIA_DOMAIN, when a
+# bucket is configured; otherwise it stays on disk under MEDIA_ROOT. Object keys
+# are the same either way, so switching needs no data migration. Credentials
+# come from the EC2 instance role; there are deliberately no AWS keys here.
+MEDIA_S3_BUCKET = env.str("DJANGO_MEDIA_S3_BUCKET", default="")
+if MEDIA_S3_BUCKET:
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": MEDIA_S3_BUCKET,
+            # No default: without it every image URL would point at the private
+            # bucket and 403.
+            "custom_domain": env.str("DJANGO_MEDIA_DOMAIN"),
+            "region_name": "us-east-1",
+            "querystring_auth": False,
+            # Suffix colliding names, as FileSystemStorage does. Because a name
+            # is never reused, objects can be cached as immutable.
+            "file_overwrite": False,
+            "default_acl": None,
+            "object_parameters": {
+                "CacheControl": "public, max-age=31536000, immutable"
+            },
+        },
+    }
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = env.str("DJANGO_MEDIA_ROOT", default=str(BASE_DIR / "media"))
 
