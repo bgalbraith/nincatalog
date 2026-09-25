@@ -214,3 +214,32 @@ class S3StorageBehaviourTests(SimpleTestCase):
             )
         self.assertNotEqual(name, "product_images/shirt.jpg")
         self.assertTrue(name.startswith("product_images/shirt_"), name)
+
+
+class BackupUnitTests(SimpleTestCase):
+    """The backup job must run exactly as the app does, or it cannot read the
+    database or find its .env."""
+
+    @staticmethod
+    def service(name):
+        import configparser
+        from pathlib import Path
+
+        parser = configparser.ConfigParser(interpolation=None, strict=False)
+        parser.optionxform = str  # systemd keys are case-sensitive
+        parser.read(Path(__file__).resolve().parent.parent / name)
+        return parser["Service"]
+
+    def test_backup_runs_as_the_app(self):
+        app = self.service("nincatalog.service")
+        backup = self.service("nincatalog-backup.service")
+        for key in ("User", "Group", "WorkingDirectory", "EnvironmentFile"):
+            self.assertEqual(backup[key], app[key], key)
+
+    def test_backup_runs_the_command_from_the_venv(self):
+        backup = self.service("nincatalog-backup.service")
+        self.assertEqual(backup["Type"], "oneshot")
+        self.assertEqual(
+            backup["ExecStart"],
+            "/var/www/nincatalog/.venv/bin/python manage.py backup_db",
+        )
