@@ -96,6 +96,15 @@ class TestIsolationTests(SimpleTestCase):
         self.assertNotIn("/srv/", media_root)
         self.assertIn("nincatalog-test-media", media_root)
 
+    def test_suite_never_uses_s3(self):
+        """manage.py forces disk storage for `test`, whatever the environment says."""
+        from django.conf import settings
+
+        self.assertEqual(
+            settings.STORAGES["default"]["BACKEND"],
+            "django.core.files.storage.FileSystemStorage",
+        )
+
 
 class StaticStorageTests(SimpleTestCase):
     def test_manifest_storage_used_in_production(self):
@@ -122,3 +131,125 @@ class StaticStorageTests(SimpleTestCase):
         """static/ is a source tree here; collectstatic must not target it."""
         value = str(load_setting("STATIC_ROOT", DJANGO_STATIC_ROOT=None))
         self.assertTrue(value.endswith("/staticfiles"), value)
+
+
+class MediaStorageTests(SimpleTestCase):
+    S3 = {
+        "DJANGO_MEDIA_S3_BUCKET": "nincatalog-media",
+        "DJANGO_MEDIA_DOMAIN": "media.nincatalog.com",
+    }
+
+    def test_disk_storage_by_default(self):
+        """Local development and CI must work without AWS."""
+        default = load_setting("STORAGES", DJANGO_MEDIA_S3_BUCKET=None)["default"]
+        self.assertEqual(
+            default["BACKEND"], "django.core.files.storage.FileSystemStorage"
+        )
+
+    def test_s3_storage_when_bucket_is_set(self):
+        default = load_setting("STORAGES", **self.S3)["default"]
+        self.assertEqual(default["BACKEND"], "storages.backends.s3.S3Storage")
+        self.assertEqual(
+            default["OPTIONS"],
+            {
+                "bucket_name": "nincatalog-media",
+                "custom_domain": "media.nincatalog.com",
+                "region_name": "us-east-1",
+                # Plain URLs, so CloudFront and browsers can cache them.
+                "querystring_auth": False,
+                # Names are never reused; this is what makes immutable safe.
+                "file_overwrite": False,
+                "default_acl": None,
+                "object_parameters": {
+                    "CacheControl": "public, max-age=31536000, immutable"
+                },
+            },
+        )
+
+    def test_bucket_without_domain_fails_at_startup(self):
+        """Without the CDN domain, every image URL would be a 403 from S3."""
+        with self.assertRaises(subprocess.CalledProcessError):
+            load_setting(
+                "STORAGES",
+                DJANGO_MEDIA_S3_BUCKET="nincatalog-media",
+                DJANGO_MEDIA_DOMAIN=None,
+            )
+
+    def test_imagekit_does_not_touch_storage_at_render_time(self):
+        self.assertEqual(
+            load_setting("IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY"),
+            "imagekit.cachefiles.strategies.Optimistic",
+        )
+
+    def test_empty_domain_fails_at_startup(self):
+        """An empty value is as broken as a missing one: S3 URLs that 403."""
+        with self.assertRaises(subprocess.CalledProcessError) as ctx:
+            load_setting(
+                "STORAGES",
+                DJANGO_MEDIA_S3_BUCKET="nincatalog-media",
+                DJANGO_MEDIA_DOMAIN="",
+            )
+        self.assertIn("DJANGO_MEDIA_DOMAIN", ctx.exception.stderr)
+
+
+class S3StorageBehaviourTests(SimpleTestCase):
+    """Exercise S3Storage with the production options, without the network."""
+
+    def make_storage(self):
+        from storages.backends.s3 import S3Storage
+
+        return S3Storage(
+            bucket_name="nincatalog-media",
+            custom_domain="media.nincatalog.com",
+            querystring_auth=False,
+            file_overwrite=False,
+        )
+
+    def test_url_points_at_the_cdn_and_keeps_the_key(self):
+        """Database rows hold keys like item_images/x.jpg; they must not change."""
+        self.assertEqual(
+            self.make_storage().url("item_images/front.jpg"),
+            "https://media.nincatalog.com/item_images/front.jpg",
+        )
+
+    def test_colliding_upload_gets_a_new_name(self):
+        """A re-uploaded filename must not overwrite a cached immutable object."""
+        from unittest import mock
+
+        from storages.backends.s3 import S3Storage
+
+        with mock.patch.object(S3Storage, "exists", side_effect=[True, False]):
+            name = self.make_storage().get_available_name(
+                "product_images/shirt.jpg"
+            )
+        self.assertNotEqual(name, "product_images/shirt.jpg")
+        self.assertTrue(name.startswith("product_images/shirt_"), name)
+
+
+class BackupUnitTests(SimpleTestCase):
+    """The backup job must run exactly as the app does, or it cannot read the
+    database or find its .env."""
+
+    @staticmethod
+    def service(name):
+        import configparser
+        from pathlib import Path
+
+        parser = configparser.ConfigParser(interpolation=None, strict=False)
+        parser.optionxform = str  # systemd keys are case-sensitive
+        parser.read(Path(__file__).resolve().parent.parent / name)
+        return parser["Service"]
+
+    def test_backup_runs_as_the_app(self):
+        app = self.service("nincatalog.service")
+        backup = self.service("nincatalog-backup.service")
+        for key in ("User", "Group", "WorkingDirectory", "EnvironmentFile"):
+            self.assertEqual(backup[key], app[key], key)
+
+    def test_backup_runs_the_command_from_the_venv(self):
+        backup = self.service("nincatalog-backup.service")
+        self.assertEqual(backup["Type"], "oneshot")
+        self.assertEqual(
+            backup["ExecStart"],
+            "/var/www/nincatalog/.venv/bin/python manage.py backup_db",
+        )

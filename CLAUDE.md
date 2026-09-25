@@ -113,15 +113,23 @@ Serving stack, all configured from files in this repo:
 - `gunicorn.conf.py` — binds `unix:/run/nincatalog/gunicorn.sock`
 - `nincatalog.service` — systemd unit, reads `/var/www/nincatalog/.env`
 - `nginx.conf` — TLS, `/static/` and `/media/` aliases, proxy to the socket
+- `nincatalog-backup.service` / `.timer` — daily `manage.py backup_db` to
+  `s3://nin-host-backups/nincatalog/db/`. Installed by copying both files to
+  `/etc/systemd/system/`, then `systemctl enable --now nincatalog-backup.timer`
 
 Layout on the host:
 
 | Path | Contents |
 |---|---|
 | `/var/www/nincatalog` | Git tree, `.venv/`, `staticfiles/`, `.env`. Disposable |
-| `/srv/nincatalog` | `db.sqlite3` and `media/`. Never touched by deploys |
+| `/srv/nincatalog` | `db.sqlite3` (backed up daily to S3) and, until retired after the S3 move, `media/`. Never touched by deploys |
 
-Configuration comes from `.env`; see `.env.example`. Two traps:
+Media lives in the private S3 bucket `nincatalog-media`, served by CloudFront
+at `media.nincatalog.com`; enabled by `DJANGO_MEDIA_S3_BUCKET` and
+`DJANGO_MEDIA_DOMAIN` in `.env`. The host's EC2 instance role (shared with
+nin.fan) grants S3 access — there are no AWS keys in `.env`.
+
+Configuration comes from `.env`; see `.env.example`. Three traps:
 
 - **Single-quote any value containing `#` or `$`.** Both django-environ and
   systemd treat an unquoted `#` as a comment and silently truncate the value.
@@ -129,6 +137,8 @@ Configuration comes from `.env`; see `.env.example`. Two traps:
   `X-Forwarded-Proto`. Gunicorn derives `wsgi.url_scheme` from that header over
   a socket connection, which is what makes `request.is_secure()` true and admin
   CSRF pass. Moving to TCP on a non-loopback address breaks admin forms.
+- **`.env` is read only when the service starts.** After editing it, run
+  `systemctl restart nincatalog`; `reload` does not pick up changes.
 
 ## Legacy Data Utilities
 
@@ -149,10 +159,15 @@ When working with templates, they are located in each app's `templates/` directo
 
 ## Media Handling
 
-Extensive media organization under `media/`:
+Uploaded files use Django's default storage: disk under `MEDIA_ROOT` locally,
+S3 in production (see Deployment). Object keys are identical either way:
 - `item_images/` - Product photographs
 - `categories/` - Category/album artwork
 - `countries/` - Country flag icons
 - `eras/` - Era-specific imagery
+- `CACHE/` - imagekit derivatives
 
-Images are processed through django-imagekit for thumbnails and optimization.
+imagekit uses the `Optimistic` strategy: derivatives are generated when the
+source image is saved and are assumed to exist when rendered. After loading
+fixtures or copying media, run `uv run python manage.py generateimages`, or
+thumbnails render as broken images.

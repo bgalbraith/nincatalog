@@ -7,7 +7,7 @@ if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nincatalog.settings")
 
     # The suite must run on a bare checkout with no .env, and must never write
-    # into the real media library — on the server that is /srv/nincatalog/media.
+    # into the real media library, on disk or in S3.
     # setdefault means a real environment always wins.
     if "test" in sys.argv:
         os.environ.setdefault(
@@ -20,6 +20,10 @@ if __name__ == "__main__":
         # Templates render {% static %} during tests, and no manifest exists
         # until collectstatic runs.
         os.environ.setdefault("DJANGO_STATIC_MANIFEST", "false")
+        # Assigned, not setdefault: the suite uploads images, and must never
+        # write them to S3 even when the environment (or .env) configures it.
+        # An empty value wins over .env because read_env only fills unset keys.
+        os.environ["DJANGO_MEDIA_S3_BUCKET"] = ""
     try:
         from django.core.management import execute_from_command_line
     except ImportError:

@@ -40,6 +40,19 @@ class PosterTestCase(TestCase):
         self.assertEqual(self.poster.submitter_name, "Test User")
         self.assertTrue(self.poster.image)
 
+    def test_derivatives_are_generated_when_the_image_is_saved(self):
+        """Pages must not generate thumbnails at render time.
+
+        Rendering-time generation needs a storage round trip per thumbnail,
+        which on S3 made product and poster pages time out.
+        """
+        from django.core.files.storage import default_storage
+
+        # Checked before anything renders, so only the save could have made them.
+        for spec in ("zoom", "thumbnail", "thumbnail_medium"):
+            name = getattr(self.poster, spec).name
+            self.assertTrue(default_storage.exists(name), f"{spec}: {name}")
+
     def test_posters_view(self):
         """Test the posters view loads"""
         client = Client(HTTP_HOST='merch.localhost')

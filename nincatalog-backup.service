@@ -1,0 +1,13 @@
+[Unit]
+Description=nincatalog database backup to S3
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=nginx
+Group=nginx
+WorkingDirectory=/var/www/nincatalog
+EnvironmentFile=/var/www/nincatalog/.env
+ExecStart=/var/www/nincatalog/.venv/bin/python manage.py backup_db
+PrivateTmp=true

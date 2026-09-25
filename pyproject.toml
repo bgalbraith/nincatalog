@@ -10,6 +10,7 @@ dependencies = [
     "django-environ>=0.12.0",
     "django-hosts>=7.0",
     "django-imagekit>=6.1.0",
+    "django-storages[s3]>=1.14.6",
     "gunicorn>=23.0.0",
     "markdown2>=2.5.0",
     "pillow>=11",
