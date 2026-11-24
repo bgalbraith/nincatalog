@@ -6,6 +6,16 @@
     {% include "catalog/header.html" with group=group selected=report %}
     <div id="report">
       <table>
+        <thead>
+          <tr>
+          {% for entry in entries.0 %}
+            <th class="icon">&nbsp;</th>
+            <th><a href="?sort=name">{{ entry_label }}</a></th>
+            <th class="count"><a href="?sort=count">items</a></th>
+            {% if not forloop.last %}<th class="spacer">&nbsp;</th>{% endif %}
+          {% endfor %}
+          </tr>
+        </thead>
       {% for row in entries %}
         <tr>
         {% for entry in row %}

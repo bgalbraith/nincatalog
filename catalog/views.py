@@ -1,6 +1,7 @@
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count, F
+from django.db.models.functions import Lower
 from django.urls import reverse
 
 from catalog.models import (
@@ -85,6 +86,22 @@ def item(request, category_tag, item_tag):
     )
 
 
+REPORT_SORTS = {
+    "name": [Lower("name")],
+    "count": ["-n_items", Lower("name")],
+}
+
+
+def default_report_ordering(model):
+    """The model's Meta.ordering, comparing names case-insensitively.
+
+    Django ignores Meta.ordering on queries with GROUP BY, which Count() adds,
+    so the report must apply it explicitly. Era and ItemRarity order by id
+    (chronology, rarity scale); the rest by name.
+    """
+    return [Lower(f) if f == "name" else f for f in model._meta.ordering]
+
+
 def report(request, report_tag):
     _report = get_object_or_404(Report, tag=report_tag)
     model = globals().get(_report.model, None)
@@ -94,6 +111,10 @@ def report(request, report_tag):
     _entries = model.objects.annotate(n_items=Count("item")).filter(n_items__gt=0)
     if model is ItemRarity:  # hack for ItemRarity
         _entries = _entries.annotate(name=F("code"))
+    ordering = REPORT_SORTS.get(request.GET.get("sort")) or default_report_ordering(
+        model
+    )
+    _entries = _entries.order_by(*ordering)
 
     col_length = len(_entries) // _report.n_columns
     if len(_entries) % _report.n_columns != 0:
@@ -103,7 +124,12 @@ def report(request, report_tag):
     return render(
         request,
         "catalog/report.html",
-        {"report": _report, "entries": _entries, "group": _group},
+        {
+            "report": _report,
+            "entries": _entries,
+            "group": _group,
+            "entry_label": model._meta.verbose_name,
+        },
     )
 
 
