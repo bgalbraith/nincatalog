@@ -35,6 +35,10 @@ ALLOWED_HOSTS = env.list(
         "admin.nincatalog.com",
     ],
 )
+if DEBUG:
+    # runserver prints http://127.0.0.1:8000/. Django only allows it
+    # automatically when ALLOWED_HOSTS is empty, which it never is here.
+    ALLOWED_HOSTS += ["127.0.0.1"]
 
 DEFAULT_APPS = [
     "django.contrib.admin",

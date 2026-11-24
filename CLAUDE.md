@@ -34,14 +34,25 @@ Dependencies are managed with `uv`; every command runs through `uv run`.
 
 ### First-time setup
 ```bash
-cp .env.example .env    # then fill in DJANGO_SECRET_KEY
 uv sync
+cat > .env <<EOF
+DJANGO_SECRET_KEY='$(uv run python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())")'
+DJANGO_DEBUG=true
+EOF
 ```
+
+That is all a local `.env` needs; every other setting defaults to the
+checkout (`db.sqlite3`, `media/`). Don't copy `.env.example` for local work —
+it is the production template and points the database at `/srv`.
 
 ### Running the Application
 ```bash
 uv run python manage.py runserver
 ```
+
+Browse to `localhost:8000` (catalog), `merch.localhost:8000` and
+`admin.localhost:8000`; django-hosts routes on the subdomain. `127.0.0.1:8000`
+serves the catalog.
 
 ### Database Operations
 ```bash
