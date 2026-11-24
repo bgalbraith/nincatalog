@@ -138,11 +138,13 @@ class Item(models.Model):
         return "%s (%s %s)" % (self.name, self.country.code, self.media_format.name)
 
     def tag(self):
+        # slugify keeps underscores, but the item URL pattern does not accept
+        # them; an unmatched tag renders as an empty link (issue #96).
         return slugify(
             "-".join(
                 [self.name, self.country.code, self.media_format.tag, str(self.id)]
             )
-        )
+        ).replace("_", "-")
 
     def duplicate(self):
         """Save and return a copy as a starting point for a similar release.

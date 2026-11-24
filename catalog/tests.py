@@ -56,6 +56,37 @@ class CatalogViewsTestCase(TestCase):
         self.assertEqual(item.pk, 1)
         self.assertEqual(item.name, "The Fragile")
 
+class ItemTagTestCase(TestCase):
+    """Issue #96: an underscore in an item's name broke its links."""
+
+    fixtures = ['catalog_test_data.yaml']
+
+    def setUp(self):
+        self.item = Item.objects.get(pk=1)
+        self.item.name = 'tourbook: with_teeth 2006'
+        self.item.old_key = '01-90026'
+        self.item.save()
+
+    def test_tag_has_no_underscores(self):
+        self.assertNotIn('_', self.item.tag())
+
+    def test_listing_links_to_item(self):
+        resp = self.client.get('/the-fragile/')
+        self.assertContains(resp, f'href="/the-fragile/{self.item.tag()}/"')
+        self.assertNotContains(resp, 'href=""')
+
+    def test_item_page_loads_from_tag(self):
+        resp = self.client.get(f'/the-fragile/{self.item.tag()}/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_legacy_url_redirects_to_item(self):
+        resp = self.client.get('/item.asp', {'key': '01-90026'})
+        self.assertRedirects(
+            resp, f'/the-fragile/{self.item.tag()}/',
+            status_code=301, fetch_redirect_response=False,
+        )
+
+
 class ItemAdminTestCase(TestCase):
     fixtures = ['catalog_test_data.yaml']
 
