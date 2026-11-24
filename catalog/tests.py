@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from catalog.models import Item, MusicLabel
+from catalog.models import Era, Item, MusicLabel, Report
 
 
 class CatalogViewsTestCase(TestCase):
@@ -84,6 +84,77 @@ class ItemTagTestCase(TestCase):
         self.assertRedirects(
             resp, f'/the-fragile/{self.item.tag()}/',
             status_code=301, fetch_redirect_response=False,
+        )
+
+
+class ReportSortingTestCase(TestCase):
+    """Issue #87: report pages sort alphabetically by default, with headers."""
+
+    fixtures = ['catalog_test_data.yaml']
+
+    def setUp(self):
+        Report.objects.create(
+            name='Items By Music Label', tag='label', model='MusicLabel',
+            field='music_labels', n_columns=1, icon='reports/label.jpg',
+        )
+        Report.objects.create(
+            name='Items By Era', tag='era', model='Era', field='era', n_columns=1,
+            icon='reports/era.jpg',
+        )
+        # Created out of alphabetical order. Item counts: Interscope 3,
+        # Zoo Entertainment 2, A&M 1, nothing 1 (the fixture's label).
+        for name, count in [('Zoo Entertainment', 2), ('Interscope', 3), ('A&M', 1)]:
+            label = MusicLabel.objects.create(name=name, url='https://example.com')
+            for _ in range(count):
+                self.copy_item().music_labels.set([label])
+        # Created after the fixture's "the fragile era"; chronology is by id.
+        era = Era.objects.create(name='pretty hate machine era', description='')
+        self.copy_item(era=era)
+
+    def copy_item(self, **changes):
+        item = Item.objects.get(pk=1)
+        item.pk = None
+        for field, value in changes.items():
+            setattr(item, field, value)
+        item.save()
+        return item
+
+    def names(self, path):
+        resp = self.client.get(path)
+        self.assertEqual(resp.status_code, 200)
+        return [entry.name for row in resp.context['entries'] for entry in row]
+
+    def test_default_is_alphabetical_ignoring_case(self):
+        self.assertEqual(
+            self.names('/by-label/'),
+            ['A&M', 'Interscope', 'nothing', 'Zoo Entertainment'],
+        )
+
+    def test_sort_by_name(self):
+        self.assertEqual(
+            self.names('/by-label/?sort=name'),
+            ['A&M', 'Interscope', 'nothing', 'Zoo Entertainment'],
+        )
+
+    def test_sort_by_count_most_first_ties_alphabetical(self):
+        self.assertEqual(
+            self.names('/by-label/?sort=count'),
+            ['Interscope', 'Zoo Entertainment', 'A&M', 'nothing'],
+        )
+
+    def test_unknown_sort_falls_back_to_default(self):
+        self.assertEqual(self.names('/by-label/?sort=bogus')[0], 'A&M')
+
+    def test_column_headers_link_to_sorts(self):
+        resp = self.client.get('/by-label/')
+        self.assertContains(resp, '<th')
+        self.assertContains(resp, 'href="?sort=name"')
+        self.assertContains(resp, 'href="?sort=count"')
+        self.assertContains(resp, 'music label')
+
+    def test_era_default_keeps_chronological_order(self):
+        self.assertEqual(
+            self.names('/by-era/'), ['the fragile era', 'pretty hate machine era']
         )
 
 
