@@ -67,7 +67,7 @@ uv run python manage.py collectstatic
 
 ## Key Dependencies
 
-- **Django 5.x** - Web framework
+- **Django 6.x** - Web framework
 - **django-clone** - Model cloning functionality for Items
 - **django-hosts** - Multi-subdomain routing
 - **django-imagekit** - Image processing and thumbnails
