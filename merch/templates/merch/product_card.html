@@ -1,0 +1,14 @@
+{% with category=product.categories.all.0 image=product.productimage_set.all.0 %}
+<div class="category-product-container">
+  {% if category %}<a href="{% url 'product' category.tag product.tag %}">{% endif %}
+    {% if image %}
+      <img class="category-product-image" src="{{ image.thumbnail.url }}" alt="{{ product.name }}"/>
+    {% else %}
+      <div class="category-product-image no-image-placeholder">
+        <span>No Image</span>
+      </div>
+    {% endif %}
+    <div class="category-product-title">{{ product.name }}</div>
+  {% if category %}</a>{% endif %}
+</div>
+{% endwith %}

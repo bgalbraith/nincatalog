@@ -28,9 +28,23 @@ def get_random_posters_for_session(request, shuffle=False):
     return all_posters
 
 
+RECENTLY_ADDED_COUNT = 5
+
+
 def index(request):
     categories = Category.objects.all()
-    return render(request, "merch/index.html", {"categories": categories})
+    # Primary keys are never reused (SQLite AUTOINCREMENT), so the highest
+    # are the most recently added.
+    recent_products = (
+        Product.objects.exclude(is_authorized="N")
+        .prefetch_related("categories", "productimage_set")
+        .order_by("-pk")[:RECENTLY_ADDED_COUNT]
+    )
+    return render(
+        request,
+        "merch/index.html",
+        {"categories": categories, "recent_products": recent_products},
+    )
 
 
 def category(request, category_tag):

@@ -546,3 +546,27 @@ body {
   color: var(--text-color);
   font-size: 12px;
 }
+
+/* Recently Added (index) */
+.recently-added h3 {
+  margin-bottom: var(--spacing-md);
+}
+
+/* Two-up on phones so five items don't fill several screens; overrides the
+   grid's one-column base. */
+.recently-added-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 900px) {
+  .recently-added-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Five items: one row on wide screens rather than four plus an orphan. */
+@media (min-width: 1200px) {
+  .recently-added-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

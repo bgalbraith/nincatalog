@@ -22,4 +22,15 @@
   </form>
 </div>
 
+{% if recent_products %}
+<section class="recently-added">
+  <h3>Recently Added</h3>
+  <div class="product-grid recently-added-grid">
+    {% for product in recent_products %}
+      {% include "merch/product_card.html" %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 {% endblock %}

@@ -34,31 +34,7 @@
   {% if results %}
     <div class="product-grid">
       {% for product in results %}
-        <div class="category-product-container">
-          {% if product.categories.exists %}
-            {% with product.categories.first as category %}
-              <a href="/{{ category.tag }}/{{ product.tag }}/">
-                {% if product.productimage_set.exists %}
-                  <img class="category-product-image" src="{{ product.productimage_set.all.0.thumbnail.url }}" alt="{{ product.name }}"/>
-                {% else %}
-                  <div class="category-product-image no-image-placeholder">
-                    <span>No Image</span>
-                  </div>
-                {% endif %}
-                <div class="category-product-title">{{ product.name }}</div>
-              </a>
-            {% endwith %}
-          {% else %}
-            {% if product.productimage_set.exists %}
-              <img class="category-product-image" src="{{ product.productimage_set.all.0.thumbnail.url }}" alt="{{ product.name }}"/>
-            {% else %}
-              <div class="category-product-image no-image-placeholder">
-                <span>No Image</span>
-              </div>
-            {% endif %}
-            <div class="category-product-title">{{ product.name }}</div>
-          {% endif %}
-        </div>
+        {% include "merch/product_card.html" %}
       {% endfor %}
     </div>
   {% endif %}
