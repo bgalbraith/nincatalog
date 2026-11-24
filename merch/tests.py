@@ -218,15 +218,24 @@ class LinkPreviewTestCase(TestCase):
             description='**Front** print with the devil.\n\n' + 'Long text. ' * 40,
         )
         self.product.categories.add(self.category)
-        for order, color in [(2, 'blue'), (1, 'red')]:
-            image = Image.new('RGB', (600, 600), color=color)
-            buf = io.BytesIO()
-            image.save(buf, format='JPEG')
-            ProductImage.objects.create(
-                product=self.product,
-                order=order,
-                original=SimpleUploadedFile(f'{color}.jpg', buf.getvalue()),
-            )
+        # Like most merch photos: a transparent PNG with the product in the
+        # middle. Created second so the test proves order, not insertion, wins.
+        ProductImage.objects.create(
+            product=self.product, order=2,
+            original=SimpleUploadedFile('blue.png', self.png((0, 0, 255, 255))),
+        )
+        shirt = Image.new('RGBA', (600, 600), (0, 0, 0, 0))
+        shirt.paste((255, 0, 0, 255), (200, 200, 400, 400))
+        ProductImage.objects.create(
+            product=self.product, order=1,
+            original=SimpleUploadedFile('red.png', self.png(image=shirt)),
+        )
+
+    def png(self, color=None, image=None):
+        image = image or Image.new('RGBA', (600, 600), color)
+        buf = io.BytesIO()
+        image.save(buf, format='PNG')
+        return buf.getvalue()
 
     def meta(self, resp, prop):
         html = resp.content.decode()
@@ -240,10 +249,25 @@ class LinkPreviewTestCase(TestCase):
         first = self.product.productimage_set.first()
         self.assertEqual(first.order, 1)
         self.assertEqual(
-            self.meta(resp, 'og:image'), f'http://merch.localhost{first.zoom.url}'
+            self.meta(resp, 'og:image'), f'http://merch.localhost{first.preview.url}'
         )
         self.assertEqual(self.meta(resp, 'twitter:card'), 'summary_large_image')
         self.assertEqual(self.meta(resp, 'og:title'), 'Devil T-Shirt')
+
+    def test_preview_image_fills_transparency_with_black(self):
+        first = self.product.productimage_set.first()
+        first.preview.generate()
+        with first.preview.storage.open(first.preview.name) as f:
+            preview = Image.open(f)
+            preview.load()
+        self.assertEqual(preview.format, 'JPEG')
+        self.assertEqual(preview.mode, 'RGB')
+        w, h = preview.size
+        corner = preview.getpixel((0, 0))
+        centre = preview.getpixel((w // 2, h // 2))
+        self.assertTrue(all(c < 16 for c in corner), corner)
+        self.assertGreater(centre[0], 200)
+        self.assertTrue(centre[1] < 60 and centre[2] < 60, centre)
 
     def test_product_description_is_plain_and_short(self):
         resp = self.client.get(f'/shirts/{self.product.tag()}/')
