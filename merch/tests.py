@@ -164,3 +164,42 @@ class StaticReferenceTestCase(TestCase):
                 with self.subTest(template=template.name, path=path):
                     self.assertFalse(path.startswith('/'))
                     self.assertIsNotNone(finders.find(path))
+
+
+class RecentlyAddedTestCase(TestCase):
+    """Issue #88: the index lists the newest products under the search bar."""
+
+    def setUp(self):
+        from merch.models import Category, Product
+
+        self.client = Client(HTTP_HOST='merch.localhost')
+        self.category = Category.objects.create(name='Shirts', tag='shirts')
+        self.products = []
+        for n in range(7):
+            product = Product.objects.create(name=f'Shirt {n}', description='')
+            product.categories.add(self.category)
+            self.products.append(product)
+        # The newest product is unauthorized and must not be shown.
+        self.products[-1].is_authorized = 'N'
+        self.products[-1].save()
+
+    def test_shows_five_newest_authorized_products_newest_first(self):
+        resp = self.client.get('/')
+        self.assertEqual(
+            [p.name for p in resp.context['recent_products']],
+            ['Shirt 5', 'Shirt 4', 'Shirt 3', 'Shirt 2', 'Shirt 1'],
+        )
+
+    def test_section_follows_search_bar_and_links_to_products(self):
+        html = self.client.get('/').content.decode()
+        self.assertIn('Recently Added', html)
+        self.assertLess(html.index('search-form'), html.index('Recently Added'))
+        newest = self.products[5]
+        self.assertIn(f'href="/shirts/{newest.tag()}/"', html)
+        self.assertNotIn(self.products[6].tag(), html)
+
+    def test_section_hidden_when_no_products(self):
+        from merch.models import Product
+
+        Product.objects.all().delete()
+        self.assertNotContains(self.client.get('/'), 'Recently Added')
