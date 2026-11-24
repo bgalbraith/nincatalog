@@ -203,3 +203,57 @@ class RecentlyAddedTestCase(TestCase):
 
         Product.objects.all().delete()
         self.assertNotContains(self.client.get('/'), 'Recently Added')
+
+
+class LinkPreviewTestCase(TestCase):
+    """Issue #57: merch pages carry Open Graph tags so shared links unfurl well."""
+
+    def setUp(self):
+        from merch.models import Category, Product, ProductImage
+
+        self.client = Client(HTTP_HOST='merch.localhost')
+        self.category = Category.objects.create(name='Shirts', tag='shirts')
+        self.product = Product.objects.create(
+            name='Devil T-Shirt',
+            description='**Front** print with the devil.\n\n' + 'Long text. ' * 40,
+        )
+        self.product.categories.add(self.category)
+        for order, color in [(2, 'blue'), (1, 'red')]:
+            image = Image.new('RGB', (600, 600), color=color)
+            buf = io.BytesIO()
+            image.save(buf, format='JPEG')
+            ProductImage.objects.create(
+                product=self.product,
+                order=order,
+                original=SimpleUploadedFile(f'{color}.jpg', buf.getvalue()),
+            )
+
+    def meta(self, resp, prop):
+        html = resp.content.decode()
+        match = re.search(
+            rf'<meta (?:property|name)="{re.escape(prop)}" content="([^"]*)"', html
+        )
+        return match and match.group(1)
+
+    def test_product_page_previews_first_image(self):
+        resp = self.client.get(f'/shirts/{self.product.tag()}/')
+        first = self.product.productimage_set.first()
+        self.assertEqual(first.order, 1)
+        self.assertEqual(
+            self.meta(resp, 'og:image'), f'http://merch.localhost{first.zoom.url}'
+        )
+        self.assertEqual(self.meta(resp, 'twitter:card'), 'summary_large_image')
+        self.assertEqual(self.meta(resp, 'og:title'), 'Devil T-Shirt')
+
+    def test_product_description_is_plain_and_short(self):
+        resp = self.client.get(f'/shirts/{self.product.tag()}/')
+        description = self.meta(resp, 'og:description')
+        self.assertTrue(description.startswith('Front print with the devil.'))
+        self.assertNotIn('<', description)
+        self.assertLessEqual(len(description), 200)
+
+    def test_index_describes_the_site(self):
+        resp = self.client.get('/')
+        self.assertEqual(self.meta(resp, 'og:site_name'), 'merch.nincatalog.com')
+        self.assertIn('merchandise', self.meta(resp, 'og:description'))
+        self.assertEqual(self.meta(resp, 'twitter:card'), 'summary')

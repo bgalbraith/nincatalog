@@ -1,6 +1,7 @@
 {% extends 'catalog/base.html' %}
 
 {% block title %}nincatalog.com - {{ report.name|lower }}{% endblock %}
+{% block og_title %}{{ report.name }}{% endblock %}
 
 {% block content %}
     {% include "catalog/header.html" with group=group selected=report %}

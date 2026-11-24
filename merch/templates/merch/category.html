@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block title %}merch > {{ category.name|lower }}{% endblock %}
+{% block og_title %}{{ category.name }}{% endblock %}
 {% block banner %}<h2>{{ category.name }}</h2>{% endblock %}
 {% block content %}
 <div class="product-grid">

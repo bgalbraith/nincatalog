@@ -5,8 +5,14 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="merch.nincatalog.com" />
-    <meta name="author" content="nincatalog.com" />
+    <meta name="description" content="A fan catalog of officially licensed Nine Inch Nails apparel and merchandise.">
+    <meta name="author" content="nincatalog.com">
+    <meta property="og:site_name" content="merch.nincatalog.com">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="{% block og_title %}merch.nincatalog.com{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}A fan catalog of officially licensed Nine Inch Nails apparel and merchandise.{% endblock %}">
+    {% block og_image %}<meta name="twitter:card" content="summary">{% endblock %}
 
     <title>{% block title %}merch.nincatalog.com{% endblock %}</title>
 
