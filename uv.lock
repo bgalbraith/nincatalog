@@ -12,15 +12,6 @@ wheels = [
 ]
 
 [[package]]
-name = "conditional"
-version = "2.2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/2a/19/7596264a6ce33c759d9540a429ac02001ee4345ccd47ffcd5d4463d36e71/conditional-2.2.tar.gz", hash = "sha256:e8c3b1a534d7deb36284b3dccc5074f9b2543608b666011cac85c5aac88b5601", size = 8121, upload-time = "2026-07-04T16:00:47.651Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/36/b3/1e1fe61e98fe98701fa860ee1d1aad7615adaf8ef54ccc0de5ea70eaa0eb/conditional-2.2-py3-none-any.whl", hash = "sha256:2a1010fcd70a155bdf5345c866b02ae5f162477f8f40a57acd681ba41fc2c41c", size = 4774, upload-time = "2026-07-04T16:00:46.392Z" },
-]
-
-[[package]]
 name = "django"
 version = "6.1.3"
 source = { registry = "https://pypi.org/simple" }
@@ -44,20 +35,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/d1/a2/e58bec8d7941b914af52a67c35b5709eceed2caa2848f28437f1666ed668/django_appconf-1.2.0.tar.gz", hash = "sha256:15a88d60dd942d6059f467412fe4581db632ef03018a3c183fb415d6fc9e5cec", size = 16127, upload-time = "2025-11-08T15:46:27.304Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e8/e6/4c34d94dfb74bbcbc489606e61f1924933de30d22c593dd1f429f35fbd7f/django_appconf-1.2.0-py3-none-any.whl", hash = "sha256:b81bce5ef0ceb9d84df48dfb623a32235d941c78cc5e45dbb6947f154ea277f4", size = 6500, upload-time = "2025-11-08T15:46:25.957Z" },
-]
-
-[[package]]
-name = "django-clone"
-version = "5.5.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "conditional" },
-    { name = "django" },
-    { name = "six" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/27/c9/d63b882ceef6106726af3f2ae936d443bd454c4e5ba95b4bc6ba1c32f59c/django_clone-5.5.0.tar.gz", hash = "sha256:93c991dc81d67b762f46362e09b2521c54d93662637bd5f862c7adaf9f80897a", size = 32886, upload-time = "2025-06-10T17:03:58.645Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/b2/19/c63ba450c9b483540f6b83e8ba2e7b5c404f23bcbe48737ad3cc6f1c9f67/django_clone-5.5.0-py3-none-any.whl", hash = "sha256:707aac2ebc3962690b6f6f6866833c8ab36798257d7f36221cf52296fbf3f0e0", size = 17693, upload-time = "2025-06-10T17:03:57.415Z" },
 ]
 
 [[package]]
@@ -115,7 +92,6 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "django" },
-    { name = "django-clone" },
     { name = "django-environ" },
     { name = "django-hosts" },
     { name = "django-imagekit" },
@@ -128,7 +104,6 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "django", specifier = ">=6.1,<6.2" },
-    { name = "django-clone", specifier = ">=5.5.0" },
     { name = "django-environ", specifier = ">=0.12.0" },
     { name = "django-hosts", specifier = ">=7.0" },
     { name = "django-imagekit", specifier = ">=6.1.0" },
@@ -264,15 +239,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/bb/85/62d54e223b4bc89ff85f087a5ce2648e5d929d3214d64613dbae17d5e045/pyyaml-6.0.4-cp315-cp315t-musllinux_1_2_x86_64.whl", hash = "sha256:a65339c24f2fb8d4419e06ceec1bda98bdcff727b3b533a81d5af6bb2dd34520", size = 845763, upload-time = "2026-11-20T23:37:01.331Z" },
     { url = "https://files.pythonhosted.org/packages/eb/40/6bd9090368664be984a83fd7fe64f8e044b067a52449679c309706e3199d/pyyaml-6.0.4-cp315-cp315t-win_amd64.whl", hash = "sha256:a3cc63af3d639d1609143711837b926183418260aae89ed95193c07b25b99d33", size = 163170, upload-time = "2026-11-20T23:37:02.3Z" },
     { url = "https://files.pythonhosted.org/packages/0d/22/468d36762a0c650cf2295052998eb1d419053335ea9ff48a043f5ae4d578/pyyaml-6.0.4-cp315-cp315t-win_arm64.whl", hash = "sha256:d276f23e2371deb5ee68dd252cc9c2402b806b54d8d2cc7efbb6c34c3a78d886", size = 156942, upload-time = "2026-11-20T23:37:03.209Z" },
-]
-
-[[package]]
-name = "six"
-version = "1.17.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68a0e064b6af791aa332cf192da575fd474ed7d6f16a2/six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81", size = 34031, upload-time = "2024-12-04T17:35:28.174Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274", size = 11050, upload-time = "2024-12-04T17:35:26.475Z" },
 ]
 
 [[package]]

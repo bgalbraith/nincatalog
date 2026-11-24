@@ -1,5 +1,7 @@
 from django.test import TestCase
 
+from catalog.models import Item, MusicLabel
+
 
 class CatalogViewsTestCase(TestCase):
     fixtures = ['catalog_test_data.yaml']
@@ -55,8 +57,6 @@ class CatalogViewsTestCase(TestCase):
         self.assertEqual(item.name, "The Fragile")
 
 class ItemAdminTestCase(TestCase):
-    """The Item admin mixes in django-clone, which overrides private admin API."""
-
     fixtures = ['catalog_test_data.yaml']
 
     def setUp(self):
@@ -64,44 +64,65 @@ class ItemAdminTestCase(TestCase):
 
         user = get_user_model().objects.create_superuser('admin', password='pw')
         self.client.force_login(user)
+        self.item = Item.objects.get(pk=1)
+        self.item.old_key = 'LEGACY01'
+        self.item.save()
+        extra_label = MusicLabel.objects.create(name='Interscope')
+        self.item.music_labels.set([MusicLabel.objects.first(), extra_label])
 
     def get(self, path):
         return self.client.get(path, HTTP_HOST='admin.localhost')
+
+    def post(self, path, data):
+        return self.client.post(path, data, HTTP_HOST='admin.localhost')
+
+    def assertIsCopyOfItem(self, copy):
+        self.assertNotEqual(copy.pk, self.item.pk)
+        self.assertEqual(copy.name, self.item.name)
+        self.assertEqual(copy.category, self.item.category)
+        self.assertIsNone(copy.old_key)
+        self.assertQuerySetEqual(
+            copy.music_labels.order_by('pk'),
+            self.item.music_labels.order_by('pk'),
+        )
 
     def test_changelist_offers_duplicate_action(self):
         resp = self.get('/catalog/item/')
         self.assertEqual(resp.status_code, 200)
         actions = [name for name, _ in resp.context['action_form'].fields['action'].choices]
-        self.assertIn('make_clone', actions)
+        self.assertIn('duplicate', actions)
         self.assertIn('delete_selected', actions)
 
     def test_add_form_renders(self):
         self.assertEqual(self.get('/catalog/item/add/').status_code, 200)
 
-    def test_change_form_shows_duplicate_link(self):
+    def test_change_form_offers_duplicate_action(self):
         resp = self.get('/catalog/item/1/change/')
         self.assertEqual(resp.status_code, 200)
-        self.assertContains(resp, '?duplicate=true')
+        actions = [name for name, _ in resp.context['action_form'].fields['action'].choices]
+        self.assertEqual(actions[1:], ['duplicate'])
 
-    def test_duplicate_link_clones_item(self):
-        from catalog.models import Item
-
-        before = Item.objects.count()
-        resp = self.get('/catalog/item/1/change/?duplicate=true')
-        self.assertEqual(Item.objects.count(), before + 1)
-        clone = Item.objects.latest('pk')
+    def test_duplicate_from_change_form_opens_copy(self):
+        resp = self.post(
+            '/catalog/item/1/change/',
+            {'CHANGE_FORM-action': 'duplicate', '_selected_action': ['1']},
+        )
+        copy = Item.objects.latest('pk')
+        self.assertIsCopyOfItem(copy)
         self.assertRedirects(
-            resp, f'/catalog/item/{clone.pk}/change/', fetch_redirect_response=False
+            resp, f'/catalog/item/{copy.pk}/change/', fetch_redirect_response=False
         )
 
-    def test_duplicate_action_clones_items(self):
-        from catalog.models import Item
-
+    def test_duplicate_from_changelist_copies_each_selected(self):
+        other = Item.objects.get(pk=1)
+        other.pk = None
+        other.name = 'Other Item'
+        other.save()
         before = Item.objects.count()
-        resp = self.client.post(
+        resp = self.post(
             '/catalog/item/',
-            {'action': 'make_clone', '_selected_action': ['1']},
-            HTTP_HOST='admin.localhost',
+            {'action': 'duplicate', '_selected_action': ['1', str(other.pk)]},
         )
         self.assertEqual(resp.status_code, 302)
-        self.assertEqual(Item.objects.count(), before + 1)
+        self.assertEqual(Item.objects.count(), before + 2)
+        self.assertIsCopyOfItem(Item.objects.filter(name=self.item.name).latest('pk'))

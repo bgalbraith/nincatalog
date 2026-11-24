@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.contrib.admin.options import ActionLocation
-from model_clone import CloneModelAdmin
+from django.shortcuts import redirect
+from django.urls import reverse
 
 import catalog.models as models
 
@@ -12,22 +12,26 @@ class ItemTrackInline(admin.TabularInline):
     model = models.Track
 
 
-class ItemAdmin(CloneModelAdmin):
+class ItemAdmin(admin.ModelAdmin):
     search_fields = ['name', 'artist__name']
     inlines = [
         ItemTrackInline,
         ItemImageInline
     ]
-    # Registered the standard way rather than through django-clone's
-    # _get_base_actions override; see below.
-    actions = ['make_clone']
+    actions = ['duplicate']
 
-    def _get_base_actions(self, action_location=ActionLocation.CHANGE_LIST):
-        # django-clone 5.5.0 overrides this private method without the
-        # action_location argument Django 6.1 added, which makes every Item
-        # admin page raise TypeError. Skip its override and use Django's.
-        # Remove once django-clone supports 6.1.
-        return admin.ModelAdmin._get_base_actions(self, action_location)
+    @admin.action(
+        description='Duplicate',
+        description_plural='Duplicate selected items',
+        permissions=['add'],
+        location=[admin.ActionLocation.CHANGE_LIST, admin.ActionLocation.CHANGE_FORM],
+    )
+    def duplicate(self, request, queryset):
+        copies = [item.duplicate() for item in queryset]
+        if len(copies) == 1:
+            self.message_user(request, f'Created a copy: {copies[0]}')
+            return redirect(reverse('admin:catalog_item_change', args=[copies[0].pk]))
+        self.message_user(request, f'Created {len(copies)} copies.')
 
 
 admin.site.register(models.Artist)
