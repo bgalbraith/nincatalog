@@ -1,8 +1,13 @@
 {% extends 'merch/base.html' %}
 {% load markdown %}
+{% load link_preview %}
 {% load static %}
 
 {% block title %}merch > {{ product.name|lower }}{% endblock %}
+{% block og_title %}{{ product.name }}{% endblock %}
+{% block og_description %}{{ product.description|preview_text }}{% endblock %}
+{% block og_image %}{% if images %}<meta property="og:image" content="{% absolute_uri images.0.preview.url %}">
+    <meta name="twitter:card" content="summary_large_image">{% else %}{{ block.super }}{% endif %}{% endblock %}
 {% block banner %}<h2>{{ product.name }}</h2>{% endblock %}
 
 {% block content %}

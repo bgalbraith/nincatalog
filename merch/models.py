@@ -3,7 +3,7 @@ from itertools import chain
 from django.db import models
 from django.utils.text import slugify
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+from imagekit.processors import MakeOpaque, ResizeToFill
 
 
 class Category(models.Model):
@@ -140,6 +140,15 @@ class ProductImage(models.Model):
     )
     thumbnail_tiny = ImageSpecField(
         source="original", processors=[ResizeToFill(50, 50)], format="PNG"
+    )
+    # Link previews (og:image). Most product photos are transparent PNGs, which
+    # Discord and others draw on their own grey or white; fill with the site's
+    # black instead.
+    preview = ImageSpecField(
+        source="original",
+        processors=[ResizeToFill(500, 500), MakeOpaque(background_color=(0, 0, 0))],
+        format="JPEG",
+        options={"quality": 90},
     )
     order = models.SmallIntegerField(default=0)
 

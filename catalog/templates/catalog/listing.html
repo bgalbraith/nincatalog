@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block title %}nincatalog.com - {{ listing.title }}{% endblock %}
+{% block og_title %}{{ listing.selected.name }}{% endblock %}
 
 {% block content %}
   {% include "catalog/header.html" with group=group selected=listing.selected %}

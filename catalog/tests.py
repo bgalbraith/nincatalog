@@ -158,6 +158,59 @@ class ReportSortingTestCase(TestCase):
         )
 
 
+class LinkPreviewTestCase(TestCase):
+    """Issue #57: pages carry Open Graph tags so shared links unfurl well."""
+
+    fixtures = ['catalog_test_data.yaml']
+
+    def meta(self, resp, prop):
+        import re
+
+        html = resp.content.decode()
+        match = re.search(
+            rf'<meta (?:property|name)="{re.escape(prop)}" content="([^"]*)"', html
+        )
+        return match and match.group(1)
+
+    def test_item_page_previews_first_image(self):
+        from catalog.models import ItemImage, ItemImageType
+
+        kind = ItemImageType.objects.create(name='front')
+        item = Item.objects.get(pk=1)
+        ItemImage.objects.create(item=item, type=kind, image='item_images/back.jpg', order=2)
+        ItemImage.objects.create(item=item, type=kind, image='item_images/front.jpg', order=1)
+
+        resp = self.client.get(f'/the-fragile/{item.tag()}/')
+        self.assertEqual(
+            self.meta(resp, 'og:image'), 'http://testserver/media/item_images/front.jpg'
+        )
+        self.assertEqual(self.meta(resp, 'twitter:card'), 'summary_large_image')
+        self.assertEqual(self.meta(resp, 'og:title'), item.name)
+        description = self.meta(resp, 'og:description')
+        self.assertIn(item.description, description)
+        self.assertIn(str(item.year), description)
+        self.assertEqual(
+            self.meta(resp, 'og:url'), f'http://testserver/the-fragile/{item.tag()}/'
+        )
+
+    def test_item_without_images_has_no_preview_image(self):
+        item = Item.objects.get(pk=1)
+        resp = self.client.get(f'/the-fragile/{item.tag()}/')
+        self.assertIsNone(self.meta(resp, 'og:image'))
+        self.assertEqual(self.meta(resp, 'twitter:card'), 'summary')
+        self.assertEqual(self.meta(resp, 'og:title'), item.name)
+
+    def test_site_pages_describe_the_site(self):
+        resp = self.client.get('/')
+        self.assertEqual(self.meta(resp, 'og:site_name'), 'nincatalog.com')
+        self.assertIn('Nine Inch Nails', self.meta(resp, 'og:description'))
+        self.assertIn('Nine Inch Nails', self.meta(resp, 'description'))
+
+    def test_category_page_titles_preview_with_category(self):
+        resp = self.client.get('/the-fragile/')
+        self.assertEqual(self.meta(resp, 'og:title'), 'The Fragile')
+
+
 class ItemAdminTestCase(TestCase):
     fixtures = ['catalog_test_data.yaml']
 

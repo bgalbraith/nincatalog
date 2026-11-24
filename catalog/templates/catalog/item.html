@@ -3,8 +3,13 @@
 {% load upc_url %}
 {% load track_length %}
 {% load track_title %}
+{% load link_preview %}
 
 {% block title %}nincatalog.com - {{ item }}{% endblock %}
+{% block og_title %}{{ item.name }}{% endblock %}
+{% block og_description %}{% if item.description %}{{ item.description }} · {% endif %}{{ item.media_format.name }} · {{ item.country.name }} · {{ item.year }}{% endblock %}
+{% block og_image %}{% with image=item.itemimage_set.all.0 %}{% if image %}<meta property="og:image" content="{% absolute_uri image.image.url %}">
+    <meta name="twitter:card" content="summary_large_image">{% else %}{{ block.super }}{% endif %}{% endwith %}{% endblock %}
 
 {% block content %}
   {% include 'catalog/header.html' with group=group selected=category %}
