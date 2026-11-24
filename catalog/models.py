@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.text import slugify
-from model_clone import CloneMixin
 
 
 class Artist(models.Model):
@@ -101,7 +100,7 @@ class ItemRarity(models.Model):
         return self.code
 
 
-class Item(CloneMixin, models.Model):
+class Item(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
@@ -125,9 +124,6 @@ class Item(CloneMixin, models.Model):
     added_date = models.DateField(null=True, blank=True)
     old_key = models.CharField(max_length=8, null=True, blank=True)
 
-    _clone_excluded_fields = ["old_key"]
-    _clone_m2m_fields = ["music_labels"]
-
     class Meta:
         ordering = (
             "year",
@@ -147,6 +143,21 @@ class Item(CloneMixin, models.Model):
                 [self.name, self.country.code, self.media_format.tag, str(self.id)]
             )
         )
+
+    def duplicate(self):
+        """Save and return a copy as a starting point for a similar release.
+
+        Music labels are copied. Tracks and images are not, and old_key is
+        cleared because it identifies the legacy record this item came from.
+        """
+        labels = list(self.music_labels.all())
+        copy = Item.objects.get(pk=self.pk)
+        copy.pk = None
+        copy._state.adding = True
+        copy.old_key = None
+        copy.save()
+        copy.music_labels.set(labels)
+        return copy
 
 
 class ItemImageType(models.Model):

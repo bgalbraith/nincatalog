@@ -21,7 +21,7 @@ The application uses django-hosts to serve different content on different subdom
 - `admin` subdomain → Django admin interface
 
 ### Key Models (catalog/models.py)
-- **Item** - Core model for catalog entries with CloneMixin support
+- **Item** - Core model for catalog entries; `Item.duplicate()` backs the admin "Duplicate" action
 - **Category** - Hierarchical organization (albums, singles, etc.) with halo numbers
 - **Artist, MediaFormat, Country** - Reference data models
 - **Track** - Individual tracks linked to items
@@ -67,8 +67,7 @@ uv run python manage.py collectstatic
 
 ## Key Dependencies
 
-- **Django 5.x** - Web framework
-- **django-clone** - Model cloning functionality for Items
+- **Django 6.x** - Web framework
 - **django-hosts** - Multi-subdomain routing
 - **django-imagekit** - Image processing and thumbnails
 - **Pillow** - Image handling
